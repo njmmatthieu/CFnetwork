@@ -1,0 +1,347 @@
+---
+title: "kegg_diff_pathways"
+output: pdf_document
+date: '2022-09-14'
+---
+
+```{r}
+library(ggplot2)
+library(pheatmap)
+library(RColorBrewer)
+library(tidyr)
+```
+
+# Loading fgsea results for each study
+
+```{r}
+load("/Users/matthieu/ownCloud/Thèse/Systems Biology/Transcriptomic studies/fgsea_comparison/fgsea_nes_diff_pathways_2022_09_15.RData")
+diff_pathways <- rownames(fgsea_es_diff_pathways)
+
+source("/Users/matthieu/ownCloud/Thèse/Systems Biology/Transcriptomic studies/fgsea_comparison/fgsea_comparison_scripts/fgsea_output_preprocess.R")
+
+# for preprocess_PPI_network()
+source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/network_utils.R")
+
+# Manual curation: for add_new_nodes_uniprot_ids
+source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/kegg_pathways_manual_curation.R")
+# Kegg pathways correction
+kegg_pathways_corrections <- read.table("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt",
+                                        sep = "\t",
+                                        header = T)
+```
+
+# KEGG interactions of diff pathways
+
+```{r cars}
+# KEGG pathways from Omnipath
+load("/Users/matthieu/ownCloud/Thèse/Systems Biology/gmt/kegg_pathways_from_omnipath_list.RData")
+load("/Users/matthieu/ownCloud/Thèse/Systems Biology/gmt/kegg_pathways_from_omnipath_nodes_carac.RData")
+kegg_pathway_df.signaling.interactions.df <- do.call("rbind", kegg_pathway_df.signaling.interactions.list.final)
+load("/Users/matthieu/ownCloud/Thèse/Systems Biology/gmt/symbols_from_kegg_pathways_from_omnipathR_list.RData")
+kegg_pathway_df.signaling.nodes.df <- do.call("rbind", kegg_pathway_df.signaling.nodes.list.final)
+source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/kegg_pathways_utils.R")
+
+
+
+kegg_pathways_interactions.unique <- unique(kegg_pathway_df.signaling.interactions.df[,!(colnames(kegg_pathway_df.signaling.interactions.df) %in% c("source", 
+                                                                                                                      "target", 
+                                                                                                                      "relation_id", 
+                                                                                                                      "kegg_id_source",
+                                                                                                                      "kegg_id_target"))])
+
+# interactions_in_diff_kegg_pathways <- kegg_pathways_interactions.unique[which(kegg_pathways_interactions.unique$pathway_name %in% diff_pathways),]
+# interactions_in_diff_kegg_pathways$manually_added <- FALSE
+
+# Kegg pathways correction
+kegg_pathways_nodes.carac.corrected <- add_new_nodes_uniprot_ids(Symbol2UniprotID = kegg_pathways_nodes.carac,
+                                                                 corrections.df = kegg_pathways_corrections)
+```
+
+# Correction of KEGG diff pathways
+
+```{r}
+diff_pathways <- diff_pathways[which(diff_pathways!="AGE-RAGE signaling pathway in diabetic complications")]  
+
+diff_pathways.PPI_network.corrected.list <- lapply(diff_pathways, function(diff_pathway_name){
+  
+  # # # to test
+  # diff_pathway_name <- diff_pathways[2]
+  
+  print("##### CORRECTION #####")
+  print(diff_pathway_name)
+  print("#####")
+  diff_pathway_df.interactions <- kegg_pathway_df.signaling.interactions.list.final[names(kegg_pathway_df.signaling.interactions.list.final)==diff_pathway_name][[1]]
+  diff_pathway_df.interactions.unique <- unique(diff_pathway_df.interactions[,!(colnames(diff_pathway_df.interactions) %in% c("source", 
+                                                                                                                        "target", 
+                                                                                                                        "relation_id", 
+                                                                                                                        "kegg_id_source",
+                                                                                                                        "kegg_id_target"))])
+  
+  diff_pathway_df.interactions.unique$manually_added <- FALSE
+  
+  diff_pathway_df.nodes <- kegg_pathway_df.signaling.nodes.list.final[names(kegg_pathway_df.signaling.nodes.list.final)==diff_pathway_name][[1]]
+  diff_PPI_network <- new("PPI_network",
+                          interactions=diff_pathway_df.interactions.unique,
+                          nodes=diff_pathway_df.nodes)
+  
+  ## Preprocess
+  diff_PPI_network <- preprocess_PPI_network(diff_PPI_network)
+  
+  
+  # Preprocess
+  kegg_pathways_corrections.example <- kegg_pathways_corrections[which(kegg_pathways_corrections$pathway_name==diff_pathway_name),]
+  print(kegg_pathways_corrections.example)
+  
+  diff_PPI_network.corrected <- correct_PPI_network(PPI_network = diff_PPI_network,
+                                                    Symbol2UniprotID = kegg_pathways_nodes.carac.corrected,
+                                                    corrections.df = kegg_pathways_corrections.example)
+  
+  return(diff_PPI_network.corrected)
+  
+})
+
+diff_pathways.interactions.corrected.list <- lapply(diff_pathways.PPI_network.corrected.list, function(PPI_network) return(PPI_network@interactions))
+interactions_in_diff_kegg_pathways <- do.call("rbind", diff_pathways.interactions.corrected.list)
+
+interactions_in_diff_kegg_pathways$interaction_id <- apply(X = interactions_in_diff_kegg_pathways[,c("uniprot_source",
+                                                                                     "uniprot_target",
+                                                                                     "effect")],
+                                                   MARGIN = 1,
+                                                   FUN = function(x) {
+                                                     # print(x)
+                                                     return(paste(x, collapse = "_"))
+                                                     })
+
+interactions_in_diff_kegg_pathways$value <- 1
+interactions_in_diff_kegg_pathways.long <- 
+  interactions_in_diff_kegg_pathways[,c("interaction_id","pathway_name", "value")]
+interactions_in_diff_kegg_pathways_wide_df <- pivot_wider(interactions_in_diff_kegg_pathways.long,
+                                                          names_from = "pathway_name",
+                                                          values_from = "value")
+
+# interactions_in_diff_kegg_pathways_wide_df <- dcast(interactions_in_diff_kegg_pathways,
+#                                       interaction_id ~ pathway_name,
+#                                       value.var = "value")
+interactions_in_diff_kegg_pathways_wide_df[is.na(interactions_in_diff_kegg_pathways_wide_df)]<- 0
+interactions_in_diff_kegg_pathways_wide_df$sum.interaction <- rowSums(interactions_in_diff_kegg_pathways_wide_df[,-1]) 
+
+# if the sum is 1 then put the name of the pathway
+interactions_in_diff_kegg_pathways_wide_df$pathway.interaction <- sapply(1:nrow(interactions_in_diff_kegg_pathways_wide_df), function(i_interaction){
+  if (interactions_in_diff_kegg_pathways_wide_df$sum.interaction[i_interaction]==1){
+    return(diff_pathways[which(interactions_in_diff_kegg_pathways_wide_df[i_interaction,diff_pathways]==1)])
+  } else {
+    return(NA)
+  }
+})
+
+interactions_in_diff_kegg_pathways.unique <- unique(interactions_in_diff_kegg_pathways[,!(colnames(interactions_in_diff_kegg_pathways) %in% c("pathway_name", "value", "manually_added","type"))])
+interactions_in_diff_kegg_pathways.unique <- merge(interactions_in_diff_kegg_pathways.unique,
+                                                   interactions_in_diff_kegg_pathways_wide_df,
+                                                   by = "interaction_id")
+
+
+# Good name
+kegg_diff_pathways_interactions <- interactions_in_diff_kegg_pathways.unique
+
+rm(kegg_pathways_interactions.unique,
+   interactions_in_diff_kegg_pathways,
+   interactions_in_diff_kegg_pathways_wide_df,
+   interactions_in_diff_kegg_pathways.unique)
+```
+
+# KEGG nodes of diff pathways
+
+```{r}
+# get the nodes
+kegg_pathways_nodes <- read.table(file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/gmt/symbols_from_kegg_pathways_from_omnipathR.txt",
+                                         sep = "\t")
+
+diff_pathways.nodes.corrected.list <- lapply(diff_pathways.PPI_network.corrected.list, function(PPI_network) return(PPI_network@nodes))
+kegg_diff_pathways_nodes.long <- do.call("rbind", diff_pathways.nodes.corrected.list)
+
+kegg_diff_pathways_nodes.long$value <- 1
+
+kegg_diff_pathways_nodes <- pivot_wider(data = kegg_diff_pathways_nodes.long[,c("Symbol",
+                                                                                "pathway_name",
+                                                                                "value")],
+                                                          names_from = "pathway_name",
+                                                          values_from = "value")
+
+
+# kegg_diff_pathways_nodes <- dcast(kegg_diff_pathways_nodes.long,
+#                                       Symbol ~ pathway_name,
+#                                       value.var = "value")
+kegg_diff_pathways_nodes[is.na(kegg_diff_pathways_nodes)]<- 0
+kegg_diff_pathways_nodes$sum <- rowSums(kegg_diff_pathways_nodes[,-1]) 
+
+kegg_diff_pathways_nodes$pathway <- sapply(1:nrow(kegg_diff_pathways_nodes), function(i_symbol){
+  if (kegg_diff_pathways_nodes$sum[i_symbol]==1){
+    return(diff_pathways[which(kegg_diff_pathways_nodes[i_symbol,diff_pathways]==1)])
+  } else {
+    return(NA)
+  }
+})
+```
+
+## Leading Edges
+
+```{r}
+# Keep only diff pathways
+kegg_diff_pathways.leadingEdges <- lapply(fgsea.leadingEdges, function(list){
+  return(list[names(list) %in% diff_pathways])
+})
+
+# Keep only significant pathways for each study
+only_significant_diff_pathways_per_study <- lapply(fgsea_es_diff_pathways,
+                                                   function(x){
+  return(rownames(fgsea_es_diff_pathways)[!is.na(x)])
+})
+names(only_significant_diff_pathways_per_study) <-
+  names(kegg_diff_pathways.leadingEdges)
+
+# Keep only leadingEdges from significant pathways
+kegg_only_sign_diff_pathways.leadingEdges <- lapply(names(fgsea.leadingEdges),
+                                                    function(study_name){
+  i_study <- which(names(kegg_diff_pathways.leadingEdges)==study_name)
+
+  leadingEdges_list <- kegg_diff_pathways.leadingEdges[[i_study]]
+  leadingEdges_sublist <- leadingEdges_list[names(leadingEdges_list) %in% only_significant_diff_pathways_per_study[names(kegg_diff_pathways.leadingEdges)==study_name][[1]]]
+  return(leadingEdges_sublist)
+  }
+)
+names(kegg_only_sign_diff_pathways.leadingEdges) <- names(fgsea.leadingEdges)
+
+# Remove studies in wrong order
+studies_to_remove <- c("Zoso",
+                       "Ling",
+                       "Saint-Criq SC")
+
+kegg_only_sign_diff_pathways.leadingEdges <- kegg_only_sign_diff_pathways.leadingEdges[!names(kegg_only_sign_diff_pathways.leadingEdges) %in%
+                                                                                         studies_to_remove]
+# ####
+# 
+# 
+nb_leadingEdges_per_pathway_and_study <- data.frame(sapply(kegg_only_sign_diff_pathways.leadingEdges, function(leadingEdges){
+  sapply(diff_pathways, function(pathway_name){
+    if (pathway_name %in% names(leadingEdges)){
+      return(length(leadingEdges[[which(names(leadingEdges)==pathway_name)]]))
+    } else {
+      return(NA)
+    }
+  })
+}))
+# 
+# 
+# 
+unique_leadingEdges <- unique(unlist(kegg_only_sign_diff_pathways.leadingEdges))
+unique_leadingEdges.ordered <- unique_leadingEdges[order(unique_leadingEdges)]
+# 
+frequence_leadingEdge_per_pathway_and_study <- data.frame(sapply(diff_pathways, function(pathway_name){
+
+  sapply(unique_leadingEdges.ordered, function(gene){
+
+
+  studies_leading_edges <- kegg_only_sign_diff_pathways.leadingEdges[sapply(kegg_only_sign_diff_pathways.leadingEdges,
+                                                                            function(leadingEdges) {
+  return(pathway_name %in% names(leadingEdges))
+  }
+  )]
+
+  occ_leadingEdge <- sum(sapply(studies_leading_edges, function(leadingEdges){
+  return(gene %in% leadingEdges[[which(names(leadingEdges)==pathway_name)]])
+}))
+
+  # return(occ_leadingEdge/length(studies_leading_edges))
+  return(occ_leadingEdge)
+
+  })
+}))
+
+# 
+# occur.diff_pathways <- data.frame(table(unlist(sapply(kegg_only_sign_diff_pathways.leadingEdges, names))))
+# 
+# colnames(frequence_leadingEdge_per_pathway_and_study) <- paste(occur.diff_pathways$Var1, occur.diff_pathways$Freq)
+# 
+# # write.table(frequence_leadingEdge_per_pathway_and_study,
+# #             file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/Meta-analysis article/leadingEdges_occurence_per_pathway_2023_03_20.tsv",
+# #             sep = "\t",
+# #             col.names = T,
+# #             row.names = T,
+# #             quote = FALSE)
+# 
+# 
+# colnames(frequence_leadingEdge_per_pathway_and_study) <- paste(colnames(frequence_leadingEdge_per_pathway_and_study), "leadingEdge.sum", sep = ".")
+# frequence_leadingEdge_per_pathway_and_study$Symbol <- rownames(frequence_leadingEdge_per_pathway_and_study)
+# 
+# # leadingEdges_nodes <- kegg_diff_pathways_nodes[which(kegg_diff_pathways_nodes$Symbol %in% unique_leadingEdges.ordered),]
+# # leadingEges_interactions <- kegg_diff_pathways_interactions[which(kegg_diff_pathways_interactions$genesymbol_source %in% unique_leadingEdges.ordered &                                                               kegg_diff_pathways_interactions$genesymbol_target %in% unique_leadingEdges.ordered),]
+# 
+# # Adding leadingEdges to all the interactions
+# # kegg_diff_pathways_nodes$leadingEdge <- kegg_diff_pathways_nodes$Symbol %in% unique_leadingEdges.ordered
+# kegg_diff_pathways_nodes <- merge(kegg_diff_pathways_nodes,
+#                                   frequence_leadingEdge_per_pathway_and_study,
+#                                   by.x = "Symbol",
+#                                   by.y = "Symbol",
+#                                   all.x = T)
+# 
+# leading.edges.columns <- setdiff(colnames(frequence_leadingEdge_per_pathway_and_study), "Symbol")
+# 
+# kegg_diff_pathways_nodes <- kegg_diff_pathways_nodes %>%
+#   mutate_at(leading.edges.columns, ~replace_na(.,0))
+#   
+# kegg_diff_pathways_interactions$leadingEdge <- kegg_diff_pathways_interactions$interaction_id %in% leadingEges_interactions$interaction_id
+# 
+# # save(kegg_diff_pathways_nodes,
+# #      file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_nodes_df_2023_04_06.RData")
+# # 
+# # save(kegg_diff_pathways_interactions,
+# #      file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_interactions_df_2023_04_06.RData")
+
+```
+
+# Save dataframes
+
+```{r}
+# save(kegg_diff_pathways_nodes,
+#      file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_nodes_df_2023_06_08.RData")
+# 
+# save(kegg_diff_pathways_interactions,
+#      file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_interactions_df_2023_06_08.RData")
+# 
+# save(leadingEdges_nodes,
+#      file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/pathway_networks/kegg_pathways/leadingEdges/diff_kegg_pathways_leadingEdges_nodes_2022_09_15.RData")
+# 
+# save(leadingEges_interactions,
+#      file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/pathway_networks/kegg_pathways/leadingEdges/diff_kegg_pathways_leadingEdges_interactions_2022_09_15.RData")
+```
+
+# Option - CFTR interactors
+
+```{r}
+# for all_CFTR_interactors.PPI
+load("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/CFTR_interactors_nodes_df_2023_07_07.RData")
+load("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/CFTR_interactors_interactions_df_2023_07_07.RData")
+
+# all_CFTR_interactions.PPI.connected.min <- all_CFTR_interactions.PPI.connected.min[which(all_CFTR_interactions.PPI.connected.min$status !="unchanged"),]
+# for extend_to_CFTR_interactors
+source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/CFTR_interactors_helper.R")
+
+CF_PPI_network <- new("PPI_network",
+                                interactions=kegg_diff_pathways_interactions,
+                                nodes=kegg_diff_pathways_nodes)
+
+CF_PPI_network.CFTR_extended <- extend_to_CFTR_interactors(CF_PPI_network)
+CF_PPI_network.CFTR_extended.nodes <- CF_PPI_network.CFTR_extended@nodes
+CF_PPI_network.CFTR_extended.interactions <- CF_PPI_network.CFTR_extended@interactions
+
+
+# # test to remove SRC and CAV1-CAV2
+# CF_PPI_network.CFTR_extended.interactions.new <- CF_PPI_network.CFTR_extended.interactions
+# CF_PPI_network.CFTR_extended.nodes.new <- CF_PPI_network.CFTR_extended.nodes
+
+save(CF_PPI_network.CFTR_extended.nodes,
+     file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_nodes_with_CFTR_interactors_df_2023_07_10.RData")
+
+save(CF_PPI_network.CFTR_extended.interactions,
+     file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_interactions_with_CFTR_interactors_df_2023_07_10.RData")
+```

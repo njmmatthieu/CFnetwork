@@ -1,0 +1,243 @@
+---
+title: "DEG_comparison"
+output: pdf_document
+---
+
+```{r}
+library(cluster)
+library(dplyr)
+library(ggplot2)
+library(ggvenn)
+library(gprofiler2)
+library(pheatmap)
+library(RColorBrewer)
+library(reshape2)
+```
+
+```{r}
+source("~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/deg_comparison/deg_output_preprocess.R")
+
+deg_lists <- lapply(deg_results_list, function(deg_df) {
+  
+  deg_output_df<- diff_expressed_colmun(deg_df,
+                                         padj_thr = 0.05, 
+                                         logFC_thr = 1)  
+  return(deg_output_df)
+}) 
+```
+
+# Dataframe with padj and ES
+
+```{r}
+logFC_combined_df <- data.frame()
+adjPval_combined_df <- data.frame()
+DEG_list <- list()
+for (i_study in seq_along(deg_results_list)){
+  
+  deg_df <- deg_results_list[[i_study]] 
+  logFC_cols_to_combine <- deg_df[,c("Symbol","logFC")]
+  # logFC.ratio
+  logFC_cols_to_combine$logFC.ratio <- logFC_cols_to_combine$logFC/max(abs(logFC_cols_to_combine$logFC))
+  logFC_cols_to_combine$logFC <- NULL
+  
+  colnames(logFC_cols_to_combine) <- c("Symbol",
+                                       # paste("logFC", 
+                                              studies_names[[i_study]]) 
+                                              # sep = "."))
+  
+  
+  adjPval_cols_to_combine <- deg_df[,c("Symbol","adj.P.Val")]
+  colnames(adjPval_cols_to_combine) <- c("Symbol",
+                                       paste("adj.P.Val", 
+                                              studies_names[[i_study]], 
+                                              sep = "."))
+  if (i_study==1){
+    logFC_combined_df <- logFC_cols_to_combine
+    adjPval_combined_df <- adjPval_cols_to_combine
+  } else {
+    logFC_combined_df <- merge(logFC_combined_df,
+                               logFC_cols_to_combine,
+                               by ="Symbol",
+                               all = TRUE)
+    
+    adjPval_combined_df <- merge(adjPval_combined_df,
+                               adjPval_cols_to_combine,
+                               by ="Symbol",
+                               all = TRUE)
+  }
+  
+  DEG_list[[i_study]] <- deg_df[which(deg_df$diffexpressed %in% c("UP","DOWN")),
+                                "Symbol"]
+}
+
+rownames(logFC_combined_df) <- logFC_combined_df$Symbol
+logFC_combined_df$Symbol <- NULL
+
+names(DEG_list) <- names(deg_results_list)
+DEG_at_least_once <- unique(unlist(DEG_list))
+
+logFC_DEG_at_least_once <- logFC_combined_df[DEG_at_least_once,]
+
+logFC_combined_matrix <- t(apply( logFC_DEG_at_least_once, 2, as.numeric))
+colnames(logFC_combined_matrix) <- rownames(logFC_DEG_at_least_once)
+
+# # check for instances present in only 2 datasets
+# test <- apply(logFC_combined_matrix, 2, function(v) length(table(v)) == 2)
+# 
+# distfunc <- function(x) daisy(x, metric = "euclidean")
+# d <- distfunc(logFC_combined_matrix)
+# 
+# clust <- pheatmap(as.matrix(d),
+#          show_rownames = T)
+```
+
+```{r}
+# for deg_in_common()
+source("/Users/matthieu/ownCloud/Thèse/Systems Biology/Transcriptomic studies/deg_comparison/deg_utils.R")
+
+diff_intersections_summary <- deg_in_common(deg_list = deg_lists,
+                                            nb_in_common = 3)
+
+diff_intersections_summary$abs_sum <- apply(diff_intersections_summary, MARGIN = 1, function(x) sum(abs(x)))
+
+intersect_heatmap <- pheatmap(diff_intersections_summary[,-ncol(diff_intersections_summary)],
+                    # annotation_row = annotation,
+                    #color=rev(brewer.pal("Blues")),
+                    # hcl.colors(50, "Blues"),
+                    color = c("#D73027","#F0F0F0","#1A9850"),
+                    cluster_cols = FALSE,
+                    cluster_rows = TRUE,
+                    show_colnames = TRUE,
+                    fontsize_row = 5
+                    )
+```
+
+## Number of genes in opposite direction
+
+```{r}
+deg_common_in_at_least_two <- deg_in_common(deg_list = deg_lists,
+                                            nb_in_common = 2)
+
+deg_common_in_at_least_three <- deg_in_common(deg_list = deg_lists,
+                                            nb_in_common = 3)
+deg_common_in_at_least_two$in_three <- rownames(deg_common_in_at_least_two) %in% rownames(deg_common_in_at_least_three)
+
+deg_common_in_at_least_two$opposite <- apply(X = deg_common_in_at_least_two,
+                                             MARGIN = 1,
+                                             FUN = function(x){
+                                               return(any(x==1) & any(x==-1))
+                                             })
+deg_common_in_at_least_two$HGNC <- rownames(deg_common_in_at_least_two)
+
+
+deg_common_in_at_least_three <- deg_in_common(deg_list = deg_lists,
+                                            nb_in_common = 3)
+
+deg_common_in_at_least_three$opposite <- apply(X = deg_common_in_at_least_three,
+                                             MARGIN = 1,
+                                             FUN = function(x){
+                                               return(any(x==1) & any(x==-1))
+                                             })
+```
+
+## Pie Chart - Heatmap
+
+```{r}
+deg_pairwise_in_common_long <- deg_pairwise_in_common(deg_in_common(deg_list = deg_lists,
+                                                                    nb_in_common = 2))
+
+# Heatmap piechart
+heatmap_piechart <- ggplot(deg_pairwise_in_common_long) + 
+  geom_rect(aes(xmin=0,
+                xmax=log_all,
+                ymin=cp1,
+                ymax=cp2,
+                fill=variable)) + 
+  facet_grid(study_A~study_B)+
+  coord_polar(theta = "y")+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        strip.text = element_text(size = 10),
+        strip.background = element_blank())+
+  scale_fill_manual(values =c("#66BD63","#FDAE61","#D73027"))
+
+# Heatmap barplot
+heatmap_barplot <- ggplot(deg_pairwise_in_common_long, aes(x=variable, y=value, fill=variable)) +
+  geom_bar(stat="identity", width=1) +
+  # coord_polar("y", start=0)+
+  theme_void()+
+  facet_grid(study_A ~ study_B, drop = FALSE)
+
+
+# Legend
+legend <- expand.grid(log.var = c(TRUE), zone = c("1","5","20","60"))
+legend <- mutate(legend,
+   proportion=rep(1,4),
+   size = c(1,5,20,60),
+   tot_size = c(1,5,20,60))
+legend$log_tot_size <- log(legend$tot_size)
+
+legend <- legend %>% group_by(zone) %>%
+      mutate(cp1=c(0,head(cumsum(proportion),-1)),
+             cp2=cumsum(proportion))
+
+# Basic piechart
+legend_plot <- ggplot(legend) + geom_rect(aes(xmin=0,
+                               xmax=log_tot_size,
+                               ymin=cp1,
+                               ymax=cp2)) + 
+  facet_grid(.~zone) +
+  coord_polar(theta = "y")+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        strip.text.x = element_text(size = 40),
+        strip.background = element_blank())
+```
+
+Venn diagramm
+
+```{r}
+shared_DEG_list <- DEG_list[which(names(DEG_list) %in% c("Voisin", "Verhaeghe", "Ogilvie bronchial", "Zoso"))]
+
+venn_plot <- ggvenn(shared_DEG_list,
+       # fill_color = c("black", "grey70", "grey80", "grey90"),
+       show_percentage = FALSE,
+       digits = 1,
+       text_size = 10,
+       set_name_size = 3)
+```
+
+# Adj.P.value distribution
+
+```{r}
+logFC_combined_long <- melt(logFC_combined_df, id.vars = c("Symbol"), variable.name = "study")
+
+
+logFC_combined_long_over_5 <- logFC_combined_long[which(abs(logFC_combined_long$value)>5),]
+logFC_combined_long_under_5 <- logFC_combined_long[which(abs(logFC_combined_long$value)<=5),]
+
+logFC_combined_long_over_3 <- logFC_combined_long[which(abs(logFC_combined_long$value)>3),]
+logFC_combined_long_under_3 <- logFC_combined_long[which(abs(logFC_combined_long$value)<=3),]
+
+logFC_per_study_hist <- ggplot(logFC_combined_long_under_3, aes(x = value, color = study))+
+  geom_histogram(bins = 100)+
+  facet_wrap(~study, ncol = 3)
+  # scale_color_manual(values = c(brewer.pal(8, "Reds")[5:8],brewer.pal(8, "Blues")[5:8]))
+
+logFC_all_hist <- ggplot(logFC_combined_long, aes(x = value))+
+  geom_histogram(bins = 100)
+
+
+adjPval_combined_long <- melt(adjPval_combined_df, id.vars = c("Symbol"), variable.name = "study")
+
+ggplot(adjPval_combined_long, aes(x = value, color = study))+
+  geom_density()
+  # facet_wrap(~study, ncol = 3)
+
+```

@@ -1,0 +1,144 @@
+---
+title: "kegg_diff_pathways_analysis"
+output: pdf_document
+date: '2022-10-21'
+---
+
+## Analysis - Statistics on the pathway
+
+```{r}
+# pathways stats
+pathways_stats <- data.frame(table(kegg_diff_pathways_nodes.long$pathway_name))
+colnames(pathways_stats) <- c("pathway_name", "Nb_nodes")
+
+pathways_stats <- merge(pathways_stats,
+      data.frame(table(kegg_diff_pathways_nodes$pathway)),
+      by.x = "pathway_name",
+      by.y = "Var1")
+colnames(pathways_stats)[3] <- "Nb_unique_nodes"
+pathways_stats$unique_percent <- (pathways_stats$Nb_unique_nodes/pathways_stats$Nb_nodes)*100
+```
+
+## Analysis - Transcription factor targets
+
+```{r}
+library(dorothea)
+dorothea_regulon_human <- get(data("dorothea_hs", package = "dorothea"))
+
+tf_in_kegg_diff_pathways.dorothea <- kegg_diff_pathways_nodes$Symbol[kegg_diff_pathways_nodes$Symbol %in% unique(dorothea_regulon_human$tf)]
+
+kegg_diff_pathways_interactions$expression_dorothea <- kegg_diff_pathways_interactions$genesymbol_source %in% tf_in_kegg_diff_pathways.dorothea
+
+kegg_diff_pathways_interactions$expression <- kegg_diff_pathways_interactions[which(kegg_diff_pathways_interactions$effect=="expression"),]
+
+tf_in_kegg_diff_pathways.kegg <- kegg_diff_pathways_interactions.expression$genesymbol_source
+
+tf_dorothea_not_in_kegg.kegg_diff_pathways_nodes <- kegg_diff_pathways_nodes[which(kegg_diff_pathways_nodes$Symbol %in% setdiff(tf_in_kegg_diff_pathways.dorothea, tf_in_kegg_diff_pathways.kegg)),]
+
+View(kegg_diff_pathways_interactions.expression[which(kegg_diff_pathways_interactions.expression$genesymbol_source %in% setdiff(tf_in_kegg_diff_pathways.kegg, tf_in_kegg_diff_pathways.dorothea)),])
+
+
+tf_dorothea_not_in_dorothea.kegg_diff_pathways_nodes <- kegg_diff_pathways_nodes[which(kegg_diff_pathways_nodes$Symbol %in% setdiff(tf_in_kegg_diff_pathways.kegg, tf_in_kegg_diff_pathways.dorothea)),]
+
+# conclusion: pour moi il faut garder les TF de dorothea (et non pas de KEGG)
+
+kegg_diff_pathways_interactions.not_expression <- kegg_diff_pathways_interactions[which(kegg_diff_pathways_interactions$effect!="expression"),]
+
+not_expression_proteins <- unique(c(kegg_diff_pathways_interactions.not_expression$genesymbol_source,
+                                    kegg_diff_pathways_interactions.not_expression$genesymbol_target))
+
+kegg_diff_pathways_nodes$tf_targets <- !(kegg_diff_pathways_nodes$Symbol %in% not_expression_proteins)
+
+kegg_diff_pathways_nodes.not_tf <- kegg_diff_pathways_nodes[which(kegg_diff_pathways_nodes$tf_targets==F),]
+
+nb_proteins <- data.frame(pathway_name =  colnames(kegg_diff_pathways_nodes)[2:(ncol(kegg_diff_pathways_nodes)-3)],
+                          nb_proteins = sapply(kegg_diff_pathways_nodes[2:(ncol(kegg_diff_pathways_nodes)-3)], sum),
+                          nb_upstream_proteins = 
+                          sapply(kegg_diff_pathways_nodes.not_tf[2:(ncol(kegg_diff_pathways_nodes.not_tf)-3)], sum))
+
+nb_proteins.long <- pivot_longer(nb_proteins,
+                                 cols = c("nb_proteins", "nb_upstream_proteins"),
+                                 names_to = "category",
+                                 values_to = "nb")
+
+barplot <- ggplot(nb_proteins.long, aes(x=pathway_name, y=nb, fill=category))+
+  geom_bar(stat = "identity", position = position_dodge())+
+  theme(axis.text.x = element_text(angle = 45, size = 5))
+```
+
+
+# Analysis - LeadingEdges
+ Keep genes present in at least X times in each leadingEdge
+
+```{r}
+leadingEdges_occurrence_per_pathway <- data.frame(sapply(unique_leadingEdges.ordered, function(HGNC){
+  sapply(diff_pathways, function(pathway_name){
+    # print(pathway_name)
+    
+    leadingEdge_in_study <- sapply(kegg_only_sign_diff_pathways.leadingEdges, function(study){
+      
+      # print(names(study))
+      
+      i_pathway <- which(names(study)==pathway_name)
+      # print(i_pathway)
+      if (length(i_pathway)==0){
+        return(NA)
+      } else {
+        if (HGNC %in% study[[i_pathway]]){
+          return(1)
+        } else {
+          return(0)
+        }
+      }
+      
+    })
+    
+    return(sum(leadingEdge_in_study, na.rm = T))
+  })
+  
+}))
+
+nb_study_leadingEdge <- data.frame(nb_study = sapply(leadingEdges_occurrence_per_pathway, function(x){return(sum(as.integer(x>0)))}))
+
+## visualisation
+# nb_leadignEdges_per_pathway_and_study <- sapply(nb_leadignEdges_per_pathway_and_study, as.numeric)
+heatmap_nb_leadingEdges_per_pathway_and_study <-pheatmap(nb_leadingEdges_per_pathway_and_study,
+                cluster_rows = FALSE, 
+                cluster_cols = FALSE, 
+                color = rev(hcl.colors(50, "Purple-Blue")),
+                breaks = 1:50,
+                na_col = "grey",
+                display_numbers = T)
+
+
+# Other stats
+
+nb_leadingEdges_per_pathway_and_study["Nb unique proteins",] <- sapply(kegg_only_sign_diff_pathways.leadingEdges, function(leadingEdges){
+  return(length(unique(unlist(leadingEdges))))
+})
+
+# nb_proteins <- nb_proteins[order(nb_proteins$pathway_name),]
+# nb_leadingEdges_per_pathway_and_study$Nb_proteins_in_pathway <- c(nb_proteins$nb_proteins,dim(kegg_diff_pathways_nodes)[1])
+
+Nb_unique_leadingEdges_per_pathway <- lapply(diff_pathways, function(pathway_name){
+  
+  return(unlist(kegg_only_sign_diff_pathways.leadingEdges)
+                       [grepl(pathway_name,
+                              names(unlist(kegg_only_sign_diff_pathways.leadingEdges)))])
+})
+
+nb_leadingEdges_per_pathway_and_study$Nb_unique_leadingEdges_per_pathway <- 
+  c(Nb_unique_leadingEdges_per_pathway,
+    length(unique(unlist(lapply(kegg_only_sign_diff_pathways.leadingEdges, 
+                                unlist))
+                  )
+           )
+    )
+
+
+# nb of genes in total
+length(unique(unlist(lapply(kegg_only_sign_diff_pathways.leadingEdges, unlist))))
+
+leadingEdges_not_tf_targets <- intersect(not_expression_proteins, unique(unlist(lapply(kegg_only_sign_diff_pathways.leadingEdges, unlist))))
+
+```

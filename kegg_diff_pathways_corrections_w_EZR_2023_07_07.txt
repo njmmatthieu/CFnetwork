@@ -1,0 +1,324 @@
+pathway_name	action	Source	Effect	Target	Source_UniprotID
+Regulation of actin cytoskeleton	remove_node	CFD	NA	NA	NA
+Regulation of actin cytoskeleton	remove_node	HGF	NA	NA	NA
+Regulation of actin cytoskeleton	remove_interaction	PAK3	activation	GIT1	NA
+Regulation of actin cytoskeleton	remove_interaction	VCL	compound - 36	PIKFYVE	NA
+Regulation of actin cytoskeleton	remove_interaction	PAK3	activation	RAC1	NA
+Regulation of actin cytoskeleton	add_interaction	RAC1	activation	PAK3	NA
+Regulation of actin cytoskeleton	add_interaction	ARHGEF7	activation	CDC42	NA
+Regulation of actin cytoskeleton	add_interaction	PAK3	phosphorylation	ARHGEF7	NA
+Regulation of actin cytoskeleton	add_interaction	PAK3	activation	LIMK1	NA
+Regulation of actin cytoskeleton	add_interaction	CDC42	activation	PAK3	NA
+Regulation of actin cytoskeleton	add_interaction	RAC1	activation	PIKFYVE	NA
+Regulation of actin cytoskeleton	add_interaction	RAC1	inhibition	MYLK4	NA
+Regulation of actin cytoskeleton	add_node	VAV1	NA	NA	P15498
+Regulation of actin cytoskeleton	add_interaction	PIK3CA	compound - 5	VAV1	NA
+Regulation of actin cytoskeleton	add_interaction	VAV1	activation	RAC1	NA
+Regulation of actin cytoskeleton	add_node	TIAM1	NA	NA	P15498
+Regulation of actin cytoskeleton	add_interaction	PIK3CA	compound - 5	TIAM1	NA
+Regulation of actin cytoskeleton	add_interaction	TIAM1	activation	RAC1	NA
+Regulation of actin cytoskeleton	add_node	IQGAP1	NA	NA	NA
+Regulation of actin cytoskeleton	add_interaction	RAC1	activation	IQGAP1	NA
+Regulation of actin cytoskeleton	add_interaction	CDC42	activation	IQGAP1	NA
+Regulation of actin cytoskeleton	add_node	EZR	NA	NA	NA
+Regulation of actin cytoskeleton	add_interaction	SLC9A1	activation	EZR	NA
+Regulation of actin cytoskeleton	remove_node	MSN	NA	NA	NA
+Regulation of actin cytoskeleton	add_node	PFN	NA	NA	NA
+Regulation of actin cytoskeleton	add_interaction	DIAPH1	activation	PFN	NA
+Regulation of actin cytoskeleton	remove_node	ACTB	NA	NA	NA
+Osteoclast differentiation	remove_node	CCN1	NA	NA	NA
+Osteoclast differentiation	remove_node	AVP	NA	NA	NA
+Osteoclast differentiation	add_interaction	FCGR1A	binding/association	SYK	NA
+Osteoclast differentiation	add_interaction	TYROBP	binding/association	SYK	NA
+Osteoclast differentiation	change_effect	IL1R1	indirect effect	TRAF2	NA
+Osteoclast differentiation	change_effect	PIK3CA	compound - 5	AKT3	NA
+Osteoclast differentiation	change_effect	GRB2	indirect effect	MAPK1	NA
+Osteoclast differentiation	change_effect	IFNGR1	indirect effect	STAT1	NA
+Osteoclast differentiation	change_effect	STAT1	indirect effect	TRAF2	NA
+Osteoclast differentiation	change_effect	TRAF2	indirect effect	RAC1	NA
+Osteoclast differentiation	add_node	IRS1	NA	NA	NA
+Osteoclast differentiation	add_interaction	CSF1R	activation	IRS1	NA
+Osteoclast differentiation	add_interaction	IRS1	activation	PIK3CA	NA
+Osteoclast differentiation	remove_interaction	CSF1R	activation	PIK3CA	NA
+Osteoclast differentiation	change_effect	IFNAR1	activation	JAK1	NA
+Osteoclast differentiation	remove_interaction	IRF9	inhibition	FOS	NA
+Osteoclast differentiation	remove_interaction	TNFRSF11B	inhibition	TNFSF11	NA
+Osteoclast differentiation	add_interaction	TNFSF11	activation	TNFRSF11B	NA
+Osteoclast differentiation	remove_node	SQSTM1	NA	NA	NA
+Estrogen signaling pathway	remove_node	CMC1	NA	NA	NA
+Estrogen signaling pathway	remove_node	HGF	NA	NA	NA
+Estrogen signaling pathway	change_effect	PIK3CA	compound - 5	AKT3	NA
+Estrogen signaling pathway	add_interaction	ADCY1	compound - 20	PRKACA	NA
+Estrogen signaling pathway	add_interaction	PLCB1	compound - 15	PRKCD	NA
+Estrogen signaling pathway	add_interaction	ESR1	activation	GRM1	NA
+Estrogen signaling pathway	add_node	ESR2	NA	NA	NA
+Estrogen signaling pathway	add_interaction	MAPK1	activation	ESR2	NA
+Estrogen signaling pathway	add_node	ITPR1	NA	NA	NA
+Estrogen signaling pathway	add_interaction	PLCB1	compound - 16	ITPR1	NA
+Estrogen signaling pathway	add_interaction	ITPR1	compound - 19	CALML6	NA
+Estrogen signaling pathway	remove_node_uniprotid	NA	NA	NA	O95467
+Estrogen signaling pathway	remove_node_uniprotid	NA	NA	NA	P84996
+Estrogen signaling pathway	remove_node_uniprotid	NA	NA	NA	Q5JWF2
+Estrogen signaling pathway	remove_node	MMP2	NA	NA	NA
+Estrogen signaling pathway	add_interaction	NOS3	compound - 5	CREB3	NA
+Estrogen signaling pathway	add_node	PLCB3	NA	NA	NA
+Estrogen signaling pathway	add_interaction	PLCB3	compound - 16	ITPR1	NA
+Estrogen signaling pathway	add_interaction	PLCB3	compound - 15	PRKCD	NA
+Estrogen signaling pathway	add_interaction	GPRC6A	activation	PLCB3	NA
+T cell receptor signaling pathway	remove_node	HGF	NA	NA	NA
+T cell receptor signaling pathway	remove_node	SLK	NA	NA	NA
+T cell receptor signaling pathway	remove_node	CCN1	NA	NA	NA
+T cell receptor signaling pathway	remove_node	PDK1	NA	NA	NA
+T cell receptor signaling pathway	remove_node	PDPK2P	NA	NA	NA
+T cell receptor signaling pathway	change_effect	FYN	indirect effect	ZAP70	NA
+T cell receptor signaling pathway	remove_interaction	MAP2K7	activation	MAP3K7	NA
+T cell receptor signaling pathway	add_interaction	MAP3K7	activation	MAP2K7	NA
+T cell receptor signaling pathway	change_effect	PIK3CA	compound - 5	PDPK1	NA
+T cell receptor signaling pathway	add_interaction	CARD11	binding/association	BCL10	NA
+T cell receptor signaling pathway	add_interaction	PLCG1	compound - 16	PPP3CA	NA
+T cell receptor signaling pathway	add_node	IKBKG	NA	NA	NA
+T cell receptor signaling pathway	add_interaction	BCL10	activation	IKBKG	NA
+T cell receptor signaling pathway	add_interaction	IKBKB	binding/association	IKBKG	NA
+T cell receptor signaling pathway	add_interaction	MAP3K14	activation	IKBKG	NA
+T cell receptor signaling pathway	add_node	CHUK	NA	NA	NA
+T cell receptor signaling pathway	add_interaction	CHUK	binding/association	IKBKB	NA
+T cell receptor signaling pathway	add_node	VAV1	NA	NA	P15498
+T cell receptor signaling pathway	add_interaction	LCP2	binding/association	VAV1	NA
+T cell receptor signaling pathway	add_interaction	ITK	phosphorylation	VAV1	NA
+T cell receptor signaling pathway	add_node	PAK3	NA	NA	NA
+T cell receptor signaling pathway	add_interaction	NCK1	phosphorylation	PAK3	NA
+T cell receptor signaling pathway	add_node	MALT1	NA	NA	NA
+T cell receptor signaling pathway	add_interaction	BCL10	binding/association	MALT1	NA
+T cell receptor signaling pathway	change_effect	MAPK14	indirect effect	NFATC1	NA
+T cell receptor signaling pathway	change_effect	BCL10	activation	MAP3K7	NA
+T cell receptor signaling pathway	change_effect	CBLB	ubiquitination	ZAP70	NA
+Cytokine-cytokine receptor interaction	remove_node	SCYL1	NA	NA	NA
+Cytokine-cytokine receptor interaction	remove_node	SCYL3	NA	NA	NA
+Cytokine-cytokine receptor interaction	remove_node	DTL	NA	NA	NA
+Cytokine-cytokine receptor interaction	remove_node	PDF	NA	NA	NA
+Cytokine-cytokine receptor interaction	remove_interaction	CCL1	activation	CCR10	NA
+Cytokine-cytokine receptor interaction	remove_interaction	CCL25	activation	CCR10	NA
+Cytokine-cytokine receptor interaction	remove_interaction	CCL19	activation	CCR10	NA
+Cytokine-cytokine receptor interaction	remove_interaction	CCL21	activation	CCR10	NA
+Cytokine-cytokine receptor interaction	remove_interaction	CCL13	activation	CCR10	NA
+Cytokine-cytokine receptor interaction	remove_interaction	C7	activation	CXCR3	NA
+Cytokine-cytokine receptor interaction	remove_interaction	CXCL12	activation	LAP3	NA
+Cytokine-cytokine receptor interaction	change_effect	INHA	activation	ACVR2A	NA
+Cytokine-cytokine receptor interaction	change_effect	INHA	activation	ACVR2B	NA
+Cytokine-cytokine receptor interaction	change_effect	GDF15	activation	TGFBR2	NA
+Cytokine-cytokine receptor interaction	change_effect	BMP3	activation	ACVR2B	NA
+Th17 cell differentiation	remove_node	CCN1	NA	NA	NA
+Th17 cell differentiation	change_effect	IL1R1	indirect effect	MTOR	NA
+Th17 cell differentiation	change_effect	IL1R1	indirect effect	MAPK14	NA
+Th17 cell differentiation	change_effect	LAT	indirect effect	MAPK1	NA
+Th17 cell differentiation	change_effect	LAT	indirect effect	MAPK8	NA
+Th17 cell differentiation	change_effect	LAT	indirect effect	MAPK14	NA
+Th17 cell differentiation	add_node	IL2	NA	NA	NA
+Th17 cell differentiation	add_interaction	IL2	activation	IL2RG	NA
+Th17 cell differentiation	add_interaction	IL2	activation	IL2RA	NA
+Th17 cell differentiation	add_node	IL27	NA	NA	Q8NEV9
+Th17 cell differentiation	add_interaction	IL27	activation	IL27RA	NA
+Th17 cell differentiation	add_node	IFNG	NA	NA	NA
+Th17 cell differentiation	add_interaction	IFNG	activation	IFNGR1	NA
+Th17 cell differentiation	add_interaction	IL21	activation	IL2RG	NA
+Th17 cell differentiation	add_node	IL4	NA	NA	NA
+Th17 cell differentiation	add_interaction	IL4	activation	IL2RG	NA
+Th17 cell differentiation	add_interaction	IL2RG	activation	STAT5A	NA
+Th17 cell differentiation	add_interaction	PLCG1	compound - 16	PPP3CA	NA
+IL-17 signaling pathway	remove_interaction	TRAF3IP2	activation	IL17A	NA
+IL-17 signaling pathway	remove_interaction	TRAF3IP2	activation	IL17RA	NA
+IL-17 signaling pathway	add_interaction	IL17A	activation	IL17RA	NA
+IL-17 signaling pathway	add_interaction	IL17RA	activation	TRAF3IP2	NA
+IL-17 signaling pathway	add_interaction	IL17RA	activation	TRADD	NA
+IL-17 signaling pathway	add_interaction	IL17RA	indirect effect	GSK3B	NA
+IL-17 signaling pathway	add_interaction	IL17RA	indirect effect	MAPK1	NA
+IL-17 signaling pathway	add_interaction	TRAF6	indirect effect	MAPK14	NA
+IL-17 signaling pathway	add_interaction	TRAF6	indirect effect	NFKB1	NA
+IL-17 signaling pathway	add_node	HSP90AA1	NA	NA	NA
+IL-17 signaling pathway	add_interaction	HSP90AA1	binding/association	TRAF3IP2	NA
+Toll-like receptor signaling pathway	change_effect	PIK3CA	compound - 5	AKT3	NA
+Toll-like receptor signaling pathway	change_effect	AKT3	indirect effect	NFKB1	NA
+Toll-like receptor signaling pathway	remove_interaction	MAP3K8	inhibition	NFKB1	NA
+Toll-like receptor signaling pathway	add_interaction	NFKB1	inhibition	MAP3K8	NA
+Toll-like receptor signaling pathway	change_effect	NFKBIA	dissociation	NFKB1	NA
+Toll-like receptor signaling pathway	change_effect	TLR7	activation	MYD88	NA
+Toll-like receptor signaling pathway	change_effect	IRAK4	binding/association	IRAK1	NA
+Toll-like receptor signaling pathway	change_effect	IRAK4	activation	TRAF6	NA
+Toll-like receptor signaling pathway	change_effect	RIPK1	binding/association	TRAF6	NA
+Toll-like receptor signaling pathway	add_interaction	TLR2	activation	MYD88	NA
+Toll-like receptor signaling pathway	add_interaction	IKBKB	activation	NFKB1	NA
+Toll-like receptor signaling pathway	add_interaction	MYD88	activation	IRAK4	NA
+Toll-like receptor signaling pathway	add_interaction	TICAM1	activation	TRAF6	NA
+Toll-like receptor signaling pathway	remove_node	CAP1	NA	NA	NA
+Toll-like receptor signaling pathway	remove_node	CCL4L1	NA	NA	NA
+Toll-like receptor signaling pathway	remove_node	AVP	NA	NA	NA
+NF-kappa B signaling pathway	add_node	CARD11	NA	NA	NA
+NF-kappa B signaling pathway	add_interaction	PRKCQ	activation	CARD11	NA
+NF-kappa B signaling pathway	add_interaction	PRKCB	activation	CARD11	NA
+NF-kappa B signaling pathway	add_interaction	CARD10	binding/association	BCL10	NA
+NF-kappa B signaling pathway	add_interaction	CARD11	binding/association	BCL10	NA
+NF-kappa B signaling pathway	add_node	MALT1	NA	NA	NA
+NF-kappa B signaling pathway	add_interaction	BCL10	binding/association	MALT1	NA
+NF-kappa B signaling pathway	add_interaction	MALT1	activation	IKBKG	NA
+NF-kappa B signaling pathway	add_interaction	RIPK1	activation	MAP3K7	NA
+NF-kappa B signaling pathway	add_interaction	TRAF2	activation	MAP3K7	NA
+NF-kappa B signaling pathway	add_interaction	TRAF3	activation	MAP3K7	NA
+NF-kappa B signaling pathway	add_interaction	TRAF6	activation	MAP3K7	NA
+NF-kappa B signaling pathway	add_interaction	TRAF2	activation	MAP3K14	NA
+NF-kappa B signaling pathway	add_interaction	TRAF3	activation	MAP3K14	NA
+NF-kappa B signaling pathway	add_interaction	TRAF6	activation	MAP3K14	NA
+NF-kappa B signaling pathway	add_interaction	MAP3K14	activation	MAP3K7	NA
+NF-kappa B signaling pathway	add_interaction	TRAF2	activation	BTK	NA
+NF-kappa B signaling pathway	add_interaction	TRAF3	activation	BTK	NA
+NF-kappa B signaling pathway	add_interaction	BTK	activation	IKBKB	NA
+NF-kappa B signaling pathway	add_interaction	NFKBIA	dissociation	NFKB1	NA
+NF-kappa B signaling pathway	add_interaction	EDA2R	binding/association	TRAF3	NA
+NF-kappa B signaling pathway	add_interaction	EDA2R	binding/association	TRAF6	NA
+NF-kappa B signaling pathway	add_interaction	CHUK	binding/association	IKBKB	NA
+NF-kappa B signaling pathway	remove_node	CAP1	NA	NA	NA
+NF-kappa B signaling pathway	remove_node	DTL	NA	NA	NA
+NF-kappa B signaling pathway	add_node	IRAK1	NA	NA	NA
+NF-kappa B signaling pathway	add_interaction	IL1R1	activation	IRAK1	NA
+NF-kappa B signaling pathway	add_interaction	IRAK1	activation	MAP3K7	NA
+NF-kappa B signaling pathway	add_node	IRAK4	NA	NA	NA
+NF-kappa B signaling pathway	add_interaction	IL1R1	activation	IRAK4	NA
+NF-kappa B signaling pathway	add_interaction	IRAK4	activation	MAP3K7	NA
+TNF signaling pathway	add_interaction	TRADD	binding/association	TRAF2	NA
+TNF signaling pathway	add_interaction	TRADD	binding/association	RIPK1	NA
+TNF signaling pathway	add_interaction	IKBKB	activation	NFKB1	NA
+TNF signaling pathway	add_interaction	NFKB1	inhibition	MAP3K8	NA
+TNF signaling pathway	add_interaction	MAP3K5	phosphorylation	MAPK8	NA
+TNF signaling pathway	add_interaction	DAB2IP	activation	MAP3K5	NA
+TNF signaling pathway	add_interaction	CHUK	binding/association	IKBKB	NA
+TNF signaling pathway	add_interaction	IKBKB	binding/association	IKBKG	NA
+TNF signaling pathway	add_interaction	AKT3	activation	CHUK	NA
+TNF signaling pathway	change_effect	TNFRSF1B	indirect effect	IRF1	NA
+TNF signaling pathway	change_effect	PIK3CA	compound - 5	AKT3	NA
+TNF signaling pathway	remove_interaction	BIRC2	activation	RIPK1	NA
+TNF signaling pathway	remove_interaction	CHUK	phosphorylation	NFKBIA	NA
+TNF signaling pathway	add_interaction	BAG4	inhibition	TNFRSF1A	NA
+TNF signaling pathway	remove_interaction	TNFRSF1A	dissociation	BAG4	NA
+Cytosolic DNA-sensing pathway	change_effect	MAVS	indirect effect	NFKB1	NA
+Cytosolic DNA-sensing pathway	add_interaction	RIPK1	binding/association	RIPK3	NA
+Cytosolic DNA-sensing pathway	remove_interaction	RIPK1	activation	CHUK	NA
+Cytosolic DNA-sensing pathway	remove_interaction	CHUK	activation	NFKBIA	NA
+Cytosolic DNA-sensing pathway	remove_interaction	IKBKE	binding/association	IRF3	NA
+Cytosolic DNA-sensing pathway	remove_interaction	IKBKE	binding/association	IRF7	NA
+Cytosolic DNA-sensing pathway	change_effect	TBK1	activation	IRF3	NA
+Cytosolic DNA-sensing pathway	change_effect	TBK1	activation	IRF7	NA
+Cytosolic DNA-sensing pathway	remove_node	IL33	NA	NA	NA
+Cytosolic DNA-sensing pathway	remove_node	IL1B	NA	NA	NA
+Cytosolic DNA-sensing pathway	remove_node	IL18	NA	NA	NA
+Cytosolic DNA-sensing pathway	remove_interaction	ZBP1	binding/association	IRF3	NA
+Cytosolic DNA-sensing pathway	remove_interaction	ZBP1	binding/association	IRF7	NA
+Cytosolic DNA-sensing pathway	change_effect	ZBP1	activation	RIPK1	NA
+Cytosolic DNA-sensing pathway	change_effect	ZBP1	activation	RIPK3	NA
+RIG-I-like receptor signaling pathway	remove_node	CAP1	NA	NA	NA
+RIG-I-like receptor signaling pathway	remove_node	UBL5	NA	NA	NA
+RIG-I-like receptor signaling pathway	change_effect	MAP3K1	indirect effect	NFKB1	NA
+RIG-I-like receptor signaling pathway	change_effect	MAP3K7	indirect effect	NFKB1	NA
+RIG-I-like receptor signaling pathway	change_effect	MAP3K1	indirect effect	MAPK14	NA
+RIG-I-like receptor signaling pathway	change_effect	MAP3K7	indirect effect	MAPK14	NA
+RIG-I-like receptor signaling pathway	change_effect	MAP3K1	indirect effect	MAPK8	NA
+RIG-I-like receptor signaling pathway	remove_node	MAP3K1	NA	NA	NA
+RIG-I-like receptor signaling pathway	add_interaction	TBK1	activation	IRF3	NA
+RIG-I-like receptor signaling pathway	add_interaction	TBK1	activation	IRF7	NA
+RIG-I-like receptor signaling pathway	add_interaction	IKBKE	binding/association	TBK1	NA
+RIG-I-like receptor signaling pathway	add_node	IKBKG	NA	NA	NA
+RIG-I-like receptor signaling pathway	add_interaction	TBK1	binding/association	IKBKG	NA
+RIG-I-like receptor signaling pathway	add_interaction	TANK	activation	IKBKG	NA
+RIG-I-like receptor signaling pathway	change_effect	MAVS	activation	TRAF3	NA
+RIG-I-like receptor signaling pathway	change_effect	MAVS	activation	TRADD	NA
+RIG-I-like receptor signaling pathway	change_effect	MAVS	activation	TRAF6	NA
+RIG-I-like receptor signaling pathway	change_effect	MAVS	activation	TRAF2	NA
+RIG-I-like receptor signaling pathway	change_effect	TRIM25	ubiquitination	RIGI	
+C-type lectin receptor signaling pathway	remove_node	CCN1	NA	NA	NA
+C-type lectin receptor signaling pathway	remove_node	AVP	NA	NA	NA
+C-type lectin receptor signaling pathway	remove_node	CLEC2B	NA	NA	NA
+C-type lectin receptor signaling pathway	remove_interaction	IRF9	binding/association	STAT1	NA
+C-type lectin receptor signaling pathway	remove_interaction	STAT1	binding/association	STAT2	NA
+C-type lectin receptor signaling pathway	change_effect	SYK	indirect effect	MAP3K14	NA
+C-type lectin receptor signaling pathway	change_effect	RHOA	indirect effect	PAK1	NA
+C-type lectin receptor signaling pathway	change_effect	LSP1	indirect effect	SRC	NA
+C-type lectin receptor signaling pathway	change_effect	PIK3CA	compound - 5	AKT3	NA
+C-type lectin receptor signaling pathway	add_interaction	PLCG2	compound - 16	PRKCD	NA
+C-type lectin receptor signaling pathway	add_interaction	MALT1	activation	CASP8	NA
+C-type lectin receptor signaling pathway	add_interaction	MALT1	activation	IKBKB	NA
+C-type lectin receptor signaling pathway	add_interaction	MALT1	activation	MAPK1	NA
+C-type lectin receptor signaling pathway	add_interaction	MALT1	activation	MAPK8	NA
+C-type lectin receptor signaling pathway	add_interaction	MALT1	activation	MAPK14	NA
+C-type lectin receptor signaling pathway	add_interaction	MALT1	indirect effect	PIK3CA	NA
+C-type lectin receptor signaling pathway	add_node	IKBKB	NA	NA	NA
+C-type lectin receptor signaling pathway	add_interaction	CHUK	binding/association	IKBKB	NA
+C-type lectin receptor signaling pathway	add_interaction	IKBKB	binding/association	IKBKG	NA
+C-type lectin receptor signaling pathway	add_node	ITPR1	NA	NA	NA
+C-type lectin receptor signaling pathway	add_interaction	PLCG2	compound - 16	ITPR1	NA
+C-type lectin receptor signaling pathway	add_interaction	ITPR1	compound - 19	CALML6	NA
+C-type lectin receptor signaling pathway	remove_interaction	RELA	binding/association	NFKB1	NA
+C-type lectin receptor signaling pathway	remove_interaction	FCER1G	binding/association	CLEC4D	
+C-type lectin receptor signaling pathway	change_effect	CBLB	ubiquitination	SYK	
+C-type lectin receptor signaling pathway	change_effect	CBLB	ubiquitination	CLEC6A	
+C-type lectin receptor signaling pathway	change_effect	CBLB	ubiquitination	CLEC7A	
+Viral protein interaction with cytokine and cytokine receptor	add_interaction	CCL27	activation	CCR3	NA
+Viral protein interaction with cytokine and cytokine receptor	add_interaction	CCL5	activation	CCR1	NA
+Viral protein interaction with cytokine and cytokine receptor	add_interaction	CCL5	activation	CCR3	NA
+Viral protein interaction with cytokine and cytokine receptor	add_interaction	CCL5	activation	CCR5	NA
+Viral protein interaction with cytokine and cytokine receptor	remove_node	HGF	NA	NA	NA
+NOD-like receptor signaling pathway	remove_node	CCK	NA	NA	NA
+NOD-like receptor signaling pathway	remove_node	CAP1	NA	NA	NA
+NOD-like receptor signaling pathway	remove_node	HGF	NA	NA	NA
+NOD-like receptor signaling pathway	remove_node	POP1	NA	NA	NA
+NOD-like receptor signaling pathway	remove_node	COP1	NA	NA	NA
+NOD-like receptor signaling pathway	remove_node	PAK1	NA	NA	NA
+NOD-like receptor signaling pathway	remove_node	AVP	NA	NA	NA
+NOD-like receptor signaling pathway	remove_interaction	NFKBIA	activation	NFKB1	NA
+NOD-like receptor signaling pathway	remove_interaction	MEFV	binding/association	PYCARD	NA
+NOD-like receptor signaling pathway	remove_interaction	IKBKE	binding/association	TRAF2	NA
+NOD-like receptor signaling pathway	add_node	ITPR1	NA	NA	NA
+NOD-like receptor signaling pathway	add_interaction	PLCB1	compound - 16	ITPR1	NA
+NOD-like receptor signaling pathway	add_interaction	ITPR1	compound - 19	NLRP3	NA
+NOD-like receptor signaling pathway	add_interaction	PKN1	inhibition	MEFV	NA
+NOD-like receptor signaling pathway	change_effect	MAP3K7	indirect effect	MAPK1	NA
+NOD-like receptor signaling pathway	change_effect	MAP3K7	indirect effect	MAPK8	NA
+NOD-like receptor signaling pathway	change_effect	MAP3K7	indirect effect	MAPK14	NA
+NOD-like receptor signaling pathway	remove_interaction	NLRP3	binding/association	CARD8	NA
+NOD-like receptor signaling pathway	add_interaction	CARD8	inhibition	NLRP3	NA
+NOD-like receptor signaling pathway	change_effect	TICAM1	indirect effect	IRF3	NA
+NOD-like receptor signaling pathway	change_effect	TRAF6	indirect effect	IKBKG	NA
+NOD-like receptor signaling pathway	change_effect	IRAK4	indirect effect	IKBKG	NA
+NOD-like receptor signaling pathway	change_effect	IRF3	expression	IFNA1	NA
+NOD-like receptor signaling pathway	change_effect	JUN	expression	IL18	NA
+NOD-like receptor signaling pathway	change_effect	JUN	expression	CXCL1	NA
+NOD-like receptor signaling pathway	change_effect	JUN	expression	TNF	NA
+NOD-like receptor signaling pathway	change_effect	JUN	expression	CXCL8	NA
+NOD-like receptor signaling pathway	change_effect	JUN	expression	IL6	NA
+NOD-like receptor signaling pathway	change_effect	JUN	expression	CAMP	NA
+NOD-like receptor signaling pathway	change_effect	JUN	expression	IL1B	NA
+NOD-like receptor signaling pathway	change_effect	JUN	expression	CCL5	NA
+NOD-like receptor signaling pathway	change_effect	JUN	expression	CCL2	NA
+NOD-like receptor signaling pathway	change_effect	NFKB1	expression	CXCL1	NA
+NOD-like receptor signaling pathway	change_effect	NFKB1	expression	IFNA1	NA
+NOD-like receptor signaling pathway	change_effect	NFKB1	expression	CXCL8	NA
+NOD-like receptor signaling pathway	change_effect	NFKB1	expression	IL6	NA
+NOD-like receptor signaling pathway	change_effect	NFKB1	expression	CAMP	NA
+NOD-like receptor signaling pathway	change_effect	NFKB1	expression	CCL5	NA
+NOD-like receptor signaling pathway	change_effect	NFKB1	expression	IL1B	NA
+NOD-like receptor signaling pathway	change_effect	NFKB1	expression	IL18	NA
+NOD-like receptor signaling pathway	change_effect	NFKB1	expression	TNF	NA
+NOD-like receptor signaling pathway	change_effect	NFKB1	expression	CCL2	NA
+NOD-like receptor signaling pathway	change_effect	NFKB1	expression	NLRP3	NA
+NOD-like receptor signaling pathway	change_effect	IRAK4	activation	TRAF6	NA
+NOD-like receptor signaling pathway	remove_interaction	PYCARD	activation	CASP1	NA
+NOD-like receptor signaling pathway	remove_interaction	IRF9	binding/association	STAT1	NA
+NOD-like receptor signaling pathway	add_interaction	STAT1	binding/association	IRF9	NA
+NOD-like receptor signaling pathway	remove_node	GSDMD	NA	NA	NA
+NOD-like receptor signaling pathway	remove_node	IL1B	NA	NA	NA
+NOD-like receptor signaling pathway	remove_node	IL18	NA	NA	NA
+NOD-like receptor signaling pathway	add_node	PLCB3	NA	NA	NA
+NOD-like receptor signaling pathway	add_interaction	PLCB3	compound - 16	ITPR1	NA
+NOD-like receptor signaling pathway	add_interaction	GPRC6A	activation	PLCB3	NA
+NOD-like receptor signaling pathway	change_effect	BIRC2	ubiquitination	RIPK2	NA
+NOD-like receptor signaling pathway	change_effect	TNFAIP3	inhibition	RIPK2	NA
+NOD-like receptor signaling pathway	change_effect	XIAP	ubiquitination	RIPK2	NA
+NOD-like receptor signaling pathway	change_effect	TRAF2	ubiquitination	RIPK2	NA
+NOD-like receptor signaling pathway	change_effect	RBCK1	ubiquitination	RIPK2	NA

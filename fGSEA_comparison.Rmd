@@ -1,0 +1,410 @@
+---
+title: "GSEA comparison"
+output: pdf_document
+---
+
+```{r}
+library(RColorBrewer)
+library(pheatmap)
+library(ggplot2)
+library(reshape2)
+library(tidyr)
+library(dplyr)
+library(cluster)
+```
+
+```{r}
+source("/Users/matthieu/ownCloud/Thèse/Systems Biology/Transcriptomic studies/fgsea_comparison/fgsea_comparison_scripts/fgsea_output_preprocess.R")
+
+fgsea_lists <- lapply(fgsea_results_list,
+                      function(fgsea_df) {return(fgsea_diff_activated(fgsea_df, padj_threshold = 0.25))})
+```
+
+# Dataframe with padj and ES
+
+```{r}
+fgsea_nes_combined_df <- data.frame()
+for (i_study in seq_along(fgsea_lists)){
+  # print(i_study)
+  fgsea_df <- fgsea_lists[[i_study]]
+  cols_to_combine <- fgsea_df[,c("pathway",
+                                 # "padj", 
+                                 "NES")]
+  colnames(cols_to_combine) <- c("pathway",
+                                 # paste("NES", 
+                                       studies_names[[i_study]]) 
+                                       # sep = "."))
+  if (i_study==1){
+    fgsea_nes_combined_df <- cols_to_combine
+  } else {
+    fgsea_nes_combined_df <- merge(fgsea_nes_combined_df,
+                               cols_to_combine,
+                               by ="pathway",
+                               all = TRUE)
+  }
+}
+
+fgsea_nes_combined_df <- data.frame(fgsea_nes_combined_df)
+
+rownames(fgsea_nes_combined_df) <- fgsea_nes_combined_df$pathway
+fgsea_nes_combined_df$pathway <- NULL
+
+fgsea_nes_combined_matrix <- t(apply( fgsea_nes_combined_df, 2, as.numeric))
+colnames(fgsea_nes_combined_matrix) <- rownames(fgsea_nes_combined_df)
+
+# distfunc <- function(x) daisy(x, metric = "euclidean")
+
+
+# check for instances present in only 2 datasets
+# test <- apply(fgsea_nes_combined_matrix, 2, function(v) length(table(v)) == 2)
+
+# d <- distfunc(fgsea_nes_combined_matrix)
+#  
+# clust <- pheatmap(as.matrix(d),
+#          show_rownames = T)
+# # 
+# studies_order <- gsub(x = studies_names[clust$tree_col$order],
+#                       pattern = "[ |-]",
+#                       replacement = ".")
+```
+
+# Nb of pathways UP or DOWN per study
+
+```{r}
+fgsea_nb_diff_pathways_per_study <- data.frame()
+for (i_study in 1:length(fgsea_lists)){
+  fgsea_app_output <- fgsea_lists[[i_study]]
+  
+  fgsea_nb_diff_pathways_per_study <- rbind(fgsea_nb_diff_pathways_per_study,
+                                           data.frame(study = names(fgsea_lists)[i_study],
+                                                      nb_pathways = nrow(fgsea_app_output),
+                                                      UP = nrow(fgsea_app_output[which(fgsea_app_output$diff_activated=="UP"),]),
+                                                      DOWN = nrow(fgsea_app_output[which(fgsea_app_output$diff_activated=="DOWN"),])))
+}
+
+fgsea_nb_diff_pathways_per_study_long <- melt(fgsea_nb_diff_pathways_per_study,
+                                             id.vars = c("study"),
+                                             variable.name = "shift",
+                                             value.name = "nb")
+
+fgsea_nb_diff_pathways_per_study_long <- fgsea_nb_diff_pathways_per_study %>% 
+  pivot_longer(cols = c("UP","DOWN"),
+               names_to = "shift",
+               values_to = "nb")
+
+fgsea_nb_diff_pathways_per_study_long$study <- factor(fgsea_nb_diff_pathways_per_study_long$study,
+                                                     levels = studies_names)
+
+nb_diff_pathways_barplot <- ggplot(fgsea_nb_diff_pathways_per_study_long, aes(x=study, y=nb, fill=shift))+
+  geom_bar(stat = "identity", position = position_dodge())+
+  scale_fill_manual(values = c(brewer.pal(3,"Greys")[2],
+                               brewer.pal(11,"RdYlGn")[c(10,2)]))
+```
+
+All studies
+
+```{r}
+source("/Users/matthieu/ownCloud/Thèse/Systems Biology/Transcriptomic studies/fgsea_comparison/fgsea_comparison_scripts/fgsea_comparison_utils.R")
+
+names(fgsea_lists) <- gsub(pattern = "-| ",replacement = ".", names(fgsea_lists))
+
+fgsea_es_diff_pathways <- fgsea_nes_diff_pathways_in_common(fgsea_lists = fgsea_lists,
+                                                      fgsea_combined_df = fgsea_nes_combined_df,
+                                                      # studies_order = studies_order,
+                                                      nb_in_common = 3)
+
+
+diff_intersections_summary <- fgsea_diff_pathways_in_common(fgsea_lists = fgsea_lists,
+                                                            # studies_order = studies_order,
+                                                            nb_in_common = 3)
+
+# mask <- sapply(diff_intersections_summary, as.logical)
+# fgsea_es_diff_pathways[!mask] <- NA
+```
+
+```{r}
+studies_order <- c("Verhaeghe",
+                   "Voisin",
+                   "Ogilvie.nasal",
+                   "Ogilvie.bronchial",
+                   "Clarke",
+                   "Balloy",
+                   "Saint.Criq.UNC",
+                   "Zoso",
+                   "Ling",
+                   "Saint.Criq.SC")
+
+# Removing pathways from the Disease subset of KEGG pathway
+
+fgsea_es_diff_pathways$pathway_name <- rownames(fgsea_es_diff_pathways)
+fgsea_es_diff_pathways <- fgsea_es_diff_pathways[rownames(fgsea_es_diff_pathways)!="AGE-RAGE signaling pathway in diabetic complications",]
+
+diff_intersections_summary$pathway_name <- rownames(diff_intersections_summary)
+diff_intersections_summary <- diff_intersections_summary[rownames(diff_intersections_summary)!="AGE-RAGE signaling pathway in diabetic complications",]
+
+fgsea_es_diff_pathways_long <- pivot_longer(fgsea_es_diff_pathways,
+                                            cols = studies_order,
+                                           names_to = "study",
+                                           values_to = "NES")
+
+diff_intersections_summary_long <- pivot_longer(diff_intersections_summary,
+                                            cols = studies_order,
+                                           names_to = "study",
+                                           values_to = "significance")
+
+
+
+
+fgsea_es_diff_pathways_long$study <- factor(fgsea_es_diff_pathways_long$study,
+                                            levels = studies_order)
+diff_intersections_summary_long$study <- factor(diff_intersections_summary_long$study,
+                                            levels = studies_order)
+# revalue(fgsea_es_diff_pathways_long$study , c("beta"="two", "gamma"="three"))
+good_studies_order <- c("Verhaeghe",
+                   "Voisin",
+                   "Ogilvie (nasal)",
+                   "Ogilvie (bronchial)",
+                   "Clarke",
+                   "Balloy",
+                   "Saint-Criq (UNC)",
+                   "Zoso",
+                   "Ling",
+                   "Saint-Criq (SC)")
+levels(fgsea_es_diff_pathways_long$study) <- good_studies_order
+levels(diff_intersections_summary_long$study) <- good_studies_order
+
+pathways_order <- c("Regulation of actin cytoskeleton",
+                    "Osteoclast differentiation",
+                    "Estrogen signaling pathway",
+                    "T cell receptor signaling pathway",
+                    "Cytokine-cytokine receptor interaction",
+                    "Th17 cell differentiation",
+                    "IL-17 signaling pathway",
+                    "NF-kappa B signaling pathway",
+                    "TNF signaling pathway",
+                    "C-type lectin receptor signaling pathway",
+                    "RIG-I-like receptor signaling pathway",
+                    "Cytosolic DNA-sensing pathway",
+                    "NOD-like receptor signaling pathway",
+                    "Toll-like receptor signaling pathway",
+                    "Viral protein interaction with cytokine and cytokine receptor")
+
+fgsea_es_diff_pathways_long$pathway_name <- factor(fgsea_es_diff_pathways_long$pathway_name,
+                                                   levels = pathways_order)
+diff_intersections_summary_long$pathway_name <- factor(diff_intersections_summary_long$pathway_name,
+                                                   levels = pathways_order)
+
+
+
+
+fgsea_nes_diff_pathways_heatmap <- ggplot(fgsea_es_diff_pathways_long, aes(y = pathway_name, 
+                                                                           x = study,
+                                                                           fill = NES))+
+  geom_tile(color = "white",
+            lwd = 1.5,
+            linetype = 1)+
+  geom_tile(data = fgsea_es_diff_pathways_long[which(diff_intersections_summary_long$significance!=0) ,],
+            fill = NA, 
+            colour="black",
+            size=2)+
+  scale_fill_gradient2(low=brewer.pal(n = 7, name = "RdYlGn")[1],
+                      mid=brewer.pal(n = 7, name = "RdYlGn")[4],
+                      high=brewer.pal(n = 7, name = "RdYlGn")[7],
+                      na.value = "#D9D9D9")+
+  scale_y_discrete(labels = function(x) 
+    stringr::str_wrap(x, width = 40))+
+  theme(panel.background = element_blank(),
+        text = element_text(size = 36),
+        axis.text.x = element_text(vjust =1, hjust = 1, angle = 45, colour = "black"),
+        axis.text.y = element_text(colour = "black"),
+        axis.ticks = element_blank(),
+        axis.title = element_blank())
+```
+
+
+```{r}
+source("/Users/matthieu/ownCloud/Thèse/Systems Biology/Transcriptomic studies/fgsea_comparison/fgsea_comparison_scripts/fgsea_comparison_utils.R")
+
+dep_pairwise_in_common_long <- fgsea_dep_pairwise_in_common(fgsea_diff_pathways_in_common(fgsea_lists = fgsea_lists,
+                                                                                          nb_in_common = 2))
+
+# Heatmap piechart
+heatmap_piechart <- ggplot(dep_pairwise_in_common_long) + 
+  geom_rect(aes(xmin=0,
+                xmax=log_all,
+                ymin=cp1,
+                ymax=cp2,
+                fill=variable)) + 
+  facet_grid(study_A~study_B)+
+  coord_polar(theta = "y")+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        strip.text = element_text(size = 10),
+        strip.background = element_blank())+
+  scale_fill_manual(values =c("#66BD63","#FDAE61","#D73027"))
+
+# Legend
+legend <- expand.grid(log.var = c(TRUE), zone = c("1","5","10","15"))
+legend <- mutate(legend,
+   proportion=rep(1,4),
+   size = c(1,5,10,15),
+   tot_size = c(1,5,10,15))
+legend$log_tot_size <- log(legend$tot_size)
+
+legend <- legend %>% group_by(zone) %>%
+      mutate(cp1=c(0,head(cumsum(proportion),-1)),
+             cp2=cumsum(proportion))
+
+# Basic piechart
+legend_plot <- ggplot(legend) + geom_rect(aes(xmin=0,
+                               xmax=log_tot_size,
+                               ymin=cp1,
+                               ymax=cp2)) + 
+  facet_grid(.~zone) +
+  coord_polar(theta = "y")+
+  theme(panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(),
+        panel.background = element_blank(),
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        strip.text.x = element_text(size = 40),
+        strip.background = element_blank())
+```
+
+
+
+
+
+
+```{r}
+# KEGG pathways 
+
+kegg_pathways_interactions <- read.table(file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/gmt/kegg_pathways_from_omnipathR.txt",
+                                         sep = "\t")
+kegg_pathways_interactions$interaction_id <- apply(X = kegg_pathways_interactions[,c("uniprot_source",
+                                                                                     "uniprot_target",
+                                                                                     "effect")],
+                                                   MARGIN = 1,
+                                                   FUN = function(x) {
+                                                     # print(x)
+                                                     return(paste(x, collapse = "_"))
+                                                     })
+kegg_pathways_interactions.unique <- unique(kegg_pathways_interactions[,!(colnames(kegg_pathways_interactions) %in% c("source", 
+                                                                                                                      "target", 
+                                                                                                                      "relation_id", 
+                                                                                                                      "kegg_id_source",
+                                                                                                                      "kegg_id_target"))])
+
+# Removing IFNA13
+kegg_pathways_interactions.unique.filtered <- kegg_pathways_interactions.unique[which(kegg_pathways_interactions.unique$genesymbol_source!="IFNA13" &
+                                          kegg_pathways_interactions.unique$genesymbol_target!="IFNA13"),]
+
+diff_pathways <- rownames(fgsea_es_diff_pathways)
+
+interactions_in_kegg_pathways <- kegg_pathways_interactions.unique.filtered[which(kegg_pathways_interactions.unique.filtered$pathway_name %in% diff_pathways),]
+interactions_in_kegg_pathways$value <- 1
+
+interactions_in_kegg_pathways_wide_df <- dcast(interactions_in_kegg_pathways,
+                                      interaction_id ~ pathway_name,
+                                      value.var = "value")
+interactions_in_kegg_pathways_wide_df[is.na(interactions_in_kegg_pathways_wide_df)]<- 0
+interactions_in_kegg_pathways_wide_df$sum <- rowSums(interactions_in_kegg_pathways_wide_df[,-1]) 
+
+interactions_in_diff_kegg_pathways.unique <- unique(interactions_in_kegg_pathways[,!(colnames(interactions_in_kegg_pathways) %in% c("pathway_name", "value"))])
+interactions_in_diff_kegg_pathways.unique <- merge(interactions_in_diff_kegg_pathways.unique,
+                                                   interactions_in_kegg_pathways_wide_df,
+                                                   by = "interaction_id")
+
+# if the sum is 1 then put the name of the pathway
+
+# save(interactions_in_diff_kegg_pathways.unique,
+#      file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/pathway_networks/diff_kegg_pathways_interactions_df_2022_09_08.RData")
+# 
+# write.table(interactions_in_diff_kegg_pathways.unique,
+#             file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/pathway_networks/all_diff_kegg_pathways_interactions_2022_09_08.txt",
+#             sep = "\t",
+#             col.names = T,
+#             row.names = F,
+#             quote = F)
+
+
+
+# get the nodes
+kegg_pathways_nodes <- read.table(file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/gmt/symbols_from_kegg_pathways_from_omnipathR.txt",
+                                         sep = "\t")
+kegg_pathways_nodes <- kegg_pathways_nodes[which(kegg_pathways_nodes$Symbol!="IFNA13"),]
+
+kegg_diff_pathways_nodes <- kegg_pathways_nodes[which(kegg_pathways_nodes$pathway_name %in%
+                                                        diff_pathways),]
+kegg_diff_pathways_nodes$value <- 1
+kegg_diff_pathways_nodes_wide <- dcast(kegg_diff_pathways_nodes,
+                                      Symbol ~ pathway_name,
+                                      value.var = "value")
+kegg_diff_pathways_nodes_wide[is.na(kegg_diff_pathways_nodes_wide)]<- 0
+kegg_diff_pathways_nodes_wide$sum <- rowSums(kegg_diff_pathways_nodes_wide[,-1]) 
+
+kegg_diff_pathways_nodes_wide$pathway <- sapply(1:nrow(kegg_diff_pathways_nodes_wide), function(i_symbol){
+  if (kegg_diff_pathways_nodes_wide$sum[i_symbol]==1){
+    return(diff_pathways[which(kegg_diff_pathways_nodes_wide[i_symbol,diff_pathways]==1)])
+  } else {
+    return(NA)
+  }
+})
+
+# save(kegg_diff_pathways_nodes_wide,
+#      file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/pathway_networks/diff_kegg_pathways_nodes_df_2022_09_08.RData")
+
+# write.table(kegg_diff_pathways_nodes_wide,
+#             file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/pathway_networks/all_diff_kegg_pathways_nodes_2022_09_08.txt",
+#             sep = "\t",
+#             col.names = T,
+#             row.names = F,
+#             quote = F)
+
+# pathways stats
+pathways_stats <- data.frame(table(kegg_diff_pathways_nodes$pathway_name))
+colnames(pathways_stats) <- c("pathway_name", "Nb_nodes")
+
+pathways_stats <- merge(pathways_stats,
+      data.frame(table(kegg_diff_pathways_nodes_wide$pathway)),
+      by.x = "pathway_name",
+      by.y = "Var1")
+colnames(pathways_stats)[3] <- "Nb_unique_nodes"
+pathways_stats$unique_percent <- (pathways_stats$Nb_unique_nodes/pathways_stats$Nb_nodes)*100
+```
+
+
+```{r}
+kegg_diff_pathways_interactions <- interactions_in_diff_kegg_pathways.unique[,diff_pathways]
+rownames(kegg_diff_pathways_interactions) <- interactions_in_diff_kegg_pathways.unique$interaction_id
+
+nb_common_interactions_diff_pathways_df <- data.frame()
+for (pathway_A in colnames(kegg_diff_pathways_interactions)){
+  # print(pathway_A)
+  for (pathway_B in colnames(kegg_diff_pathways_interactions)){
+    # print(pathway_B)
+    if (pathway_A==pathway_B){
+      nb_common_interactions <- NA
+    } else {
+      nb_common_interactions <- sum(as.integer(sapply(1:nrow(kegg_diff_pathways_interactions), function(i_row) {return(all(kegg_diff_pathways_interactions[i_row,c(pathway_A, pathway_B)]==1))})))
+    }
+    nb_common_interactions_df <- data.frame(pathway_A = pathway_A,
+                                     pathway_B = pathway_B,
+                                     nb_common_interactions = nb_common_interactions)
+    nb_common_interactions_diff_pathways_df <- rbind(nb_common_interactions_diff_pathways_df,
+                                             nb_common_interactions_df)
+    
+}
+}
+
+nb_common_interactions_diff_pathways_wide <- pivot_wider(nb_common_interactions_diff_pathways_df,names_from = "pathway_A", values_from = "nb_common_interactions" )
+nb_common_interactions_diff_pathways_wide <- 
+pheatmap(nb_common_interactions_diff_pathways_wide,
+        )
+
+heatamp <- ggplot(data = nb_common_interactions_diff_pathways_df, aes(x=pathway_A, y=pathway_B, fill=nb_common_interactions)) + 
+  geom_tile()
+```
