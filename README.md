@@ -55,4 +55,5 @@ Optional: Add CFTR interactors.
 
 - **Kegg_diff_pathways_network_analysis.R** - Network analysis for differential KEGG pathways.
 
+Scripts were designed by Matthieu Najm (matthieu dot najm at minesparis dot psl dot eu). See a complete list of authors in the corresponding paper.
 Feel free to explore, run, and adapt these scripts to suit your analysis needs. If you have any questions or need assistance, please don't hesitate to reach out.
