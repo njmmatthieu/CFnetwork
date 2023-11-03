@@ -5,7 +5,9 @@ This repository contains all the scripts and data to reproduce the construction 
 Scripts were designed by Matthieu Najm (matthieu dot najm at minesparis dot psl dot eu). See a complete list of authors in the corresponding paper.
 Feel free to explore, run, and adapt these scripts to suit your analysis needs. If you have any questions or need assistance, please don't hesitate to reach out.
 
-<img src="./images/graphical_abstract_2023_10_09.png" width="600">
+<div style="text-align:center;">
+    <img src="./images/graphical_abstract_2023_10_09.png" width="600">
+</div>
 
 
 
