@@ -2,15 +2,18 @@
 
 This repository contains all the scripts and data to reproduce the construction and the analysis of the CF signalling network. The overall network can be accessed as a Cytoscape session, in the [sysbio-curie/CFnetwork_cystoscape](https://github.com/sysbio-curie/CFnetwork_cytoscape.git) github repository for further analysis. 
 
-Scripts were designed by Matthieu Najm (matthieu dot najm at minesparis dot psl dot eu). See a complete list of authors in the corresponding paper.
-Feel free to explore, run, and adapt these scripts to suit your analysis needs. If you have any questions or need assistance, please don't hesitate to reach out.
+Please note that the repository is currently undergoing some cleanup and organization. It may not be in its final, clean state. 
+- Some code files need refactoring.
+- Documentation is being updated.
+- Unused or temporary files may exist.
+I'm currently working on making this repository more organized and user-friendly. If you have any questions or suggestions,
+please don't hesitate to reach out (matthieu dot najm at minesparis dot psl dot eu).
 
 <div style="text-align:center;">
     <img src="./images/graphical_abstract_2023_10_09.png" width="600">
 </div>
 
-
-
+Feel free to explore, run, and adapt these scripts to suit your analysis needs.
 Explore the following sections to understand the content and purpose of each file:
 
 ## 0. Databases Preprocessing
