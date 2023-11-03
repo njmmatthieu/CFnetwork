@@ -1,0 +1,196 @@
+---
+title: "CF_fgsea"
+output: pdf_document
+---
+
+```{r}
+library(fgsea)
+library(data.table)
+library(ggplot2)
+library(tidyverse)
+library("biomaRt")
+```
+
+```{r cars}
+# data(examplePathways)
+# data(exampleRanks)
+# set.seed(42)
+```
+
+# old way 13/01/2022
+
+```{r}
+# Zoso_DEG <- read.table("~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Transcriptomic Analyses/Analyse Zoso/DE_Analysis/Zoso_normalised_differential_expression_analysis_filtered_limma_2022_01_13.txt",
+#                          sep = "\t",
+#                          header = T)
+
+
+# Zoso_DEG_old_1 <- read.table("~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Analyse Zoso/DE_Analysis/Zoso_differential_expression_analysis_limma_2021_12_16.txt",
+#                          sep = "\t",
+#                          header = T)
+# 
+# Zoso_DEG_old_2 <- read.table("~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Analyse Zoso/DE_Analysis/Zoso_differential_expression_analysis_filtered_limma_2022_01_07.txt",
+#                          sep = "\t",
+#                          header = T)
+# 
+# Zoso_DEG_deseq <- read.table("~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Analyse Zoso/DE_Analysis/Zoso_differential_expression_analysis_Deseq_2021_10_06.txt",
+#                          sep = "\t",
+#                          header = T)
+# 
+# Zoso_DEG_deseq_2 <- read.table("~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Analyse Zoso/DE_Analysis/Zoso_differential_expression_analysis_Deseq_2022_01_17.txt",
+#                          sep = "\t",
+#                          header = T)
+# 
+# Zoso_compar <- merge(Zoso_DEG[,c("symbol",
+#                                  "P.Value")],
+#                      Zoso_DEG_old_1[,c("symbol",
+#                                  "P.Value")],
+#                      by = "symbol")
+# colnames(Zoso_compar) <- c("symbol", "P.Value.13.01", "P.Value.12.16")
+# 
+# Zoso_compar <- merge(Zoso_compar,
+#                      Zoso_DEG_old_2[,c("symbol",
+#                                  "P.Value")],
+#                      by = "symbol")
+# colnames(Zoso_compar) <- c("symbol", "P.Value.13.01", "P.Value.16.12", "P.Value.07.01")
+# 
+# Zoso_compar <- merge(Zoso_compar,
+#                      Zoso_DEG_deseq[,c("gene",
+#                                  "pvalue")],
+#                      by.x = "symbol",
+#                      by.y = "gene")
+# colnames(Zoso_compar) <- c("symbol", "P.Value.13.01", "P.Value.16.12", "P.Value.07.01", "P.Value.deseq")
+# 
+# Zoso_compar <- merge(Zoso_compar,
+#                      Zoso_DEG_deseq_2[,c("gene",
+#                                  "pvalue")],
+#                      by.x = "symbol",
+#                      by.y = "gene")
+# colnames(Zoso_compar) <- c("symbol", "P.Value.13.01", "P.Value.16.12", "P.Value.07.01", "P.Value.deseq", "P.Value.deseq.2")
+# 
+# DEG_plot <- ggplot(Zoso_compar, aes(x=P.Value.deseq.2, y=P.Value.13.01)) +
+#   geom_point()
+
+# Zoso_stat <- Zoso_DEG[,c("gene_name", "t")]
+
+# HGNC_occ <- data.frame(table(Zoso_DEG$symbol))
+# duplicated_genes <- HGNC_occ$Var1[which(HGNC_occ$Freq>1)]
+# 
+# test <- Zoso_DEG[which(Zoso_DEG$symbol %in% duplicated_genes),]
+# 
+# 
+# Zoso_stat <- Zoso_DEG %>% 
+#   dplyr::select(symbol, t) %>% 
+#   na.omit() %>% 
+#   distinct() %>% 
+#   group_by(symbol) %>% 
+#   summarize(stat=mean(t))
+# 
+# # Zoso_stat_2 <- Zoso_DEG_deseq_2 %>% 
+# #   dplyr::select(gene, stat) %>% 
+# #   na.omit() %>% 
+# #   distinct() %>% 
+# #   group_by(gene) %>% 
+# #   summarize(stat=mean(stat))
+# 
+# 
+# ranks <- deframe(Zoso_stat)
+# ranks <- deframe(Zoso_stat_2)
+```
+
+
+
+New version - good way - 09/02/2022
+
+```{r}
+# Zoso_DEG <- read.table("~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Transcriptomic Analyses/Analyse Zoso/DE_Analysis/Zoso_normalised_differential_expression_analysis_filtered_limma_2022_02_09.txt",
+#                          sep = "\t",
+#                          header = T)
+# 
+# 
+# mart <- useDataset("hsapiens_gene_ensembl", useMart("ensembl"))
+# HGNC_list <- getBM(filters= "ensembl_gene_id", attributes= c("ensembl_gene_id","hgnc_symbol"),values=Zoso_DEG$ENSG_ID,mart= mart)
+# # merge(df,G_list,by.x="gene",by.y="ensembl_peptide_id")
+# HGNC_list[which(HGNC_list$hgnc_symbol==""),"hgnc_symbol"]<-NA
+# 
+# HGNC_list <- HGNC_list[which(!is.na(HGNC_list$hgnc_symbol)),]
+# colnames(HGNC_list) <- c("ensembl_gene_id", "Symbol")
+# 
+# HGNC_occ <- data.frame(table(HGNC_list$Symbol))
+# unique_genes <- as.character(HGNC_occ[which(HGNC_occ$Freq==1), "Var1"])
+# 
+# duplicated_genes <- as.character(HGNC_occ[which(HGNC_occ$Freq>1), "Var1"])
+# # No duplicated genes
+# 
+# Zoso_DEG_HGNC <- merge(Zoso_DEG,
+#                        HGNC_list,
+#                        by.x = "ENSG_ID",
+#                        by.y = "ensembl_gene_id",
+#                        all.x = T)
+# 
+# Zoso_DEG_unique_HGNC <- Zoso_DEG_HGNC[which(!is.na(Zoso_DEG_HGNC$Symbol)),]
+# 
+# write.table(Zoso_DEG_unique_HGNC,
+#             file = "~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Transcriptomic Analyses/Analyse Zoso/DE_Analysis/Zoso_DEG_limma_unique_HGNC_2021_02_09.txt",
+#             sep = "\t",
+#             row.names = F)
+```
+
+```{r}
+Zoso_DEG_unique_HGNC <- read.table("~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Transcriptomic Analyses/Analyse Zoso/DE_Analysis/Zoso_DEG_limma_unique_HGNC_2021_02_09.txt",
+                                   header = T,
+                                   sep = "\t")
+
+Zoso_stat <- Zoso_DEG_unique_HGNC[,c("Symbol", "t")]
+Zoso_ranks <- deframe(Zoso_stat)
+```
+
+
+```{r}
+# pathways.hallmark <- gmtPathways("~/ownCloud/Thèse/Systems Biology/gmt/h.all.v7.4.symbols.gmt")
+# all_pathways <- gmtPathways("~/ownCloud/Thèse/Systems Biology/gmt/all_pathways_2022_01_12.gmt")
+all_pathways <- gmtPathways("~/ownCloud/Thèse/Systems Biology/gmt/kegg_from_omnipathR_gsea_2022_09_07.gmt")
+kegg_pathways <- lapply(X = all_pathways, FUN = function(gene_list){
+  return(gene_list[lapply(gene_list, nchar)>0])
+})
+```
+
+```{r}
+Zoso_limma_fgseaRes <- fgsea(pathways = dorothea_pathways, 
+                  stats    = Zoso_ranks,
+                  minSize  = 0,
+                  maxSize  = 500,
+                  #nperm=10000,
+                  eps=0.0)
+
+# Zoso_deseq_fgseaRes <- fgsea(pathways = all_pathways, 
+#                   stats    = ranks,
+#                   minSize  = 15,
+#                   maxSize  = 500,
+#                   #nperm=10000,
+#                   eps=0.0)
+
+# fgsea_compar <- merge(Zoso_limma_fgseaRes[,c("pathway", "pval")],
+#                       Zoso_deseq_fgseaRes[,c("pathway", "pval")],
+#                       by = "pathway")
+
+# colnames(fgsea_compar) <- c("pathway", "pval.limma", "pval.deseq")
+# 
+# fgsea_plot <- ggplot(fgsea_compar, aes(x=pval.limma, y=pval.deseq)) +
+#   geom_point()
+
+save(Zoso_limma_fgseaRes,
+     file = "~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Transcriptomic Analyses/Analyse Zoso/GSEA/Zoso_fgsea_report_dorothea_pathways_2022_09_07.RData")
+# write.table(data.frame(fgseaRes[,-c("leadingEdge")]),
+#             file = "~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Analyse Clarke/GSEA/Clarke_fgsea_report_2021_01_14.tsv",
+#             sep = "\t")
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+library(ggplot2)
+
+density <- ggplot(Zoso_deseq_fgseaRes, aes(x=pval))+
+  geom_density()
+```

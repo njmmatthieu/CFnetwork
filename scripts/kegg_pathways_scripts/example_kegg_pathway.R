@@ -46,7 +46,6 @@ load("/Users/matthieu/ownCloud/Thèse/Systems Biology/gmt/symbols_from_kegg_pat
 # example_pathway_name <- "Cytokine-cytokine receptor interaction"
 # example_pathway_name <- "T cell receptor signaling pathway"
 example_pathway_name <- "Estrogen signaling pathway"
-# example_pathway_name <- "AGE-RAGE signaling pathway in diabetic complications"
 # example_pathway_name <- "Osteoclast differentiation"
 # example_pathway_name <- "Regulation of actin cytoskeleton"
 

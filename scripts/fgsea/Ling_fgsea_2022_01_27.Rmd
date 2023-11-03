@@ -1,0 +1,54 @@
+---
+title: "CF_fgsea"
+output: pdf_document
+---
+
+```{r}
+library(fgsea)
+library(data.table)
+library(ggplot2)
+library(tidyverse)
+```
+
+```{r}
+Ling_DEG <- read.table("~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Transcriptomic Analyses/Analyse Ling/DE_Analysis/Ling_normalised_differential_expression_analysis_filtered_limma_2022_01_27.txt",
+                         sep = "\t",
+                         header = T)
+
+Ling_stat <- Ling_DEG[which(!is.na(Ling_DEG$Symbol)),c("Symbol", "t")]
+Ling_ranks <- deframe(Ling_stat)
+```
+
+
+```{r}
+# pathways.hallmark <- gmtPathways("~/ownCloud/Thèse/Systems Biology/gmt/h.all.v7.4.symbols.gmt")
+# all_pathways <- gmtPathways("~/ownCloud/Thèse/Systems Biology/gmt/all_pathways_2022_01_12.gmt")
+all_pathways <- gmtPathways("~/ownCloud/Thèse/Systems Biology/gmt/kegg_from_omnipathR_gsea_2022_09_07.gmt")
+kegg_pathways <- lapply(X = all_pathways, FUN = function(gene_list){
+  return(gene_list[lapply(gene_list, nchar)>0])
+})
+```
+
+```{r}
+fgseaRes <- fgsea(pathways = dorothea_pathways, 
+                  stats    = Ling_ranks,
+                  minSize  = 0,
+                  maxSize  = 500,
+                  #nperm=10000,
+                  eps=0.0)
+# 
+save(fgseaRes,
+     file = "~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Transcriptomic Analyses/Analyse Ling/GSEA/Ling_unfiltered_fgsea_report_dorothea_pathways_2022_09_07.RData")
+# write.table(data.frame(fgseaRes[,-c("leadingEdge")]),
+#             file = "~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Analyse Clarke/GSEA/Clarke_fgsea_report_2021_01_14.tsv",
+#             sep = "\t")
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+library(ggplot2)
+
+density <- ggplot(fgseaRes, aes(x=pval))+
+  geom_density()
+```

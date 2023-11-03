@@ -8,7 +8,7 @@ CF_PPI_network.lcc.node_type.interactions <- read.table(file = "/Users/matthieu/
                                                         header = T,
                                                         check.names = F)
 
-CF_PPI_network.lcc.node_type.nodes <- read.table(file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/diff_kegg_pathways_with_CFTR_interactors_PPI_lcc_tagged_nodes_df_2022_07_10.txt",
+CF_PPI_network.lcc.node_type.nodes <- read.table(file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/diff_kegg_pathways_with_CFTR_interactors_PPI_lcc_tagged_nodes_df_2023_07_10.txt",
                                                  sep = "\t",
                                                  header = T,
                                                  check.names = F)

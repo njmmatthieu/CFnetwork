@@ -1,0 +1,55 @@
+---
+title: "CF_fgsea"
+output: pdf_document
+---
+
+```{r}
+library(fgsea)
+library(data.table)
+library(ggplot2)
+library(tidyverse)
+```
+
+```{r}
+Balloy_DEG_HGNC_unique <- read.table(file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Transcriptomic Analyses/Analyse Balloy/DE_Analysis/Balloy_without_CTRL2_DEG_limma_unique_HGNC_2022_02_25.txt",
+            sep = "\t",
+            header = T)
+```
+
+```{r}
+Balloy_stat <- Balloy_DEG_HGNC_unique[,c("Symbol", "t")]
+
+Balloy_ranks <- deframe(Balloy_stat)
+```
+
+
+```{r}
+# pathways.hallmark <- gmtPathways("~/ownCloud/Thèse/Systems Biology/gmt/h.all.v7.4.symbols.gmt")
+# all_pathways <- gmtPathways("~/ownCloud/Thèse/Systems Biology/gmt/all_pathways_2022_01_12.gmt")
+# all_pathways <- gmtPathways("~/ownCloud/Thèse/Systems Biology/gmt/kegg_from_omnipathR_gsea_2022_09_07.gmt")
+# kegg_pathways <- lapply(X = all_pathways, FUN = function(gene_list){
+#   return(gene_list[lapply(gene_list, nchar)>0])
+# })
+dorothea_pathways <- gmtPathways("~/ownCloud/Thèse/Systems Biology/gmt/dorothea_gsea_2022_01_12.gmt")
+```
+
+```{r}
+fgseaRes <- fgsea(pathways = dorothea_pathways, 
+                  stats    = Balloy_ranks,
+                  minSize  = 0,
+                  maxSize  = 500,
+                  #nperm=10000,
+                  eps=0.0)
+# 
+save(fgseaRes,
+     file = "~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Transcriptomic Analyses/Analyse Balloy/GSEA/Balloy_without_CTRL2_unfiltered_fgsea_report_dorothea_pathways_2022_09_07.RData")
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+```{r}
+library(ggplot2)
+
+density <- ggplot(Balloy_DEG_HGNC_unique, aes(x=P.Value))+
+  geom_density()
+```

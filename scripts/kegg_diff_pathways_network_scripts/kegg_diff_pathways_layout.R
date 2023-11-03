@@ -17,9 +17,6 @@ source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pat
 # for get_node_type(),
 source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/network_visualization_helper.R")
 
-# for from_PPI_to_PPathI
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/PPathI_network_helper.R")
-
 # KEGG DIFF PATHWAYS - All proteins
 load("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_interactions_with_CFTR_interactors_df_2023_07_10.RData")
 load("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_nodes_with_CFTR_interactors_df_2023_07_10.RData")
@@ -162,29 +159,6 @@ write.table(CF_PPI_network.lcc.node_type@nodes,
             sep = "\t",
             row.names = F,
             quote = FALSE)
-
-# # Extra - PPI to PPathI
-# 
-# CF_PPathI_network <- from_PPI_to_PPathI.only_source(CF_PPI_network.scc)
-# 
-# PPathI_source_nodes <- setdiff(CF_PPathI_network@interactions$genesymbol_source, 
-#                         CF_PPathI_network@interactions$genesymbol_target)
-# PPAthI_sources_nodes_1_pathway <- CF_PPathI_network@nodes[which(CF_PPathI_network@nodes$HGNC %in% source_nodes &
-#                                                            CF_PPathI_network@nodes$sum==1 &
-#                                                            CF_PPathI_network@nodes$Node_type=="Protein"),]
-
-# write.table(CF_PPathI_network@interactions,
-#             file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/diff_kegg_pathways_PPathI_interactions_df_2022_10_18.txt",
-#             sep = "\t",
-#             row.names = F,
-#             quote = FALSE)
-# 
-# write.table(CF_PPathI_network@nodes,
-#             file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/diff_kegg_pathways_PPathI_nodes_df_2022_10_18.txt",
-#             sep = "\t",
-#             row.names = F,
-#             quote = FALSE)
-
 
 # Analysis
 # 
