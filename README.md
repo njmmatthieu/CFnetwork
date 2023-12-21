@@ -38,17 +38,17 @@ doro-r4
 - **scripts/CyFi-MAP_scripts/extract_CyFi_MAP_CFTR_interactors.R** - Extract CFTR interactors from the CyFi database
 
 #### Inputs
-- CyFi-MAP/CFTR_cp17-elementExport_2022_10_26_MN_2.txt : elements of the wt-CFTR interactome 
-- CyFi-MAP/CFTR_cp17-networkExport_2022_10_26.txt: network interactions of the wt-CFTR interactome
-- CyFi-MAP/F508del_cp21-elementExport_MN.txt : elements of the F508del-CFTR interactome 
-- CyFi-MAP/F508del_cp21-networkExport.txt : network interactions of the F508del-CFTR interactome
+- CyFi-MAP/CFTR_cp17-elementExport_2022_10_26_MN_2.txt : elements of the wt-CFTR interactome. 
+- CyFi-MAP/CFTR_cp17-networkExport_2022_10_26.txt: network interactions of the wt-CFTR interactome.
+- CyFi-MAP/F508del_cp21-elementExport_MN.txt : elements of the F508del-CFTR interactome. 
+- CyFi-MAP/F508del_cp21-networkExport.txt : network interactions of the F508del-CFTR interactome.
 
 #### Dependencies
 - scripts/CyFi-MAP_scripts/CyFi_MAP_helper.R : Transform complexes to proteins.
 
 #### Outputs
-- CFTR_interactors/CFTR_interactors_nodes_df_2023_07_07.RData : CFTR interactors extracted from the CyFi-MAP database
-- CFTR_interactors/CFTR_interactors_interactions_df_2023_07_07.RData : CFTR interactions extracted from the CyFi-MAP database
+- CFTR_interactors/CFTR_interactors_nodes_df.RData : CFTR interactors extracted from the CyFi-MAP database.
+- CFTR_interactors/CFTR_interactors_interactions_df.RData : CFTR interactions extracted from the CyFi-MAP database.
 
 ## 1. Transcriptomics analyses 
 
