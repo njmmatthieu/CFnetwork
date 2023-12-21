@@ -14,6 +14,10 @@ Explore the following sections to understand the content and purpose of each fil
 ## 0. Databases Preprocessing
 
 ### 0.1 KEGG Pathways Preprocessing
+
+#### Conda environment
+doro-r4
+
 #### Script
 - **scripts/kegg_pathways_scripts/kegg_pathways_preprocess.R** - Retrieve KEGG signaling pathways.
 
