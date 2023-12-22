@@ -46,7 +46,7 @@ kegg_pathways.signaling.df <- rbindlist(kegg_pathways.signaling.list,
                                         fill = T)
 
 # write.table(kegg_pathways.signaling.df,
-#             file = "kegg_pathways/kegg_from_omnipathR_gsea_2022_09_07.gmt",
+#             file = "kegg_pathways/kegg_pathways_from_omnipathR.gmt",
 #             sep = "\t",
 #             row.names = FALSE,
 #             col.names = FALSE,
