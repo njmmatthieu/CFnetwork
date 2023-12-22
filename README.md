@@ -4,10 +4,6 @@ This repository contains all the scripts and data to reproduce the construction 
 
 Please note that the repository is currently undergoing some cleanup and organization. It may not be in its final, clean state. I'm currently working on making this repository more organized and user-friendly. If you have any questions or suggestions, please don't hesitate to reach out (matthieu dot najm at minesparis dot psl dot eu).
 
-<div style="text-align:center;">
-    <img src="./images/graphical_abstract_2023_10_09.png" width="600">
-</div>
-
 Feel free to explore, run, and adapt these scripts to suit your analysis needs.
 Explore the following sections to understand the content and purpose of each file:
 
@@ -22,10 +18,10 @@ doro-r4
 - **scripts/kegg_pathways_scripts/kegg_pathways_preprocess.R** - Retrieve KEGG signaling pathways.
 
 #### Dependencies
-- scripts/kegg_pathways_scripts/kegg_pathways_utils.R** - Download KEGG pathway data.
+- scripts/kegg_pathways_scripts/kegg_pathways_utils.R - Download KEGG pathway data.
 
 #### Outputs
-- kegg_pathways/Kegg_from_omnipathR_gsea_2022_09_07.gmt
+- kegg_pathways/kegg_pathways_from_omnipathR.gmt
 - kegg_pathways/kegg_pathwaysKegg_pathways_from_omnipathR.txt
 - kegg_pathways/kegg_pathways_from_omnipath_list.Rdata
 - kegg_pathways/Kegg_pathways_from_omnipath_nodes_carac.Rdata
@@ -34,6 +30,10 @@ doro-r4
 - kegg_pathways/example_kegg_pathway.R
 
 ### 0.2 CyFi-MAP Preprocessing
+
+#### Conda environment
+deseq
+
 #### Script
 - **scripts/CyFi-MAP_scripts/extract_CyFi_MAP_CFTR_interactors.R** - Extract CFTR interactors from the CyFi database
 
@@ -54,6 +54,9 @@ doro-r4
 
 ### 1.1 Differential Expression Analysis at the pathway Level with fGSEA
 
+#### Conda environment
+fgsea
+
 #### Scripts
 - scripts/fgsea/Verhaeghe_fgsea_2022_01_24.Rmd
 - scripts/fgsea/Ogilvie_nasal_fgsea_2022_01_24.Rmd
@@ -67,18 +70,18 @@ doro-r4
 
 #### Inputs
 ##### Gene level t-statistics:
-- differential_expression_data/Verhaeghe_DEG_limma_unique_HGNC_2022_02_07.txt
-- differential_expression_data/Ogilvie_nasal_DEG_limma_unique_HGNC_2022_02_09.csv
-- differential_expression_data/Ogilvie_bronchial_DEG_limma_unique_HGNC_2022_02_09.csv
-- differential_expression_data/Voisin_DEG_limma_unique_HGNC_2021_02_08.txt
-- differential_expression_data/Clarke_DEG_limma_unique_HGNC_2022_01_24.csv
-- differential_expression_data/Balloy_without_CTRL2_DEG_limma_unique_HGNC_2022_02_25.txt
-- differential_expression_data/Zoso_DEG_limma_unique_HGNC_2021_02_09.txt
-- differential_expression_data/Saint_Criq_UNC_without_NCF_2_DEG_limma_unique_HGNC_2021_01_27.txt
-- differential_expression_data/Saint_Criq_SC_DEG_limma_unique_HGNC_2021_01_27.txt
+- differential_expression_data/Verhaeghe_DEG_limma_unique_HGNC.txt
+- differential_expression_data/Ogilvie_nasal_DEG_limma_unique_HGNC.csv
+- differential_expression_data/Ogilvie_bronchial_DEG_limma_unique_HGNC.csv
+- differential_expression_data/Voisin_DEG_limma_unique_HGNC.txt
+- differential_expression_data/Clarke_DEG_limma_unique_HGNC.csv
+- differential_expression_data/Balloy_without_CTRL2_DEG_limma_unique_HGNC.txt
+- differential_expression_data/Zoso_DEG_limma_unique_HGNC.txt
+- differential_expression_data/Saint_Criq_UNC_without_NCF_2_DEG_limma_unique_HGNC.txt
+- differential_expression_data/Saint_Criq_SC_DEG_limma_unique_HGNC.txt
 
 ##### GMT:
-- kegg_pathways/Kegg_from_omnipathR_gsea_2022_09_07.gmt
+- kegg_pathways/kegg_pathways_from_omnipathR.gmt
 
 #### Outputs
 - fgsea_output/Verhaeghe_fgsea_report_kegg_pathways_2022_09_07.RData
