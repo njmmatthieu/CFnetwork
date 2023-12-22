@@ -1,0 +1,42 @@
+---
+title: "CF_fgsea"
+output: pdf_document
+---
+
+```{r setup, include=TRUE}
+knitr::opts_knit$set(echo = TRUE, root.dir = normalizePath("../../"))
+```
+
+```{r}
+library(fgsea)
+library(data.table)
+library(ggplot2)
+library(tidyverse)
+```
+
+```{r}
+Voisin_DEG_HGNC <- read.table("differential_expression_data/Voisin_DEG_limma_unique_HGNC.txt",
+                         sep = "\t",
+                         header = T)
+
+Voisin_stat <- Voisin_DEG_HGNC[,c("Symbol", "t")]
+
+ranks <- deframe(Voisin_stat)
+```
+
+
+```{r}
+kegg_pathways <- gmtPathways("kegg_pathways/kegg_pathways_from_omnipathR.gmt")
+```
+
+```{r}
+fgseaRes <- fgsea(pathways = kegg_pathways, 
+                  stats    = ranks,
+                  minSize  = 0,
+                  maxSize  = 500,
+                  # nperm=10000,
+                  eps=0.0)
+
+# save(fgseaRes,
+#      file = "fgsea_output/Voisin_fgsea_report_kegg_pathways.RData")
+```

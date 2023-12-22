@@ -4,6 +4,7 @@ This repository contains all the scripts and data to reproduce the construction 
 
 Please note that the repository is currently undergoing some cleanup and organization. It may not be in its final, clean state. I'm currently working on making this repository more organized and user-friendly. If you have any questions or suggestions, please don't hesitate to reach out (matthieu dot najm at minesparis dot psl dot eu).
 
+
 Feel free to explore, run, and adapt these scripts to suit your analysis needs.
 Explore the following sections to understand the content and purpose of each file:
 
@@ -58,15 +59,15 @@ deseq
 fgsea
 
 #### Scripts
-- scripts/fgsea/Verhaeghe_fgsea_2022_01_24.Rmd
-- scripts/fgsea/Ogilvie_nasal_fgsea_2022_01_24.Rmd
-- scripts/fgsea/Ogilvie_bronchial_fgsea_2022_01_14.Rmd
-- scripts/fgsea/Voisin_fgsea_2022_01_19.Rmd
-- scripts/fgsea/Clarke_fgsea_2022_01_14.Rmd
-- scripts/fgsea/Balloy_fgsea_2022_02_25.Rmd
-- scripts/fgsea/Zoso_fgsea_2022_01_14.Rmd
-- scripts/fgsea/Ling_fgsea_2022_01_27.Rmd
-- scripts/fgsea/Saint_Criq_fgsea_2022_01_27.Rmd
+- scripts/fgsea/Verhaeghe_fgsea.Rmd
+- scripts/fgsea/Ogilvie_nasal_fgsea.Rmd
+- scripts/fgsea/Ogilvie_bronchial.Rmd
+- scripts/fgsea/Voisin_fgsea.Rmd
+- scripts/fgsea/Clarke_fgsea.Rmd
+- scripts/fgsea/Balloy_fgsea.Rmd
+- scripts/fgsea/Zoso_fgsea.Rmd
+- scripts/fgsea/Ling_fgsea.Rmd
+- scripts/fgsea/Saint_Criq_fgsea.Rmd
 
 #### Inputs
 ##### Gene level t-statistics:
@@ -84,16 +85,16 @@ fgsea
 - kegg_pathways/kegg_pathways_from_omnipathR.gmt
 
 #### Outputs
-- fgsea_output/Verhaeghe_fgsea_report_kegg_pathways_2022_09_07.RData
-- fgsea_output/Ogilvie_nasal_fgsea_report_kegg_pathways_2022_09_07.RData
-- fgsea_output/Ogilvie_bronchial_fgsea_report_kegg_pathways_2022_09_07.RData
-- fgsea_output/Voisin_fgsea_report_kegg_pathways_2022_09_07.RData
-- fgsea_output/Clarke_fgsea_report_kegg_pathways_2022_09_07.RData
-- fgsea_output/Balloy_without_CTRL2_unfiltered_fgsea_report_kegg_pathways_2022_09_07.RData
-- fgsea_output/Zoso_fgsea_report_kegg_pathways_2022_09_07.RData
-- fgsea_output/Ling_unfiltered_fgsea_report_kegg_pathways_2022_09_07.RData
-- fgsea_output/Saint_Criq_UNC_without_NCF_2_fgsea_report_kegg_pathways_2022_09_07.RData
-- fgsea_output/Saint_Criq_SC_fgsea_report_kegg_pathways_2022_09_07.RData
+- fgsea_output/Verhaeghe_fgsea_report_kegg_pathways.RData
+- fgsea_output/Ogilvie_nasal_fgsea_report_kegg_pathways.RData
+- fgsea_output/Ogilvie_bronchial_fgsea_report_kegg_pathways.RData
+- fgsea_output/Voisin_fgsea_report_kegg_pathways.RData
+- fgsea_output/Clarke_fgsea_report_kegg_pathways.RData
+- fgsea_output/Balloy_without_CTRL2_unfiltered_fgsea_report_kegg_pathways.RData
+- fgsea_output/Zoso_fgsea_report_kegg_pathways.RData
+- fgsea_output/Ling_unfiltered_fgsea_report_kegg_pathways.RData
+- fgsea_output/Saint_Criq_UNC_without_NCF_2_fgsea_report_kegg_pathways.RData
+- fgsea_output/Saint_Criq_SC_fgsea_report_kegg_pathways.RData
 
 ### 1.2 Meta-analysis at the pathway level
 
