@@ -55,51 +55,53 @@ deseq
 
 ### 1.1 Differential Expression Analysis at the pathway Level with fGSEA
 
+Perform pathway-level differential expression analysis
+
 #### Conda environment
 fgsea
 
 #### Scripts
-- scripts/fgsea/Verhaeghe_fgsea.Rmd
-- scripts/fgsea/Ogilvie_nasal_fgsea.Rmd
-- scripts/fgsea/Ogilvie_bronchial.Rmd
-- scripts/fgsea/Voisin_fgsea.Rmd
-- scripts/fgsea/Clarke_fgsea.Rmd
-- scripts/fgsea/Balloy_fgsea.Rmd
-- scripts/fgsea/Zoso_fgsea.Rmd
-- scripts/fgsea/Ling_fgsea.Rmd
-- scripts/fgsea/Saint_Criq_fgsea.Rmd
+    - scripts/fgsea/Verhaeghe_fgsea.Rmd
+    - scripts/fgsea/Ogilvie_nasal_fgsea.Rmd
+    - scripts/fgsea/Ogilvie_bronchial.Rmd
+    - scripts/fgsea/Voisin_fgsea.Rmd
+    - scripts/fgsea/Clarke_fgsea.Rmd
+    - scripts/fgsea/Balloy_fgsea.Rmd
+    - scripts/fgsea/Zoso_fgsea.Rmd
+    - scripts/fgsea/Ling_fgsea.Rmd
+    - scripts/fgsea/Saint_Criq_fgsea.Rmd
 
 #### Inputs
 ##### Gene level t-statistics:
-- differential_expression_data/Verhaeghe_DEG_limma_unique_HGNC.txt
-- differential_expression_data/Ogilvie_nasal_DEG_limma_unique_HGNC.csv
-- differential_expression_data/Ogilvie_bronchial_DEG_limma_unique_HGNC.csv
-- differential_expression_data/Voisin_DEG_limma_unique_HGNC.txt
-- differential_expression_data/Clarke_DEG_limma_unique_HGNC.csv
-- differential_expression_data/Balloy_without_CTRL2_DEG_limma_unique_HGNC.txt
-- differential_expression_data/Zoso_DEG_limma_unique_HGNC.txt
-- differential_expression_data/Saint_Criq_UNC_without_NCF_2_DEG_limma_unique_HGNC.txt
-- differential_expression_data/Saint_Criq_SC_DEG_limma_unique_HGNC.txt
+    - differential_expression_data/Verhaeghe_DEG_limma_unique_HGNC.txt
+    - differential_expression_data/Ogilvie_nasal_DEG_limma_unique_HGNC.csv
+    - differential_expression_data/Ogilvie_bronchial_DEG_limma_unique_HGNC.csv
+    - differential_expression_data/Voisin_DEG_limma_unique_HGNC.txt
+    - differential_expression_data/Clarke_DEG_limma_unique_HGNC.csv
+    - differential_expression_data/Balloy_without_CTRL2_DEG_limma_unique_HGNC.txt
+    - differential_expression_data/Zoso_DEG_limma_unique_HGNC.txt
+    - differential_expression_data/Saint_Criq_UNC_without_NCF_2_DEG_limma_unique_HGNC.txt
+    - differential_expression_data/Saint_Criq_SC_DEG_limma_unique_HGNC.txt
 
 ##### GMT:
-- kegg_pathways/kegg_pathways_from_omnipathR.gmt
+    - kegg_pathways/kegg_pathways_from_omnipathR.gmt
 
 #### Outputs
-- fgsea_output/Verhaeghe_fgsea_report_kegg_pathways.RData
-- fgsea_output/Ogilvie_nasal_fgsea_report_kegg_pathways.RData
-- fgsea_output/Ogilvie_bronchial_fgsea_report_kegg_pathways.RData
-- fgsea_output/Voisin_fgsea_report_kegg_pathways.RData
-- fgsea_output/Clarke_fgsea_report_kegg_pathways.RData
-- fgsea_output/Balloy_without_CTRL2_unfiltered_fgsea_report_kegg_pathways.RData
-- fgsea_output/Zoso_fgsea_report_kegg_pathways.RData
-- fgsea_output/Ling_unfiltered_fgsea_report_kegg_pathways.RData
-- fgsea_output/Saint_Criq_UNC_without_NCF_2_fgsea_report_kegg_pathways.RData
-- fgsea_output/Saint_Criq_SC_fgsea_report_kegg_pathways.RData
+    - fgsea_output/Verhaeghe_fgsea_report_kegg_pathways.RData
+    - fgsea_output/Ogilvie_nasal_fgsea_report_kegg_pathways.RData
+    - fgsea_output/Ogilvie_bronchial_fgsea_report_kegg_pathways.RData
+    - fgsea_output/Voisin_fgsea_report_kegg_pathways.RData
+    - fgsea_output/Clarke_fgsea_report_kegg_pathways.RData
+    - fgsea_output/Balloy_without_CTRL2_unfiltered_fgsea_report_kegg_pathways.RData
+    - fgsea_output/Zoso_fgsea_report_kegg_pathways.RData
+    - fgsea_output/Ling_unfiltered_fgsea_report_kegg_pathways.RData
+    - fgsea_output/Saint_Criq_UNC_without_NCF_2_fgsea_report_kegg_pathways.RData
+    - fgsea_output/Saint_Criq_SC_fgsea_report_kegg_pathways.RData
 
 ### 1.2 Meta-analysis at the pathway level
 
 #### Script
-**scripts/fgsea_comparison/fGSEA_comparison.Rmd**: Perform pathway-level differential expression analysis (starting from line 282).
+**scripts/fgsea_comparison/fGSEA_comparison.Rmd**: (starting from line 282).
 
 ##### Dependencies: 
     - scripts/fgsea_comparison/Fgsea_output_preprocess.R

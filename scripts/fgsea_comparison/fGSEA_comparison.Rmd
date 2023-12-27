@@ -3,6 +3,10 @@ title: "GSEA comparison"
 output: pdf_document
 ---
 
+```{r setup, include=TRUE}
+knitr::opts_knit$set(echo = TRUE, root.dir = normalizePath("../../"))
+```
+
 ```{r}
 library(RColorBrewer)
 library(pheatmap)
@@ -14,13 +18,23 @@ library(cluster)
 ```
 
 ```{r}
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/Transcriptomic studies/fgsea_comparison/fgsea_comparison_scripts/fgsea_output_preprocess.R")
-
-fgsea_lists <- lapply(fgsea_results_list,
-                      function(fgsea_df) {return(fgsea_diff_activated(fgsea_df, padj_threshold = 0.25))})
+getwd()
 ```
 
-# Dataframe with padj and ES
+# Loadind fgsea outputs for each dataset
+
+```{r}
+source("scripts/fgsea_comparison/fgsea_output_preprocess.R")
+
+fgsea_lists <- lapply(fgsea_results_list,
+                      function(fgsea_df) {
+                        return(fgsea_diff_activated(fgsea_df, 
+                                                    padj_threshold = 0.25))
+                        }
+                      )
+```
+
+# Dataframe of Normalised Enrichment Score
 
 ```{r}
 fgsea_nes_combined_df <- data.frame()
@@ -32,8 +46,8 @@ for (i_study in seq_along(fgsea_lists)){
                                  "NES")]
   colnames(cols_to_combine) <- c("pathway",
                                  # paste("NES", 
-                                       studies_names[[i_study]]) 
-                                       # sep = "."))
+                                 studies_names[[i_study]]) 
+                                 # sep = "."))
   if (i_study==1){
     fgsea_nes_combined_df <- cols_to_combine
   } else {
@@ -95,32 +109,42 @@ fgsea_nb_diff_pathways_per_study_long <- fgsea_nb_diff_pathways_per_study %>%
 fgsea_nb_diff_pathways_per_study_long$study <- factor(fgsea_nb_diff_pathways_per_study_long$study,
                                                      levels = studies_names)
 
-nb_diff_pathways_barplot <- ggplot(fgsea_nb_diff_pathways_per_study_long, aes(x=study, y=nb, fill=shift))+
+nb_diff_pathways_barplot <- ggplot(fgsea_nb_diff_pathways_per_study_long, 
+                                   aes(x=study, 
+                                       y=nb, 
+                                       fill=shift))+
   geom_bar(stat = "identity", position = position_dodge())+
   scale_fill_manual(values = c(brewer.pal(3,"Greys")[2],
                                brewer.pal(11,"RdYlGn")[c(10,2)]))
 ```
 
-All studies
+# Keep pathways significantly differentially expressed in at least 3 studies
 
 ```{r}
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/Transcriptomic studies/fgsea_comparison/fgsea_comparison_scripts/fgsea_comparison_utils.R")
+source("scripts/fgsea_comparison/fgsea_comparison_utils.R")
 
-names(fgsea_lists) <- gsub(pattern = "-| ",replacement = ".", names(fgsea_lists))
+names(fgsea_lists) <- gsub(pattern = "-| ",
+                           replacement = ".", 
+                           names(fgsea_lists))
 
-fgsea_es_diff_pathways <- fgsea_nes_diff_pathways_in_common(fgsea_lists = fgsea_lists,
-                                                      fgsea_combined_df = fgsea_nes_combined_df,
-                                                      # studies_order = studies_order,
-                                                      nb_in_common = 3)
+# Matrix NES of DEP x Studies
+fgsea_es_diff_pathways <- 
+  fgsea_nes_diff_pathways_in_common(fgsea_lists = fgsea_lists,
+                                    fgsea_combined_df = fgsea_nes_combined_df,
+                                    # studies_order = studies_order,
+                                    nb_in_common = 3)
 
-
-diff_intersections_summary <- fgsea_diff_pathways_in_common(fgsea_lists = fgsea_lists,
-                                                            # studies_order = studies_order,
-                                                            nb_in_common = 3)
+# Boolean Matrix of significantly DEP in Studies
+diff_intersections_summary <- 
+  fgsea_diff_pathways_in_common(fgsea_lists = fgsea_lists,
+                                # studies_order = studies_order,
+                                nb_in_common = 3)
 
 # mask <- sapply(diff_intersections_summary, as.logical)
 # fgsea_es_diff_pathways[!mask] <- NA
 ```
+
+# Comparison of DEPs - Heatmap
 
 ```{r}
 studies_order <- c("Verhaeghe",
@@ -221,12 +245,12 @@ fgsea_nes_diff_pathways_heatmap <- ggplot(fgsea_es_diff_pathways_long, aes(y = p
         axis.title = element_blank())
 ```
 
+# Pairwise comparison of DEPs - figure
 
 ```{r}
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/Transcriptomic studies/fgsea_comparison/fgsea_comparison_scripts/fgsea_comparison_utils.R")
-
-dep_pairwise_in_common_long <- fgsea_dep_pairwise_in_common(fgsea_diff_pathways_in_common(fgsea_lists = fgsea_lists,
-                                                                                          nb_in_common = 2))
+dep_pairwise_in_common_long <- 
+  fgsea_dep_pairwise_in_common(fgsea_diff_pathways_in_common(fgsea_lists = fgsea_lists,
+                                                             nb_in_common = 2))
 
 # Heatmap piechart
 heatmap_piechart <- ggplot(dep_pairwise_in_common_long) + 
@@ -273,11 +297,6 @@ legend_plot <- ggplot(legend) + geom_rect(aes(xmin=0,
         strip.text.x = element_text(size = 40),
         strip.background = element_blank())
 ```
-
-
-
-
-
 
 ```{r}
 # KEGG pathways 

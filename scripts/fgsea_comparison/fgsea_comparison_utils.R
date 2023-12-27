@@ -1,3 +1,44 @@
+# Keep from the matrix of NES of all pathways, the pathways DEP in at least 3 studies
+fgsea_nes_diff_pathways_in_common <- function(fgsea_lists, 
+                                              fgsea_combined_df, 
+                                              nb_in_common=5, 
+                                              studies_order=NA) {
+  
+  all_UP_pathways <- lapply(fgsea_lists, function(module_df){
+    return(module_df[which(module_df$diff_activated=="UP"),"pathway"])
+  })
+  all_DOWN_pathways <- lapply(fgsea_lists, function(module_df){
+    return(module_df[which(module_df$diff_activated=="DOWN"),"pathway"])
+  })
+  
+  # print(all_UP_pathways)
+  
+  all_diff_pathways <- c(unlist(all_UP_pathways),
+                         unlist(all_DOWN_pathways))
+  
+  
+  
+  diff_pathways_occurrence <- data.frame(table(all_diff_pathways))
+  colnames(diff_pathways_occurrence) <- c("Pathway", "Occurrence")
+  
+  intersect_pathways <- as.character(diff_pathways_occurrence[which(diff_pathways_occurrence$Occurrence>=nb_in_common),"Pathway"])
+  
+  # print(length(intersect_pathways))
+  
+  fgsea_diff_pathways_combined_df <- fgsea_combined_df[intersect_pathways,]
+  
+  if (!is.na(studies_order)){
+    fgsea_diff_pathways_combined_df <- fgsea_diff_pathways_combined_df[,studies_order]
+  }
+  
+  return(fgsea_diff_pathways_combined_df)
+  
+}
+
+# Keep from the matrix of NES of the pathways DEP in at least 3 studies:
+# 1: if the DEP is significantly UP
+# 0: not DEP in the particular study
+# -1: if the DEP is significantly DOWN
 fgsea_diff_pathways_in_common <- function(fgsea_lists, nb_in_common=5, studies_order=NA) {
   
   all_UP_pathways <- lapply(fgsea_lists, function(module_df){
@@ -85,41 +126,5 @@ fgsea_dep_pairwise_in_common <- function(diff_intersections_summary) {
   dep_pairwise_in_common_long$log_all <- log(dep_pairwise_in_common_long$ALL)
   
   return(dep_pairwise_in_common_long)
-  
-}
-
-fgsea_nes_diff_pathways_in_common <- function(fgsea_lists, 
-                                              fgsea_combined_df, 
-                                              nb_in_common=5, 
-                                              studies_order=NA) {
-  
-  all_UP_pathways <- lapply(fgsea_lists, function(module_df){
-    return(module_df[which(module_df$diff_activated=="UP"),"pathway"])
-  })
-  all_DOWN_pathways <- lapply(fgsea_lists, function(module_df){
-    return(module_df[which(module_df$diff_activated=="DOWN"),"pathway"])
-  })
-  
-  # print(all_UP_pathways)
-  
-  all_diff_pathways <- c(unlist(all_UP_pathways),
-                                unlist(all_DOWN_pathways))
-  
-  
-  
-  diff_pathways_occurrence <- data.frame(table(all_diff_pathways))
-  colnames(diff_pathways_occurrence) <- c("Pathway", "Occurrence")
-  
-  intersect_pathways <- as.character(diff_pathways_occurrence[which(diff_pathways_occurrence$Occurrence>=nb_in_common),"Pathway"])
-  
-  # print(length(intersect_pathways))
-  
-  fgsea_diff_pathways_combined_df <- fgsea_combined_df[intersect_pathways,]
-  
-  if (!is.na(studies_order)){
-    fgsea_diff_pathways_combined_df <- fgsea_diff_pathways_combined_df[,studies_order]
-  }
-  
-  return(fgsea_diff_pathways_combined_df)
   
 }
