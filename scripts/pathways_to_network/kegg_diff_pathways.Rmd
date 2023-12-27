@@ -17,6 +17,7 @@ library(tidyverse)
 ```
 
 # Loading fgsea results for each study
+
 ```{r}
 load("kegg_diff_pathways/fgsea_nes_diff_pathways_2022_09_15.RData")
 diff_pathways <- rownames(fgsea_es_diff_pathways)
@@ -90,9 +91,17 @@ diff_pathways.PPI_network.corrected.list <- lapply(diff_pathways,
   print(diff_pathway_name)
   print("#####")
   diff_pathway_df.interactions <- kegg_pathway_df.signaling.interactions.list.final[names(kegg_pathway_df.signaling.interactions.list.final)==diff_pathway_name][[1]]
-  diff_pathway_df.interactions.unique <- unique(diff_pathway_df.interactions[,!(colnames(diff_pathway_df.interactions) %in% c("source", 
-                                                                                                                        "target", 
-                                                                                                                        "relation_id", 
+  
+#   diff_pathway_df.interactions <-
+#   as_tibble(diff_pathway_df.interactions)
+# diff_pathway_df.interactions.unique <- 
+#   diff_pathway_df.interactions %>%
+#   dplyr::select(-interactions_colnames_to_keep) %>%
+#   distinct()
+
+  diff_pathway_df.interactions.unique <- unique(diff_pathway_df.interactions[,!(colnames(diff_pathway_df.interactions) %in% c("source",
+                                                                                                                        "target",
+                                                                                                                        "relation_id",
                                                                                                                         "kegg_id_source",
                                                                                                                         "kegg_id_target"))])
   
@@ -172,19 +181,24 @@ rm(kegg_pathways_interactions.unique,
 
 ```{r}
 # get the nodes
-kegg_pathways_nodes <- read.table(file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/gmt/symbols_from_kegg_pathways_from_omnipathR.txt",
-                                         sep = "\t")
+kegg_pathways_nodes <- 
+  read.table(file = "kegg_pathways/symbols_from_kegg_pathways_from_omnipathR.txt",
+             sep = "\t")
 
-diff_pathways.nodes.corrected.list <- lapply(diff_pathways.PPI_network.corrected.list, function(PPI_network) return(PPI_network@nodes))
-kegg_diff_pathways_nodes.long <- do.call("rbind", diff_pathways.nodes.corrected.list)
+diff_pathways.nodes.corrected.list <- 
+  lapply(diff_pathways.PPI_network.corrected.list, 
+         function(PPI_network) return(PPI_network@nodes))
+kegg_diff_pathways_nodes.long <- do.call("rbind", 
+                                         diff_pathways.nodes.corrected.list)
 
 kegg_diff_pathways_nodes.long$value <- 1
 
-kegg_diff_pathways_nodes <- pivot_wider(data = kegg_diff_pathways_nodes.long[,c("Symbol",
-                                                                                "pathway_name",
-                                                                                "value")],
-                                                          names_from = "pathway_name",
-                                                          values_from = "value")
+kegg_diff_pathways_nodes <- 
+  pivot_wider(data = kegg_diff_pathways_nodes.long[,c("Symbol",
+                                                      "pathway_name",
+                                                      "value")],
+              names_from = "pathway_name",
+              values_from = "value")
 
 
 # kegg_diff_pathways_nodes <- dcast(kegg_diff_pathways_nodes.long,
@@ -200,122 +214,6 @@ kegg_diff_pathways_nodes$pathway <- sapply(1:nrow(kegg_diff_pathways_nodes), fun
     return(NA)
   }
 })
-```
-
-## Leading Edges
-
-```{r}
-# Keep only diff pathways
-kegg_diff_pathways.leadingEdges <- lapply(fgsea.leadingEdges, function(list){
-  return(list[names(list) %in% diff_pathways])
-})
-
-# Keep only significant pathways for each study
-only_significant_diff_pathways_per_study <- lapply(fgsea_es_diff_pathways,
-                                                   function(x){
-  return(rownames(fgsea_es_diff_pathways)[!is.na(x)])
-})
-names(only_significant_diff_pathways_per_study) <-
-  names(kegg_diff_pathways.leadingEdges)
-
-# Keep only leadingEdges from significant pathways
-kegg_only_sign_diff_pathways.leadingEdges <- lapply(names(fgsea.leadingEdges),
-                                                    function(study_name){
-  i_study <- which(names(kegg_diff_pathways.leadingEdges)==study_name)
-
-  leadingEdges_list <- kegg_diff_pathways.leadingEdges[[i_study]]
-  leadingEdges_sublist <- leadingEdges_list[names(leadingEdges_list) %in% only_significant_diff_pathways_per_study[names(kegg_diff_pathways.leadingEdges)==study_name][[1]]]
-  return(leadingEdges_sublist)
-  }
-)
-names(kegg_only_sign_diff_pathways.leadingEdges) <- names(fgsea.leadingEdges)
-
-# Remove studies in wrong order
-studies_to_remove <- c("Zoso",
-                       "Ling",
-                       "Saint-Criq SC")
-
-kegg_only_sign_diff_pathways.leadingEdges <- kegg_only_sign_diff_pathways.leadingEdges[!names(kegg_only_sign_diff_pathways.leadingEdges) %in%
-                                                                                         studies_to_remove]
-# ####
-# 
-# 
-nb_leadingEdges_per_pathway_and_study <- data.frame(sapply(kegg_only_sign_diff_pathways.leadingEdges, function(leadingEdges){
-  sapply(diff_pathways, function(pathway_name){
-    if (pathway_name %in% names(leadingEdges)){
-      return(length(leadingEdges[[which(names(leadingEdges)==pathway_name)]]))
-    } else {
-      return(NA)
-    }
-  })
-}))
-# 
-# 
-# 
-unique_leadingEdges <- unique(unlist(kegg_only_sign_diff_pathways.leadingEdges))
-unique_leadingEdges.ordered <- unique_leadingEdges[order(unique_leadingEdges)]
-# 
-frequence_leadingEdge_per_pathway_and_study <- data.frame(sapply(diff_pathways, function(pathway_name){
-
-  sapply(unique_leadingEdges.ordered, function(gene){
-
-
-  studies_leading_edges <- kegg_only_sign_diff_pathways.leadingEdges[sapply(kegg_only_sign_diff_pathways.leadingEdges,
-                                                                            function(leadingEdges) {
-  return(pathway_name %in% names(leadingEdges))
-  }
-  )]
-
-  occ_leadingEdge <- sum(sapply(studies_leading_edges, function(leadingEdges){
-  return(gene %in% leadingEdges[[which(names(leadingEdges)==pathway_name)]])
-}))
-
-  # return(occ_leadingEdge/length(studies_leading_edges))
-  return(occ_leadingEdge)
-
-  })
-}))
-
-# 
-# occur.diff_pathways <- data.frame(table(unlist(sapply(kegg_only_sign_diff_pathways.leadingEdges, names))))
-# 
-# colnames(frequence_leadingEdge_per_pathway_and_study) <- paste(occur.diff_pathways$Var1, occur.diff_pathways$Freq)
-# 
-# # write.table(frequence_leadingEdge_per_pathway_and_study,
-# #             file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/Meta-analysis article/leadingEdges_occurence_per_pathway_2023_03_20.tsv",
-# #             sep = "\t",
-# #             col.names = T,
-# #             row.names = T,
-# #             quote = FALSE)
-# 
-# 
-# colnames(frequence_leadingEdge_per_pathway_and_study) <- paste(colnames(frequence_leadingEdge_per_pathway_and_study), "leadingEdge.sum", sep = ".")
-# frequence_leadingEdge_per_pathway_and_study$Symbol <- rownames(frequence_leadingEdge_per_pathway_and_study)
-# 
-# # leadingEdges_nodes <- kegg_diff_pathways_nodes[which(kegg_diff_pathways_nodes$Symbol %in% unique_leadingEdges.ordered),]
-# # leadingEges_interactions <- kegg_diff_pathways_interactions[which(kegg_diff_pathways_interactions$genesymbol_source %in% unique_leadingEdges.ordered &                                                               kegg_diff_pathways_interactions$genesymbol_target %in% unique_leadingEdges.ordered),]
-# 
-# # Adding leadingEdges to all the interactions
-# # kegg_diff_pathways_nodes$leadingEdge <- kegg_diff_pathways_nodes$Symbol %in% unique_leadingEdges.ordered
-# kegg_diff_pathways_nodes <- merge(kegg_diff_pathways_nodes,
-#                                   frequence_leadingEdge_per_pathway_and_study,
-#                                   by.x = "Symbol",
-#                                   by.y = "Symbol",
-#                                   all.x = T)
-# 
-# leading.edges.columns <- setdiff(colnames(frequence_leadingEdge_per_pathway_and_study), "Symbol")
-# 
-# kegg_diff_pathways_nodes <- kegg_diff_pathways_nodes %>%
-#   mutate_at(leading.edges.columns, ~replace_na(.,0))
-#   
-# kegg_diff_pathways_interactions$leadingEdge <- kegg_diff_pathways_interactions$interaction_id %in% leadingEges_interactions$interaction_id
-# 
-# # save(kegg_diff_pathways_nodes,
-# #      file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_nodes_df_2023_04_06.RData")
-# # 
-# # save(kegg_diff_pathways_interactions,
-# #      file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_interactions_df_2023_04_06.RData")
-
 ```
 
 # Save dataframes
