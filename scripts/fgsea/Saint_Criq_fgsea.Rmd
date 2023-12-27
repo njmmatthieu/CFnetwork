@@ -3,6 +3,10 @@ title: "CF_fgsea"
 output: pdf_document
 ---
 
+```{r setup, include=TRUE}
+knitr::opts_knit$set(echo = TRUE, root.dir = normalizePath("../../"))
+```
+
 ```{r}
 library(fgsea)
 library(data.table)
@@ -11,55 +15,10 @@ library(tidyverse)
 ```
 
 ```{r}
-Saint_Criq_raw_counts <- read.table("~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Analyse Saint-Criq/Data/GSE154905_count_table_matrix.txt", sep = "\t", header = T)
+Saint_Criq_DEG <- read.table("differential_expression_data/Saint_Criq_UNC_without_NCF_2_DEG_limma_unique_HGNC.txt",
+                             sep = "\t",
+                             header = T)
 
-rownames(Saint_Criq_raw_counts) <- Saint_Criq_raw_counts$X
-Saint_Criq_raw_counts$X <- NULL
-
-colnames(Saint_Criq_raw_counts) <- gsub(pattern = "^X[[:digit:]]+_", replacement = "", colnames(Saint_Criq_raw_counts))
-
-Saint_Criq_RNA_matrix <- as.matrix(Saint_Criq_raw_counts)
-```
-
-```{r}
-Saint_Criq_DEG <- read.table("~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Transcriptomic Analyses/Analyse Saint-Criq/DE_Analysis/Saint_Criq_UNC_without_NCF_2_DEG_limma_unique_HGNC_2021_01_27.txt",
-                         sep = "\t",
-                         header = T)
-```
-
-```{r}
-# library("biomaRt")
-# mart <- useDataset("hsapiens_gene_ensembl", useMart("ensembl"))
-# HGNC_list <- getBM(filters= "ensembl_gene_id", attributes= c("ensembl_gene_id","hgnc_symbol"),values=Saint_Criq_DEG$Ensembl_id,mart= mart)
-# # merge(df,G_list,by.x="gene",by.y="ensembl_peptide_id")
-# HGNC_list[which(HGNC_list$hgnc_symbol==""),"hgnc_symbol"]<-NA
-# 
-# HGNC_list <- HGNC_list[which(!is.na(HGNC_list$hgnc_symbol)),]
-# colnames(HGNC_list) <- c("ensembl_gene_id", "Symbol")
-# 
-# HGNC_occ <- data.frame(table(HGNC_list$Symbol))
-# unique_genes <- as.character(HGNC_occ[which(HGNC_occ$Freq==1), "Var1"])
-# 
-# duplicated_genes <- as.character(HGNC_occ[which(HGNC_occ$Freq>1), "Var1"])
-# 
-# Saint_Criq_DEG_HGNC <- merge(Saint_Criq_DEG,
-#                              HGNC_list,
-#                              by.x = "Ensembl_id",
-#                              by.y = "ensembl_gene_id",
-#                              all.x = T)
-# 
-# duplicated_Saint_Criq_DEG_HGNC <- Saint_Criq_DEG_HGNC[which(Saint_Criq_DEG_HGNC$Symbol %in% duplicated_genes),]
-# # duplicated geens are not highly diffrentially expressed 
-# 
-# Saint_Criq_DEG_HGNC_unique <- Saint_Criq_DEG_HGNC[which(Saint_Criq_DEG_HGNC$Symbol %in% unique_genes),]
-# 
-# write.table(Saint_Criq_DEG_HGNC_unique,
-#             file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Analyse Saint-Criq/DE_Analysis/Saint_Criq_UNC_without_NCF_2_DEG_limma_unique_HGNC_2021_01_27.txt",
-#             sep = "\t",
-#             row.names = F)
-```
-
-```{r}
 Saint_Criq_stat <- Saint_Criq_DEG[,c("Symbol", "t")]
 
 Saint_Criq_ranks <- deframe(Saint_Criq_stat)
@@ -67,17 +26,11 @@ Saint_Criq_ranks <- deframe(Saint_Criq_stat)
 
 
 ```{r}
-# pathways.hallmark <- gmtPathways("~/ownCloud/Thèse/Systems Biology/gmt/h.all.v7.4.symbols.gmt")
-# all_pathways <- gmtPathways("~/ownCloud/Thèse/Systems Biology/gmt/all_pathways_2022_01_12.gmt")
-# all_pathways <- gmtPathways("~/ownCloud/Thèse/Systems Biology/gmt/kegg_pathways_test_gsea_2022_09_07.gmt")
-all_pathways <- gmtPathways("~/ownCloud/Thèse/Systems Biology/gmt/kegg_from_omnipathR_gsea_2022_09_07.gmt")
-kegg_pathways <- lapply(X = all_pathways, FUN = function(gene_list){
-  return(gene_list[lapply(gene_list, nchar)>0])
-})
+kegg_pathways <- gmtPathways("kegg_pathways/kegg_pathways_from_omnipathR.gmt")
 ```
 
 ```{r}
-fgseaRes <- fgsea(pathways = dorothea_pathways, 
+fgseaRes <- fgsea(pathways = kegg_pathways, 
                   stats    = Saint_Criq_ranks,
                   minSize  = 0,
                   maxSize  = 500,
@@ -85,17 +38,5 @@ fgseaRes <- fgsea(pathways = dorothea_pathways,
                   eps=0.0)
 # 
 save(fgseaRes,
-     file = "~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Transcriptomic Analyses/Analyse Saint-Criq/GSEA/Saint_Criq_UNC_without_NCF_2_fgsea_report_dorothea_pathways_2022_09_07.RData")
-# write.table(data.frame(fgseaRes[,-c("leadingEdge")]),
-#             file = "~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Analyse Clarke/GSEA/Clarke_fgsea_report_2021_01_14.tsv",
-#             sep = "\t")
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
-
-```{r}
-library(ggplot2)
-
-density <- ggplot(fgseaRes, aes(x=pval))+
-  geom_density()
+     file = "fgsea_output/Saint_Criq_UNC_without_NCF_2_fgsea_report_kegg_pathways.RData")
 ```
