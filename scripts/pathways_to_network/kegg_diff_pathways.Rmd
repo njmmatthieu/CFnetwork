@@ -19,7 +19,7 @@ library(tidyverse)
 # Loading fgsea results for each study
 
 ```{r}
-load("kegg_diff_pathways/fgsea_nes_diff_pathways_2022_09_15.RData")
+load("kegg_diff_pathways/fgsea_nes_diff_pathways.RData")
 diff_pathways <- rownames(fgsea_es_diff_pathways)
 ```
 
@@ -79,8 +79,6 @@ effect_arrow.df[which(effect_arrow.df$effect=="compound"),"effect"] <- paste(
 # Correction of KEGG diff pathways
 
 ```{r}
-diff_pathways <- diff_pathways[which(diff_pathways!="AGE-RAGE signaling pathway in diabetic complications")]  
-
 diff_pathways.PPI_network.corrected.list <- lapply(diff_pathways, 
                                                    function(diff_pathway_name){
   
@@ -256,9 +254,9 @@ CF_PPI_network.CFTR_extended.interactions <- CF_PPI_network.CFTR_extended@intera
 # CF_PPI_network.CFTR_extended.interactions.new <- CF_PPI_network.CFTR_extended.interactions
 # CF_PPI_network.CFTR_extended.nodes.new <- CF_PPI_network.CFTR_extended.nodes
 
-save(CF_PPI_network.CFTR_extended.nodes,
-     file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_nodes_with_CFTR_interactors_df_2023_07_10.RData")
-
-save(CF_PPI_network.CFTR_extended.interactions,
-     file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_interactions_with_CFTR_interactors_df_2023_07_10.RData")
+# save(CF_PPI_network.CFTR_extended.nodes,
+#      file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_nodes_with_CFTR_interactors_df_2023_07_10.RData")
+# 
+# save(CF_PPI_network.CFTR_extended.interactions,
+#      file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_interactions_with_CFTR_interactors_df_2023_07_10.RData")
 ```
