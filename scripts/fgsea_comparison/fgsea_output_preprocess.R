@@ -57,6 +57,7 @@ Saint_Criq_SC_fgsea <- fgseaRes
 ## 10 - Saint-Criq (UNC)
 
 load("fgsea_output/Saint_Criq_UNC_without_NCF_2_fgsea_report_kegg_pathways.RData")
+# load("/Users/matthieu/ownCloud/Thèse/Systems Biology/Transcriptomic studies/Transcriptomic Analyses/Analyse Saint-Criq/GSEA/Saint_Criq_UNC_without_NCF_2_fgsea_report_kegg_pathways_2022_09_07.RData")
 Saint_Criq_UNC_fgsea <- fgseaRes 
 
 # fgsea_results_list <- list(Verhaeghe_fgsea[,-which(colnames(Verhaeghe_fgsea) %in% c("leadingEdge"))],
