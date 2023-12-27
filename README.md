@@ -8,49 +8,6 @@ Please note that the repository is currently undergoing some cleanup and organiz
 Feel free to explore, run, and adapt these scripts to suit your analysis needs.
 Explore the following sections to understand the content and purpose of each file:
 
-## 0. Databases Preprocessing
-
-### 0.1 KEGG Pathways Preprocessing
-
-#### Conda environment
-doro-r4
-
-#### Script
-- **scripts/kegg_pathways_scripts/kegg_pathways_preprocess.R** - Retrieve KEGG signaling pathways.
-
-#### Dependencies
-- scripts/kegg_pathways_scripts/kegg_pathways_utils.R - Download KEGG pathway data.
-
-#### Outputs
-- kegg_pathways/kegg_pathways_from_omnipathR.gmt
-- kegg_pathways/kegg_pathwaysKegg_pathways_from_omnipathR.txt
-- kegg_pathways/kegg_pathways_from_omnipath_list.Rdata
-- kegg_pathways/Kegg_pathways_from_omnipath_nodes_carac.Rdata
-
-#### Visualisation
-- kegg_pathways/example_kegg_pathway.R
-
-### 0.2 CyFi-MAP Preprocessing
-
-#### Conda environment
-deseq
-
-#### Script
-- **scripts/CyFi-MAP_scripts/extract_CyFi_MAP_CFTR_interactors.R** - Extract CFTR interactors from the CyFi database
-
-#### Inputs
-- CyFi-MAP/CFTR_cp17-elementExport_2022_10_26_MN_2.txt : elements of the wt-CFTR interactome. 
-- CyFi-MAP/CFTR_cp17-networkExport_2022_10_26.txt: network interactions of the wt-CFTR interactome.
-- CyFi-MAP/F508del_cp21-elementExport_MN.txt : elements of the F508del-CFTR interactome. 
-- CyFi-MAP/F508del_cp21-networkExport.txt : network interactions of the F508del-CFTR interactome.
-
-#### Dependencies
-- scripts/CyFi-MAP_scripts/CyFi_MAP_helper.R : Transform complexes to proteins.
-
-#### Outputs
-- CFTR_interactors/CFTR_interactors_nodes_df.RData : CFTR interactors extracted from the CyFi-MAP database.
-- CFTR_interactors/CFTR_interactors_interactions_df.RData : CFTR interactions extracted from the CyFi-MAP database.
-
 ## 1. Transcriptomics analyses 
 
 ### 1.1 Differential Expression Analysis at the pathway Level with fGSEA
@@ -161,15 +118,59 @@ fgsea
 
 ## A. Supplementary Analysis
 
-## A.1. - Exploratory analysis
+### A.1 KEGG Pathways Preprocessing
 
-## A.2. -  Differential Expression Analysis at the gene Level
+#### Conda environment
+doro-r4
 
-### Main Script
-**scripts/DEG_comparison/DEG_comparison.Rmd** : Compare differentially expressed genes.
+#### Script
+Retrieve KEGG signaling pathways.
+    - scripts/kegg_pathways_scripts/kegg_pathways_preprocess.R
 
-#### Dependencies: 
-- scripts/DEG_comparison/deg_utils.R
+#### Dependencies
+Download KEGG pathway data.
+    - scripts/kegg_pathways_scripts/kegg_pathways_utils.R
+
+#### Outputs
+    - kegg_pathways/kegg_pathways_from_omnipathR.gmt
+    - kegg_pathways/kegg_pathwaysKegg_pathways_from_omnipathR.txt
+    - kegg_pathways/kegg_pathways_from_omnipath_list.Rdata
+    - kegg_pathways/Kegg_pathways_from_omnipath_nodes_carac.Rdata
+
+#### Visualisation
+    - kegg_pathways/example_kegg_pathway.R
+
+### A.2 CyFi-MAP Preprocessing
+
+#### Conda environment
+deseq
+
+#### Script
+Extract CFTR interactors from the CyFi database
+    - scripts/CyFi-MAP_scripts/extract_CyFi_MAP_CFTR_interactors.R 
+
+#### Inputs
+    - CyFi-MAP/CFTR_cp17-elementExport_2022_10_26_MN_2.txt : elements of the wt-CFTR interactome. 
+    - CyFi-MAP/CFTR_cp17-networkExport_2022_10_26.txt: network interactions of the wt-CFTR interactome.
+    - CyFi-MAP/F508del_cp21-elementExport_MN.txt : elements of the F508del-CFTR interactome. 
+    - CyFi-MAP/F508del_cp21-networkExport.txt : network interactions of the F508del-CFTR interactome.
+
+#### Dependencies
+Transform complexes to proteins.
+    - scripts/CyFi-MAP_scripts/CyFi_MAP_helper.R
+
+#### Outputs
+    - CFTR_interactors/CFTR_interactors_nodes_df.RData : CFTR interactors extracted from the CyFi-MAP database.
+    - CFTR_interactors/CFTR_interactors_interactions_df.RData : CFTR interactions extracted from the CyFi-MAP database.
+
+### A.3. -  Differential Expression Analysis at the gene Level
+
+#### Script
+Compare differentially expressed genes.
+    - scripts/DEG_comparison/DEG_comparison.Rmd
+
+#### Dependencies 
+    - scripts/DEG_comparison/deg_utils.R
 
 
 
