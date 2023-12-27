@@ -4,26 +4,33 @@ output: pdf_document
 date: '2022-09-14'
 ---
 
+```{r setup, include=TRUE}
+knitr::opts_knit$set(echo = TRUE, root.dir = normalizePath("../../"))
+```
+
 ```{r}
 library(ggplot2)
 library(pheatmap)
 library(RColorBrewer)
 library(tidyr)
+library(tidyverse)
 ```
 
 # Loading fgsea results for each study
+```{r}
+load("kegg_diff_pathways/fgsea_nes_diff_pathways_2022_09_15.RData")
+diff_pathways <- rownames(fgsea_es_diff_pathways)
+```
 
 ```{r}
-load("/Users/matthieu/ownCloud/Thèse/Systems Biology/Transcriptomic studies/fgsea_comparison/fgsea_nes_diff_pathways_2022_09_15.RData")
-diff_pathways <- rownames(fgsea_es_diff_pathways)
-
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/Transcriptomic studies/fgsea_comparison/fgsea_comparison_scripts/fgsea_output_preprocess.R")
+source("scripts/fgsea_comparison/fgsea_output_preprocess.R")
 
 # for preprocess_PPI_network()
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/network_utils.R")
+source("scripts/pathways_to_network/network_utils.R")
 
 # Manual curation: for add_new_nodes_uniprot_ids
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/kegg_pathways_manual_curation.R")
+source("scripts/kegg_pathways_scripts/kegg_pathways_manual_curation.R")
+
 # Kegg pathways correction
 kegg_pathways_corrections <- read.table("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt",
                                         sep = "\t",
@@ -34,27 +41,38 @@ kegg_pathways_corrections <- read.table("/Users/matthieu/ownCloud/Thèse/System
 
 ```{r cars}
 # KEGG pathways from Omnipath
-load("/Users/matthieu/ownCloud/Thèse/Systems Biology/gmt/kegg_pathways_from_omnipath_list.RData")
-load("/Users/matthieu/ownCloud/Thèse/Systems Biology/gmt/kegg_pathways_from_omnipath_nodes_carac.RData")
-kegg_pathway_df.signaling.interactions.df <- do.call("rbind", kegg_pathway_df.signaling.interactions.list.final)
-load("/Users/matthieu/ownCloud/Thèse/Systems Biology/gmt/symbols_from_kegg_pathways_from_omnipathR_list.RData")
-kegg_pathway_df.signaling.nodes.df <- do.call("rbind", kegg_pathway_df.signaling.nodes.list.final)
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/kegg_pathways_utils.R")
+load("kegg_pathways/kegg_pathways_from_omnipath_list.RData")
+load("kegg_pathways/kegg_pathways_from_omnipath_nodes_carac.RData")
+kegg_pathway_df.signaling.interactions.df <- do.call("rbind", 
+                                                     kegg_pathway_df.signaling.interactions.list.final)
+load("kegg_pathways/symbols_from_kegg_pathways_from_omnipathR_list.RData")
+kegg_pathway_df.signaling.nodes.df <- do.call("rbind", 
+                                              kegg_pathway_df.signaling.nodes.list.final)
+# source("scripts/kegg_pathways_scripts/kegg_pathways_utils.R")
 
+interactions_colnames_to_keep <- c("source", 
+                                   "target", 
+                                   "relation_id", 
+                                   "kegg_id_source",
+                                   "kegg_id_target")
+kegg_pathway_df.signaling.interactions.df <-
+  as_tibble(kegg_pathway_df.signaling.interactions.df)
+kegg_pathways_interactions.unique. <- 
+  kegg_pathway_df.signaling.interactions.df %>%
+  dplyr::select(-interactions_colnames_to_keep) %>%
+  distinct()
 
+# Kegg pathways correction for gene symbols
+kegg_pathways_nodes.carac.corrected <- 
+  add_new_nodes_uniprot_ids(Symbol2UniprotID = kegg_pathways_nodes.carac,
+                            corrections.df = kegg_pathways_corrections)
 
-kegg_pathways_interactions.unique <- unique(kegg_pathway_df.signaling.interactions.df[,!(colnames(kegg_pathway_df.signaling.interactions.df) %in% c("source", 
-                                                                                                                      "target", 
-                                                                                                                      "relation_id", 
-                                                                                                                      "kegg_id_source",
-                                                                                                                      "kegg_id_target"))])
-
-# interactions_in_diff_kegg_pathways <- kegg_pathways_interactions.unique[which(kegg_pathways_interactions.unique$pathway_name %in% diff_pathways),]
-# interactions_in_diff_kegg_pathways$manually_added <- FALSE
-
-# Kegg pathways correction
-kegg_pathways_nodes.carac.corrected <- add_new_nodes_uniprot_ids(Symbol2UniprotID = kegg_pathways_nodes.carac,
-                                                                 corrections.df = kegg_pathways_corrections)
+# Effect arrow
+effect_arrow.df <- unique(kegg_pathway_df.signaling.interactions.df[,c("effect", "arrow")])
+effect_arrow.df[which(effect_arrow.df$effect=="compound"),"effect"] <- paste(
+  effect_arrow.df[which(effect_arrow.df$effect=="compound"),"effect"],
+  effect_arrow.df[which(effect_arrow.df$effect=="compound"),"arrow"],
+  sep = " - ")
 ```
 
 # Correction of KEGG diff pathways
@@ -62,7 +80,8 @@ kegg_pathways_nodes.carac.corrected <- add_new_nodes_uniprot_ids(Symbol2UniprotI
 ```{r}
 diff_pathways <- diff_pathways[which(diff_pathways!="AGE-RAGE signaling pathway in diabetic complications")]  
 
-diff_pathways.PPI_network.corrected.list <- lapply(diff_pathways, function(diff_pathway_name){
+diff_pathways.PPI_network.corrected.list <- lapply(diff_pathways, 
+                                                   function(diff_pathway_name){
   
   # # # to test
   # diff_pathway_name <- diff_pathways[2]
