@@ -145,8 +145,7 @@ Download KEGG pathway data.
 #### Conda environment
 deseq
 
-#### Script
-Extract CFTR interactors from the CyFi database
+#### Script - Extract CFTR interactors from the CyFi database
     - scripts/CyFi-MAP_scripts/extract_CyFi_MAP_CFTR_interactors.R 
 
 #### Inputs
@@ -155,8 +154,7 @@ Extract CFTR interactors from the CyFi database
     - CyFi-MAP/F508del_cp21-elementExport_MN.txt : elements of the F508del-CFTR interactome. 
     - CyFi-MAP/F508del_cp21-networkExport.txt : network interactions of the F508del-CFTR interactome.
 
-#### Dependencies
-Transform complexes to proteins.
+#### Dependencies - Transform complexes to proteins.
     - scripts/CyFi-MAP_scripts/CyFi_MAP_helper.R
 
 #### Outputs
@@ -165,8 +163,7 @@ Transform complexes to proteins.
 
 ### A.3. -  Differential Expression Analysis at the gene Level
 
-#### Script
-Compare differentially expressed genes.
+#### Script - Compare differentially expressed genes.
     - scripts/DEG_comparison/DEG_comparison.Rmd
 
 #### Dependencies 
