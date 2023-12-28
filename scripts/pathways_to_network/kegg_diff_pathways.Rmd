@@ -24,31 +24,25 @@ diff_pathways <- rownames(fgsea_es_diff_pathways)
 ```
 
 ```{r}
-source("scripts/fgsea_comparison/fgsea_output_preprocess.R")
+# source("scripts/fgsea_comparison/fgsea_output_preprocess.R")
 
 # for preprocess_PPI_network()
 source("scripts/pathways_to_network/network_utils.R")
-
-# Manual curation: for add_new_nodes_uniprot_ids
-source("scripts/kegg_pathways_scripts/kegg_pathways_manual_curation.R")
-
-# Kegg pathways correction
-kegg_pathways_corrections <- read.table("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt",
-                                        sep = "\t",
-                                        header = T)
 ```
 
-# KEGG interactions of diff pathways
+# Preprocessing of KEGG interactions
 
 ```{r cars}
 # KEGG pathways from Omnipath
 load("kegg_pathways/kegg_pathways_from_omnipath_list.RData")
 load("kegg_pathways/kegg_pathways_from_omnipath_nodes_carac.RData")
-kegg_pathway_df.signaling.interactions.df <- do.call("rbind", 
-                                                     kegg_pathway_df.signaling.interactions.list.final)
+kegg_pathway_df.signaling.interactions.df <- 
+  do.call("rbind", 
+          kegg_pathway_df.signaling.interactions.list.final)
 load("kegg_pathways/symbols_from_kegg_pathways_from_omnipathR_list.RData")
-kegg_pathway_df.signaling.nodes.df <- do.call("rbind", 
-                                              kegg_pathway_df.signaling.nodes.list.final)
+kegg_pathway_df.signaling.nodes.df <- 
+  do.call("rbind", 
+          kegg_pathway_df.signaling.nodes.list.final)
 # source("scripts/kegg_pathways_scripts/kegg_pathways_utils.R")
 
 interactions_colnames_to_keep <- c("source", 
@@ -76,36 +70,53 @@ effect_arrow.df[which(effect_arrow.df$effect=="compound"),"effect"] <- paste(
   sep = " - ")
 ```
 
-# Correction of KEGG diff pathways
+# Correction of KEGG diff pathways thanks to 
+# manual corrections stored in the file: kegg_diff_pathways/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt
+# and functions in scripts/kegg_pathways_scripts/kegg_pathways_manual_curation.R
 
 ```{r}
+# Kegg pathways correction file
+kegg_pathways_corrections <-
+  read.table("kegg_diff_pathways/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt",
+             sep = "\t",
+             header = T)
+
+# Manual curation: for add_new_nodes_uniprot_ids()
+source("scripts/kegg_pathways_scripts/kegg_pathways_manual_curation.R")
+
 diff_pathways.PPI_network.corrected.list <- lapply(diff_pathways, 
                                                    function(diff_pathway_name){
   
-  # # # to test
-  # diff_pathway_name <- diff_pathways[2]
+  # to test
+  diff_pathway_name <- diff_pathways[2]
   
   print("##### CORRECTION #####")
   print(diff_pathway_name)
-  print("#####")
-  diff_pathway_df.interactions <- kegg_pathway_df.signaling.interactions.list.final[names(kegg_pathway_df.signaling.interactions.list.final)==diff_pathway_name][[1]]
+  # print("#####")
+  # diff_pathway_df.interactions <- kegg_pathway_df.signaling.interactions.list.final[names(kegg_pathway_df.signaling.interactions.list.final)==diff_pathway_name][[1]]
   
-#   diff_pathway_df.interactions <-
-#   as_tibble(diff_pathway_df.interactions)
-# diff_pathway_df.interactions.unique <- 
-#   diff_pathway_df.interactions %>%
-#   dplyr::select(-interactions_colnames_to_keep) %>%
-#   distinct()
+  diff_pathway_df.interactions <- kegg_pathway_df.signaling.interactions.list.final[[diff_pathway_name]]
+  
+  diff_pathway_df.interactions <-
+  as_tibble(diff_pathway_df.interactions)
+diff_pathway_df.interactions.unique <-
+  diff_pathway_df.interactions %>%
+  dplyr::select(-interactions_colnames_to_keep) %>%
+  distinct()
 
-  diff_pathway_df.interactions.unique <- unique(diff_pathway_df.interactions[,!(colnames(diff_pathway_df.interactions) %in% c("source",
-                                                                                                                        "target",
-                                                                                                                        "relation_id",
-                                                                                                                        "kegg_id_source",
-                                                                                                                        "kegg_id_target"))])
+  # diff_pathway_df.interactions.unique <- unique(diff_pathway_df.interactions[,!(colnames(diff_pathway_df.interactions) %in% c("source",
+  #                                                                                                                       "target",
+  #                                                                                                                       "relation_id",
+  #                                                                                                                       "kegg_id_source",
+  #                                                                                                                       "kegg_id_target"))])
   
   diff_pathway_df.interactions.unique$manually_added <- FALSE
   
-  diff_pathway_df.nodes <- kegg_pathway_df.signaling.nodes.list.final[names(kegg_pathway_df.signaling.nodes.list.final)==diff_pathway_name][[1]]
+  # diff_pathway_df.nodes <- kegg_pathway_df.signaling.nodes.list.final[names(kegg_pathway_df.signaling.nodes.list.final)==diff_pathway_name][[1]]
+
+  diff_pathway_df.nodes <- 
+    kegg_pathway_df.signaling.nodes.list.final[[diff_pathway_name]]
+  
   diff_PPI_network <- new("PPI_network",
                           interactions=diff_pathway_df.interactions.unique,
                           nodes=diff_pathway_df.nodes)
@@ -118,9 +129,10 @@ diff_pathways.PPI_network.corrected.list <- lapply(diff_pathways,
   kegg_pathways_corrections.example <- kegg_pathways_corrections[which(kegg_pathways_corrections$pathway_name==diff_pathway_name),]
   print(kegg_pathways_corrections.example)
   
-  diff_PPI_network.corrected <- correct_PPI_network(PPI_network = diff_PPI_network,
-                                                    Symbol2UniprotID = kegg_pathways_nodes.carac.corrected,
-                                                    corrections.df = kegg_pathways_corrections.example)
+  diff_PPI_network.corrected <- 
+    correct_PPI_network(PPI_network = diff_PPI_network,
+                        Symbol2UniprotID = kegg_pathways_nodes.carac.corrected,
+                        corrections.df = kegg_pathways_corrections.example)
   
   return(diff_PPI_network.corrected)
   

@@ -1,5 +1,6 @@
 library(tibble)
 
+# Add kegg interaction between nodes already in database
 add_kegg_interaction <- function(PPI_network,
                                  Symbol2UniprotID,
                                  source_colname="genesymbol_source",
@@ -41,6 +42,7 @@ add_kegg_interaction <- function(PPI_network,
   
 }
 
+# Add a new node
 add_node <- function(PPI_network,
                      source_colname="genesymbol_source",
                      target_colname="genesymbol_target",
@@ -57,7 +59,7 @@ add_node <- function(PPI_network,
   return(PPI_network)
   
 }
-
+# Remove kegg interaction
 remove_kegg_interaction <- function(PPI_network,
                                  source_colname="genesymbol_source",
                                  target_colname="genesymbol_target",
@@ -85,6 +87,7 @@ remove_kegg_interaction <- function(PPI_network,
   
 }
 
+# Remove node by its Gene Name (Symbol)
 remove_node <- function(PPI_network,
                                   source_colname="genesymbol_source",
                                   target_colname="genesymbol_target",
@@ -109,6 +112,7 @@ remove_node <- function(PPI_network,
   
 }
 
+# Remove node by its UniProt ID
 remove_node_uniprotid <- function(PPI_network,
                         UniprotID,
                         Pathway_name) {
@@ -126,6 +130,7 @@ remove_node_uniprotid <- function(PPI_network,
   
 }
 
+# Change effect of an interaction
 change_effect <- function(PPI_network,
                                     source_colname="genesymbol_source",
                                     target_colname="genesymbol_target",
@@ -151,6 +156,7 @@ change_effect <- function(PPI_network,
   
 }
 
+# Add new nodes with UniprotIds
 add_new_nodes_uniprot_ids <- function(Symbol2UniprotID,
                                       corrections.df) {
   corrections.df <- kegg_pathways_corrections
@@ -177,10 +183,7 @@ add_new_nodes_uniprot_ids <- function(Symbol2UniprotID,
   return(Symbol2UniprotID)
 }
 
-# PPI_network <- example_kegg_PPI_network
-# Symbol2UniprotID <- kegg_pathways_nodes.carac.corrected
-# corrections.df <- kegg_pathways_corrections.example
-
+# Correct an interaction
 correct_PPI_network <- function(PPI_network,
                                 source_colname="genesymbol_source",
                                 target_colname="genesymbol_target",

@@ -57,6 +57,9 @@ fgsea
 
 ### 1.2 Meta-analysis at the pathway level
 
+#### Conda environment
+deseq
+
 #### Script
     - scripts/fgsea_comparison/fGSEA_comparison.Rmd
 
@@ -69,6 +72,9 @@ fgsea
 
 ## 2. From pathways to CF Network
 
+#### Conda environment
+deseq
+
 #### Script - Correct and merge dysregulated pathways into a single network.
     - scripts/kegg_diff_pathways_network_scripts/kegg_diff_pathways.Rmd
 
@@ -77,15 +83,15 @@ fgsea
 
 #### Dependencies
 ##### Correction of KEGG pathways
-    - pathways_to_network/kegg_pathways_manual_curation.R
-    - pathways_to_network/network_utils.R
+    - scripts/kegg_pathways_scripts/kegg_pathways_manual_curation.R
+    - scripts/pathways_to_network/network_utils.R
 
 ##### Add CFTR interactors (Optional)
-    - pathways_to_network/CFTR_interactors_helper.R
+    - scripts/pathways_to_network/CFTR_interactors_helper.R
 
 ##### Outputs
-    - kegg_diff_pathway_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df_2023_07_10.RData : CF network interactions as data.frame
-    - kegg_diff_pathway_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df_2023_07_10.RData : CF network nodes as data.frame
+    - kegg_diff_pathways_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df_2023_07_10.RData : CF network interactions as data.frame
+    - kegg_diff_pathways_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df_2023_07_10.RData : CF network nodes as data.frame
 
 ## 3. CF network pruning
 
@@ -93,16 +99,16 @@ fgsea
     - scripts/kegg_diff_pathways_network_scripts/kegg_diff_pathways_layout.R
 
 #### Input
-    - kegg_diff_pathway_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df_2023_07_10.RData : CF network interactions as data.frame
-    - kegg_diff_pathway_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df_2023_07_10.RData : CF network nodes as data.frame
+    - kegg_diff_pathways_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df_2023_07_10.RData : CF network interactions as data.frame
+    - kegg_diff_pathways_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df_2023_07_10.RData : CF network nodes as data.frame
 
 #### Dependencies
     - scripts/kegg_diff_pathways_network_scripts/simplify_netowrk_helper.R 
     - scripts/kegg_diff_pathways_network_scripts/network_visualisation_helper.R
 
 #### Outputs
-    - kegg_diff_pathway_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df_2023_07_10.txt : final pruned CF network interactions as txt file.
-    - kegg_diff_pathway_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df_2022_07_10.txt : final pruned CF network nodes as txt file.
+    - kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df_2023_07_10.txt : final pruned CF network interactions as txt file.
+    - kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df_2022_07_10.txt : final pruned CF network nodes as txt file.
 
 ## 4. CF network analysis
 
@@ -110,8 +116,8 @@ fgsea
     - kegg_diff_pathways_network_analysis_final.R
 
 #### Input 
-    - kegg_diff_pathway_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df_2023_07_10.txt : final pruned CF network interactions as txt file.
-    - kegg_diff_pathway_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df_2022_07_10.txt : final pruned CF network nodes as txt file.
+    - kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df_2023_07_10.txt : final pruned CF network interactions as txt file.
+    - kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df_2022_07_10.txt : final pruned CF network nodes as txt file.
 
 \
 \
