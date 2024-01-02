@@ -90,8 +90,8 @@ deseq
     - scripts/pathways_to_network/CFTR_interactors_helper.R
 
 ##### Outputs
-    - kegg_diff_pathways_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df_2023_07_10.RData : CF network interactions as data.frame
-    - kegg_diff_pathways_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df_2023_07_10.RData : CF network nodes as data.frame
+    - kegg_diff_pathways_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df.RData : CF network interactions as data.frame
+    - kegg_diff_pathways_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df.RData : CF network nodes as data.frame
 
 ## 3. CF network pruning
 

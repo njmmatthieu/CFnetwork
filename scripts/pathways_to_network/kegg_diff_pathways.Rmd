@@ -98,8 +98,8 @@ kegg_pathways_nodes.carac.corrected <-
 diff_pathways.PPI_network.corrected.list <- lapply(diff_pathways, 
                                                    function(diff_pathway_name){
   
-  # to test
-  diff_pathway_name <- diff_pathways[1]
+  # # to test
+  # diff_pathway_name <- diff_pathways[1]
   
   print("##### CORRECTION #####")
   print(diff_pathway_name)
@@ -149,6 +149,7 @@ diff_pathways.PPI_network.corrected.list <- lapply(diff_pathways,
   
 })
 ```
+# Kegg diff pathways INTERACTIONS from list of PPI_network to one single data.frame
 
 ```{r}
 diff_pathways.interactions.corrected.list <- lapply(diff_pathways.PPI_network.corrected.list, function(PPI_network) return(PPI_network@interactions))
@@ -200,7 +201,7 @@ rm(kegg_pathways_interactions.unique,
    interactions_in_diff_kegg_pathways.unique)
 ```
 
-# KEGG nodes of diff pathways
+# Kegg diff pathways NODES from list of PPI_network to one single data.frame
 
 ```{r}
 # get the nodes
@@ -243,28 +244,22 @@ kegg_diff_pathways_nodes$pathway <- sapply(1:nrow(kegg_diff_pathways_nodes), fun
 
 ```{r}
 # save(kegg_diff_pathways_nodes,
-#      file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_nodes_df_2023_06_08.RData")
+#      file = "kegg_diff_pathways_networks/kegg_diff_pathways_nodes_df.RData")
 # 
 # save(kegg_diff_pathways_interactions,
-#      file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_interactions_df_2023_06_08.RData")
-# 
-# save(leadingEdges_nodes,
-#      file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/pathway_networks/kegg_pathways/leadingEdges/diff_kegg_pathways_leadingEdges_nodes_2022_09_15.RData")
-# 
-# save(leadingEges_interactions,
-#      file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/pathway_networks/kegg_pathways/leadingEdges/diff_kegg_pathways_leadingEdges_interactions_2022_09_15.RData")
+#      file = "kegg_diff_pathways_networks/kegg_diff_pathways_interactions_df.RData")
 ```
 
 # Option - CFTR interactors
 
 ```{r}
-# for all_CFTR_interactors.PPI
-load("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/CFTR_interactors_nodes_df_2023_07_07.RData")
-load("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/CFTR_interactors_interactions_df_2023_07_07.RData")
+# for all_CFTR_interactors.PPI.min
+load("CFTR_interactors/CFTR_interactors_nodes_df.RData")
+load("CFTR_interactors/CFTR_interactors_interactions_df.RData")
 
 # all_CFTR_interactions.PPI.connected.min <- all_CFTR_interactions.PPI.connected.min[which(all_CFTR_interactions.PPI.connected.min$status !="unchanged"),]
 # for extend_to_CFTR_interactors
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/CFTR_interactors_helper.R")
+source("scripts/pathways_to_network/CFTR_interactors_helper.R")
 
 CF_PPI_network <- new("PPI_network",
                                 interactions=kegg_diff_pathways_interactions,
@@ -280,8 +275,8 @@ CF_PPI_network.CFTR_extended.interactions <- CF_PPI_network.CFTR_extended@intera
 # CF_PPI_network.CFTR_extended.nodes.new <- CF_PPI_network.CFTR_extended.nodes
 
 # save(CF_PPI_network.CFTR_extended.nodes,
-#      file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_nodes_with_CFTR_interactors_df_2023_07_10.RData")
+#      file = "kegg_diff_pathways_networks/kegg_diff_pathways_nodes_with_CFTR_interactors_df.RData")
 # 
 # save(CF_PPI_network.CFTR_extended.interactions,
-#      file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_interactions_with_CFTR_interactors_df_2023_07_10.RData")
+#      file = "kegg_diff_pathways_networks/kegg_diff_pathways_interactions_with_CFTR_interactors_df.RData")
 ```
