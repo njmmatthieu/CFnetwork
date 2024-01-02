@@ -244,10 +244,10 @@ kegg_diff_pathways_nodes$pathway <- sapply(1:nrow(kegg_diff_pathways_nodes), fun
 
 ```{r}
 # save(kegg_diff_pathways_nodes,
-#      file = "kegg_diff_pathways_networks/kegg_diff_pathways_nodes_df.RData")
+#      file = "kegg_diff_pathways_network/kegg_diff_pathways_nodes_df.RData")
 # 
 # save(kegg_diff_pathways_interactions,
-#      file = "kegg_diff_pathways_networks/kegg_diff_pathways_interactions_df.RData")
+#      file = "kegg_diff_pathways_network/kegg_diff_pathways_interactions_df.RData")
 ```
 
 # Option - CFTR interactors
@@ -275,8 +275,8 @@ CF_PPI_network.CFTR_extended.interactions <- CF_PPI_network.CFTR_extended@intera
 # CF_PPI_network.CFTR_extended.nodes.new <- CF_PPI_network.CFTR_extended.nodes
 
 # save(CF_PPI_network.CFTR_extended.nodes,
-#      file = "kegg_diff_pathways_networks/kegg_diff_pathways_nodes_with_CFTR_interactors_df.RData")
+#      file = "kegg_diff_pathways_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df.RData")
 # 
 # save(CF_PPI_network.CFTR_extended.interactions,
-#      file = "kegg_diff_pathways_networks/kegg_diff_pathways_interactions_with_CFTR_interactors_df.RData")
+#      file = "kegg_diff_pathways_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df.RData")
 ```

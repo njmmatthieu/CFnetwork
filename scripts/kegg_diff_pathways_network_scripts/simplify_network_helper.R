@@ -3,9 +3,9 @@ library(hgnc)
 library(tidyverse)
 
 # for PPI_network class, get_network_nodes()
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/network_utils.R")
+source("scripts/pathways_to_network/pathways_to_network_scripts/network_utils.R")
 
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/kegg_pathways_manual_curation.R")
+source("scripts/pathways_to_network/kegg_pathways_manual_curation.R")
 
 # dorotea TF
 dorothea_regulon_human <- get(data("dorothea_hs", package = "dorothea"))
@@ -15,20 +15,23 @@ dorothea_regulon_human <- get(data("dorothea_hs", package = "dorothea"))
 # source_colname <- "genesymbol_source"
 # target_colname <- "genesymbol_target"
 
+# Tag dorothea TF and expression interactions
 dorothea_tag <-function(PPI_network,
                         source_colname="genesymbol_source",
                         target_colname="genesymbol_target"){
   
-  tf_in_kegg_diff_pathways.dorothea <- PPI_network@nodes$Symbol[PPI_network@nodes$Symbol %in% unique(dorothea_regulon_human$tf)]
+  tf_in_kegg_diff_pathways.dorothea <- 
+    PPI_network@nodes$Symbol[PPI_network@nodes$Symbol %in% unique(dorothea_regulon_human$tf)]
   
-  PPI_network@interactions$expression_dorothea <- (PPI_network@interactions[,source_colname] %in% tf_in_kegg_diff_pathways.dorothea) &  !(PPI_network@interactions[,target_colname] %in% tf_in_kegg_diff_pathways.dorothea)
-  PPI_network@nodes$dorothea_tf <- PPI_network@nodes$Symbol %in% tf_in_kegg_diff_pathways.dorothea
+  PPI_network@interactions$expression_dorothea <- 
+    (PPI_network@interactions[,source_colname] %in% tf_in_kegg_diff_pathways.dorothea) &  
+    !(PPI_network@interactions[,target_colname] %in% tf_in_kegg_diff_pathways.dorothea)
+  PPI_network@nodes$dorothea_tf <- 
+    PPI_network@nodes$Symbol %in% tf_in_kegg_diff_pathways.dorothea
   
   return(PPI_network)
   
 }
-
-
 
 
 # For clarity, remove expression interactions
@@ -36,12 +39,16 @@ remove_expression_interactions <- function(PPI_network,
                             source_colname="genesymbol_source",
                             target_colname="genesymbol_target"){
 
-  PPI_network_interactions.not_expression <- PPI_network@interactions[which(!PPI_network@interactions$expression_dorothea & !PPI_network@interactions$effect %in% c("expression","repression")),]
+  PPI_network_interactions.not_expression <- 
+    PPI_network@interactions[which(!PPI_network@interactions$expression_dorothea & 
+                                     !PPI_network@interactions$effect %in% c("expression","repression")),]
 
-  PPI_network_nodes.not_expression <- get_network_nodes(PPI_network_interactions.not_expression,
-                                                              source_colname = "genesymbol_source",
-                                                              target_colname = "genesymbol_target")
-  PPI_network_nodes.not_expression <- PPI_network@nodes[which(PPI_network@nodes$Symbol %in% PPI_network_nodes.not_expression$HGNC),]
+  PPI_network_nodes.not_expression <- 
+    get_network_nodes(PPI_network_interactions.not_expression,
+                      source_colname = "genesymbol_source",
+                      target_colname = "genesymbol_target")
+  PPI_network_nodes.not_expression <- 
+    PPI_network@nodes[which(PPI_network@nodes$Symbol %in% PPI_network_nodes.not_expression$HGNC),]
 
   PPI_network.without_expression <- new("PPI_network",
                                           interactions=PPI_network_interactions.not_expression,
@@ -87,7 +94,9 @@ same_interactions <- function(PPI_network,
                                                              # print(x)
                                                              return(paste(x, collapse = "_"))
                                                            })
-  duplicated_id <- PPI_network@interactions[duplicated(PPI_network@interactions$partial_interaction_id),"partial_interaction_id" ]
+  duplicated_id <- 
+    PPI_network@interactions[duplicated(PPI_network@interactions$partial_interaction_id),
+                             "partial_interaction_id" ]
   
   return(PPI_network@interactions[which(PPI_network@interactions$partial_interaction_id %in% duplicated_id),])
 }
@@ -106,13 +115,17 @@ remove_same_interactions <- function(PPI_network,
                                                              # print(x)
                                                              return(paste(x, collapse = "_"))
                                                            })
-  duplicated_id <- PPI_network@interactions[duplicated(PPI_network@interactions$partial_interaction_id),"partial_interaction_id" ]
-  duplicated_interactions <-  PPI_network@interactions[which(PPI_network@interactions$partial_interaction_id %in% duplicated_id),]
+  duplicated_id <- 
+    PPI_network@interactions[duplicated(PPI_network@interactions$partial_interaction_id),
+                             "partial_interaction_id" ]
+  duplicated_interactions <-  
+    PPI_network@interactions[which(PPI_network@interactions$partial_interaction_id %in% duplicated_id),]
   duplicated_interactions.unique <- unique(duplicated_interactions)
   
   duplicated_id.to_remove <- duplicated_id[sapply(duplicated_id, function(id){
-    duplicated_effects <-  PPI_network@interactions[which(PPI_network@interactions$partial_interaction_id==id),
-                                                        "effect"]
+    duplicated_effects <-  
+      PPI_network@interactions[which(PPI_network@interactions$partial_interaction_id==id),
+                               "effect"]
     
     if (any(duplicated_effects=="activation") & any(duplicated_effects=="inhibition")){
       return(FALSE)
@@ -143,7 +156,7 @@ remove_same_interactions <- function(PPI_network,
   
 }
 
-
+# Remove non source receptors ligands 
 
 receptors_ligands <- c('Receptor ligands',
                        'Chemokine ligands',

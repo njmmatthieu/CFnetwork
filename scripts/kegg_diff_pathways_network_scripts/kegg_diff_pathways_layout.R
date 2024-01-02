@@ -1,5 +1,7 @@
+# knitr::opts_knit$set(echo = TRUE, root.dir = normalizePath("../../"))
+
 # for PPI_network class
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/network_utils.R")
+source("scripts/pathways_to_network/network_utils.R")
 
 # for kegg_pathways_nodes.carac.corrected and effect_arrow.df
 # source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/kegg_pathways_utils.R")
@@ -12,30 +14,23 @@ source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pat
 # remove_indirect_interactions(), 
 # remove_same_interactions(), 
 # binding_interaction() 
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/simplify_network_helper.R")
+source("scripts/kegg_diff_pathways_network_scripts/simplify_network_helper.R")
 
 # for get_node_type(),
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/network_visualization_helper.R")
+source("scripts/kegg_diff_pathways_network_scripts/network_visualization_helper.R")
 
 # KEGG DIFF PATHWAYS - All proteins
-load("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_interactions_with_CFTR_interactors_df_2023_07_10.RData")
-load("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_nodes_with_CFTR_interactors_df_2023_07_10.RData")
+load("kegg_diff_pathways_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df.RData")
+load("kegg_diff_pathways_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df.RData")
 
 
-# CF_PPI_network.CFTR_extended <- new("PPI_network",
-#                                 interactions=kegg_diff_pathways_interactions,
-#                                 nodes=kegg_diff_pathways_nodes)
+# CF_PPI_network <- new("PPI_network",
+#                       interactions=kegg_diff_pathways_interactions,
+#                       nodes=kegg_diff_pathways_nodes)
 
 CF_PPI_network.CFTR_extended <- new("PPI_network",
                                     interactions=CF_PPI_network.CFTR_extended.interactions,
                                     nodes=CF_PPI_network.CFTR_extended.nodes)
-
-# ###
-# OPTIONS - Extend CFTR interactions
-# ###
-# problem with kegg_pathways_nodes.carac.corrected (from kegg_diff_pathways.Rmd)
-# problem with effect_arrow.df (from kegg_pathways_utils.R)
-# CF_PPI_network.CFTR_extended <- extend_to_CFTR_interactors(CF_PPI_network)
 
 # ### 
 # A - OMNIPATH DB CURATIONS
@@ -46,17 +41,20 @@ CF_PPI_network.CFTR_extended <- new("PPI_network",
 # ###
 
 # Tag Endpoints: TF and Caspases (Apoptosis)
-CF_PPI_network.CFTR_extended.endpoint_tag <- dorothea_tag(CF_PPI_network.CFTR_extended)
+CF_PPI_network.CFTR_extended.endpoint_tag <- 
+  dorothea_tag(CF_PPI_network.CFTR_extended)
 
 
 # Remove expression interactions (dorothea and kegg)
-CF_PPI_network.without_expression <- remove_expression_interactions(CF_PPI_network.CFTR_extended.endpoint_tag)
+CF_PPI_network.without_expression <- 
+  remove_expression_interactions(CF_PPI_network.CFTR_extended.endpoint_tag)
 
 # ### 
 # 2 - REMOVE INDIRECT INTERACTIONS
 # ###
 
-CF_PPI_network.direct <- remove_indirect_interactions(CF_PPI_network.without_expression)
+CF_PPI_network.direct <- 
+  remove_indirect_interactions(CF_PPI_network.without_expression)
 
 # # Tag receptors and receptor ligands
 CF_PPI_network.direct.rep_tag <- tag_prot_cat(CF_PPI_network.direct)
@@ -92,17 +90,17 @@ CF_PPI_network.curated.2.node_type <- get_node_type(CF_PPI_network.curated.2,
                                                  # interactors = CFTR_interactors,
                                                  include_weird_endpoints = FALSE)
 
-write.table(CF_PPI_network.curated.2.node_type@interactions,
-            file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df_2023_07_10.txt",
-            sep = "\t",
-            row.names = F,
-            quote = FALSE)
-
-write.table(CF_PPI_network.curated.2.node_type@nodes,
-            file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df_2022_07_10.txt",
-            sep = "\t",
-            row.names = F,
-            quote = FALSE)
+# write.table(CF_PPI_network.curated.2.node_type@interactions,
+#             file = "kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df.txt",
+#             sep = "\t",
+#             row.names = F,
+#             quote = FALSE)
+# 
+# write.table(CF_PPI_network.curated.2.node_type@nodes,
+#             file = "kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df.txt",
+#             sep = "\t",
+#             row.names = F,
+#             quote = FALSE)
 
 
 # ###
