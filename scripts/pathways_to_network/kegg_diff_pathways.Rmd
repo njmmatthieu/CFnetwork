@@ -26,7 +26,7 @@ diff_pathways <- rownames(fgsea_es_diff_pathways)
 ```{r}
 # source("scripts/fgsea_comparison/fgsea_output_preprocess.R")
 
-# for preprocess_PPI_network()
+# for class PPI_network and preprocess_PPI_network()
 source("scripts/pathways_to_network/network_utils.R")
 ```
 
@@ -57,17 +57,21 @@ kegg_pathways_interactions.unique. <-
   dplyr::select(-interactions_colnames_to_keep) %>%
   distinct()
 
-# Kegg pathways correction for gene symbols
-kegg_pathways_nodes.carac.corrected <- 
-  add_new_nodes_uniprot_ids(Symbol2UniprotID = kegg_pathways_nodes.carac,
-                            corrections.df = kegg_pathways_corrections)
-
 # Effect arrow
 effect_arrow.df <- unique(kegg_pathway_df.signaling.interactions.df[,c("effect", "arrow")])
-effect_arrow.df[which(effect_arrow.df$effect=="compound"),"effect"] <- paste(
-  effect_arrow.df[which(effect_arrow.df$effect=="compound"),"effect"],
-  effect_arrow.df[which(effect_arrow.df$effect=="compound"),"arrow"],
-  sep = " - ")
+
+effect_arrow.df <- effect_arrow.df %>%
+  mutate(effect = if_else(effect == "compound",
+                          paste(effect, arrow, sep = " - "),
+                          effect))
+
+# effect_arrow.df %>%
+#   mutate(effect)
+# 
+# effect_arrow.df[which(effect_arrow.df$effect=="compound"),"effect"] <- paste(
+#   effect_arrow.df[which(effect_arrow.df$effect=="compound"),"effect"],
+#   effect_arrow.df[which(effect_arrow.df$effect=="compound"),"arrow"],
+#   sep = " - ")
 ```
 
 # Correction of KEGG diff pathways thanks to 
@@ -84,11 +88,18 @@ kegg_pathways_corrections <-
 # Manual curation: for add_new_nodes_uniprot_ids()
 source("scripts/kegg_pathways_scripts/kegg_pathways_manual_curation.R")
 
+
+# Kegg pathways correction for gene symbols
+kegg_pathways_nodes.carac.corrected <- 
+  add_new_nodes_uniprot_ids(Symbol2UniprotID = kegg_pathways_nodes.carac,
+                            corrections.df = kegg_pathways_corrections)
+
+# Correct each diff pathways interactions with manual curation
 diff_pathways.PPI_network.corrected.list <- lapply(diff_pathways, 
                                                    function(diff_pathway_name){
   
   # to test
-  diff_pathway_name <- diff_pathways[2]
+  diff_pathway_name <- diff_pathways[1]
   
   print("##### CORRECTION #####")
   print(diff_pathway_name)
@@ -99,10 +110,10 @@ diff_pathways.PPI_network.corrected.list <- lapply(diff_pathways,
   
   diff_pathway_df.interactions <-
   as_tibble(diff_pathway_df.interactions)
-diff_pathway_df.interactions.unique <-
-  diff_pathway_df.interactions %>%
-  dplyr::select(-interactions_colnames_to_keep) %>%
-  distinct()
+  diff_pathway_df.interactions.unique <-
+    diff_pathway_df.interactions %>%
+    dplyr::select(-interactions_colnames_to_keep) %>%
+    distinct()
 
   # diff_pathway_df.interactions.unique <- unique(diff_pathway_df.interactions[,!(colnames(diff_pathway_df.interactions) %in% c("source",
   #                                                                                                                       "target",
@@ -118,8 +129,8 @@ diff_pathway_df.interactions.unique <-
     kegg_pathway_df.signaling.nodes.list.final[[diff_pathway_name]]
   
   diff_PPI_network <- new("PPI_network",
-                          interactions=diff_pathway_df.interactions.unique,
-                          nodes=diff_pathway_df.nodes)
+                          interactions=as.data.frame(diff_pathway_df.interactions.unique),
+                          nodes=as.data.frame(diff_pathway_df.nodes))
   
   ## Preprocess
   diff_PPI_network <- preprocess_PPI_network(diff_PPI_network)
@@ -127,7 +138,7 @@ diff_pathway_df.interactions.unique <-
   
   # Preprocess
   kegg_pathways_corrections.example <- kegg_pathways_corrections[which(kegg_pathways_corrections$pathway_name==diff_pathway_name),]
-  print(kegg_pathways_corrections.example)
+  # print(kegg_pathways_corrections.example)
   
   diff_PPI_network.corrected <- 
     correct_PPI_network(PPI_network = diff_PPI_network,
@@ -137,7 +148,9 @@ diff_pathway_df.interactions.unique <-
   return(diff_PPI_network.corrected)
   
 })
+```
 
+```{r}
 diff_pathways.interactions.corrected.list <- lapply(diff_pathways.PPI_network.corrected.list, function(PPI_network) return(PPI_network@interactions))
 interactions_in_diff_kegg_pathways <- do.call("rbind", diff_pathways.interactions.corrected.list)
 

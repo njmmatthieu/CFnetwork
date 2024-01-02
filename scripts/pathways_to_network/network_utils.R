@@ -1,7 +1,9 @@
 library(igraph)
 
+# Class to handle PPI network
+# two dataframes: one for the nodes and one for the interactions.
 setClass("PPI_network", slots=list(interactions="data.frame",
-                                         nodes="data.frame"))
+                                   nodes="data.frame"))
 
 
 preprocess_PPI_network <- function(PPI_network,

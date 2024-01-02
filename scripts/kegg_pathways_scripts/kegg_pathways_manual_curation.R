@@ -16,9 +16,9 @@ add_kegg_interaction <- function(PPI_network,
   Uniprot_target <- dplyr::filter(Symbol2UniprotID, symbol==Target)[['uniprot_ids']][[1]]
   Effect_arrow <- effect_arrow.df[which(effect_arrow.df$effect==Effect),"arrow"]
   
-  print(Uniprot_source)
-  print(Uniprot_target)
-  print(Effect_arrow)
+  # print(Uniprot_source)
+  # print(Uniprot_target)
+  # print(Effect_arrow)
   
   new_interaction <- c("PPrel", 
     Effect,
@@ -70,7 +70,6 @@ remove_kegg_interaction <- function(PPI_network,
   
   
   Effect_arrow <- effect_arrow.df[which(effect_arrow.df$effect==Effect),"arrow"]
-  # print(paste("Removing", Source,Effect_arrow, Target, sep = " "))
   
   interaction_id <- which(PPI_network@interactions$genesymbol_source==Source &
                             PPI_network@interactions$genesymbol_target==Target &
@@ -130,6 +129,13 @@ remove_node_uniprotid <- function(PPI_network,
   
 }
 
+# # Debug
+# PPI_network <- PPI_network.temp
+# Source <- source
+# Effect <- effect
+# Target <- target
+# Pathway_name <- pathway_name
+
 # Change effect of an interaction
 change_effect <- function(PPI_network,
                                     source_colname="genesymbol_source",
@@ -183,7 +189,12 @@ add_new_nodes_uniprot_ids <- function(Symbol2UniprotID,
   return(Symbol2UniprotID)
 }
 
-# Correct an interaction
+# # Debug
+# PPI_network <- diff_PPI_network
+# Symbol2UniprotID <- kegg_pathways_nodes.carac.corrected
+# corrections.df <- kegg_pathways_corrections.example
+
+# Wrapper function that comprises all the functions above.
 correct_PPI_network <- function(PPI_network,
                                 source_colname="genesymbol_source",
                                 target_colname="genesymbol_target",
@@ -192,7 +203,14 @@ correct_PPI_network <- function(PPI_network,
   
   PPI_network.temp <- PPI_network
   
+  # # Debug
+  # source_colname <- "genesymbol_source"
+  # target_colname <- "genesymbol_target"
+  
   for (i_act in 1:nrow(corrections.df)){
+    
+    # # Debug
+    # i_act <- 9
     
     action <- corrections.df[i_act, "action"]
     source <- corrections.df[i_act, "Source"]
