@@ -99,25 +99,25 @@ deseq
     - scripts/kegg_diff_pathways_network_scripts/kegg_diff_pathways_layout.R
 
 #### Input
-    - kegg_diff_pathways_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df_2023_07_10.RData : CF network interactions as data.frame
-    - kegg_diff_pathways_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df_2023_07_10.RData : CF network nodes as data.frame
+    - kegg_diff_pathways_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df.RData : CF network interactions as data.frame
+    - kegg_diff_pathways_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df.RData : CF network nodes as data.frame
 
 #### Dependencies
-    - scripts/kegg_diff_pathways_network_scripts/simplify_netowrk_helper.R 
+    - scripts/kegg_diff_pathways_network_scripts/simplify_network_helper.R 
     - scripts/kegg_diff_pathways_network_scripts/network_visualisation_helper.R
 
 #### Outputs
-    - kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df_2023_07_10.txt : final pruned CF network interactions as txt file.
-    - kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df_2022_07_10.txt : final pruned CF network nodes as txt file.
+    - kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df.txt : final pruned CF network interactions as txt file.
+    - kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df.txt : final pruned CF network nodes as txt file.
 
 ## 4. CF network analysis
 
 #### Script
-    - kegg_diff_pathways_network_analysis_final.R
+    - scripts/kegg_diff_pathways_network_scripts/kegg_diff_pathways_network_analysis_final.R
 
 #### Input 
-    - kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df_2023_07_10.txt : final pruned CF network interactions as txt file.
-    - kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df_2022_07_10.txt : final pruned CF network nodes as txt file.
+    - kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df.txt : final pruned CF network interactions as txt file.
+    - kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df.txt : final pruned CF network nodes as txt file.
 
 \
 \

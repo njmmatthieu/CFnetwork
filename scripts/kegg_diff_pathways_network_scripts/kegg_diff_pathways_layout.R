@@ -4,7 +4,7 @@
 source("scripts/pathways_to_network/network_utils.R")
 
 # for kegg_pathways_nodes.carac.corrected and effect_arrow.df
-# source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/kegg_pathways_utils.R")
+# source("scripts/kegg_pathways_scripts/kegg_pathways_utils.R")
 
 # for endpoint_tag(), 
 # gene_symbol_sanity_check(), 
@@ -22,11 +22,6 @@ source("scripts/kegg_diff_pathways_network_scripts/network_visualization_helper.
 # KEGG DIFF PATHWAYS - All proteins
 load("kegg_diff_pathways_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df.RData")
 load("kegg_diff_pathways_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df.RData")
-
-
-# CF_PPI_network <- new("PPI_network",
-#                       interactions=kegg_diff_pathways_interactions,
-#                       nodes=kegg_diff_pathways_nodes)
 
 CF_PPI_network.CFTR_extended <- new("PPI_network",
                                     interactions=CF_PPI_network.CFTR_extended.interactions,
@@ -146,48 +141,14 @@ CF_PPI_network.lcc.node_type <- get_node_type(CF_PPI_network.lcc,
 
 
 
-write.table(CF_PPI_network.lcc.node_type@interactions,
-            file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/diff_kegg_pathways_with_CFTR_interactors_PPI_lcc_tagged_interactions_df_2023_07_10.txt",
-            sep = "\t",
-            row.names = F,
-            quote = FALSE)
-
-write.table(CF_PPI_network.lcc.node_type@nodes,
-            file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/diff_kegg_pathways_with_CFTR_interactors_PPI_lcc_tagged_nodes_df_2022_07_10.txt",
-            sep = "\t",
-            row.names = F,
-            quote = FALSE)
-
-# Analysis
+# write.table(CF_PPI_network.lcc.node_type@interactions,
+#             file = "kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_lcc_tagged_interactions_df_2023_07_10.txt",
+#             sep = "\t",
+#             row.names = F,
+#             quote = FALSE)
 # 
-# library(gprofiler2)
-# # KEGG signaling "gp__YJqt_TFVn_BE8"
-# # KEGG signaling not expression gp__FZCS_noxZ_Snc
-# upload_GMT_file(gmtfile = "/Users/matthieu/ownCloud/Thèse/Systems Biology/gmt/kegg_signaling_not_expression_from_omnipathR_gsea_2023_03_21.gmt")
-# 
-# CF_PPI_network.gost.res <- gost(query = CF_PPI_network.llc.curated.2.node_type@nodes$Symbol, 
-#                                 organism = "gp__FZCS_noxZ_Snc", 
-#                 ordered_query = FALSE,
-#                 multi_query = FALSE, 
-#                 significant = FALSE, 
-#                 exclude_iea = FALSE, 
-#                 measure_underrepresentation = FALSE, 
-#                 evcodes = FALSE, 
-#                 user_threshold = 0.05, 
-#                 correction_method = "fdr", # change FDR
-#                 # might change to all the genes in KEGG database
-#                 # custom_bg = shared_genes_in_3_studies,
-#                 # domain_scope = "custom", # change to custom to genes appearing in at least 3 studies
-#                 numeric_ns = "", 
-#                 sources = NULL, 
-#                 as_short_link = FALSE)
-# 
-# CF_PPI_network.gost.res.df <- CF_PPI_network.gost.res$result
-# CF_PPI_network.gost.res.df$ratio <- CF_PPI_network.gost.res.df$intersection_size/CF_PPI_network.gost.res.df$term_size   
-# CF_PPI_network.gost.res.df$parents <- NULL
-
-# write.table(CF_PPI_network.gost.res.df,
-#             file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/Meta-analysis article/KEGG_pathways_in_CF_network_2023_03_21.tsv",
+# write.table(CF_PPI_network.lcc.node_type@nodes,
+#             file = "kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_lcc_tagged_nodes_df_2022_07_10.txt",
 #             sep = "\t",
 #             row.names = F,
 #             quote = FALSE)

@@ -1,17 +1,19 @@
 library(igraph)
 library(ggplot2)
 
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/network_utils.R")
+source("scripts/pathways_to_network/network_utils.R")
 
-CF_PPI_network.lcc.node_type.interactions <- read.table(file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/diff_kegg_pathways_with_CFTR_interactors_PPI_lcc_tagged_interactions_df_2023_07_10.txt",
-                                                        sep = "\t",
-                                                        header = T,
-                                                        check.names = F)
+CF_PPI_network.lcc.node_type.interactions <- 
+  read.table(file = "kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df.txt",
+             sep = "\t",
+             header = T,
+             check.names = F)
 
-CF_PPI_network.lcc.node_type.nodes <- read.table(file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/diff_kegg_pathways_with_CFTR_interactors_PPI_lcc_tagged_nodes_df_2023_07_10.txt",
-                                                 sep = "\t",
-                                                 header = T,
-                                                 check.names = F)
+CF_PPI_network.lcc.node_type.nodes <- 
+  read.table(file = "kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df.txt",
+             sep = "\t",
+             header = T,
+             check.names = F)
 
 
 CF_PPI_network.lcc.node_type <- new("PPI_network",
@@ -28,7 +30,7 @@ CF_PPI_network.lcc.node_type@nodes <- CF_PPI_network.lcc.node_type@nodes[which(C
 #############################################
 
 # "gp__ubAP_9ngg_H0c"
-upload_GMT_file(gmtfile = "/Users/matthieu/ownCloud/Thèse/Systems Biology/gmt/kegg_from_omnipathR_gsea_2022_09_07.gmt")
+upload_GMT_file(gmtfile = "kegg_pathways/kegg_pathways_from_omnipathR.gmt")
 
 CF_PPI_network.nodes.gost.res <- gost(query = CF_PPI_network.lcc.node_type.nodes$Symbol, 
                 organism = "gp__uvjl_spkU_zy4", 
