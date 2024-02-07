@@ -1,5 +1,8 @@
+# knitr::opts_knit$set(echo = TRUE, root.dir = normalizePath("../../"))
+
 library(igraph)
 library(ggplot2)
+library(gprofiler2)
 
 source("scripts/pathways_to_network/network_utils.R")
 
@@ -33,7 +36,7 @@ CF_PPI_network.lcc.node_type@nodes <- CF_PPI_network.lcc.node_type@nodes[which(C
 upload_GMT_file(gmtfile = "kegg_pathways/kegg_pathways_from_omnipathR.gmt")
 
 CF_PPI_network.nodes.gost.res <- gost(query = CF_PPI_network.lcc.node_type.nodes$Symbol, 
-                organism = "gp__uvjl_spkU_zy4", 
+                organism = "gp__xH8L_h95C_juo", 
                 ordered_query = FALSE,
                 multi_query = FALSE, 
                 significant = FALSE, 
@@ -54,41 +57,51 @@ CF_PPI_network.nodes.gost.res <- gost(query = CF_PPI_network.lcc.node_type.nodes
 
 # Pb of binding interactions
 ## Non binding
-CF_PPI_network.lcc.node_type.interactions.non_binding <- CF_PPI_network.lcc.node_type@interactions[which(!(CF_PPI_network.lcc.node_type@interactions$effect %in% c("binding/association"))),]
-CF_PPI_network.lcc.node_type.interactions.non_binding <- CF_PPI_network.lcc.node_type.interactions.non_binding[,c("genesymbol_source",
-                                                                                                                  "genesymbol_target")]
-colnames(CF_PPI_network.lcc.node_type.interactions.non_binding) <- c("from", "to")
+CF_PPI_network.lcc.node_type.interactions.non_binding <- 
+  CF_PPI_network.lcc.node_type@interactions[which(!(CF_PPI_network.lcc.node_type@interactions$effect %in% c("binding/association"))),]
+CF_PPI_network.lcc.node_type.interactions.non_binding <- 
+  CF_PPI_network.lcc.node_type.interactions.non_binding[,c("genesymbol_source",
+                                                           "genesymbol_target")]
+colnames(CF_PPI_network.lcc.node_type.interactions.non_binding) <- c("from", 
+                                                                     "to")
 
 # ## Dissociation
-CF_PPI_network.lcc.node_type.interactions.binding <- CF_PPI_network.lcc.node_type@interactions[which(CF_PPI_network.lcc.node_type@interactions$effect %in% c("binding/association")),]
+CF_PPI_network.lcc.node_type.interactions.binding <- 
+  CF_PPI_network.lcc.node_type@interactions[which(CF_PPI_network.lcc.node_type@interactions$effect %in% c("binding/association")),]
 # Both directions for binding interactions
 ## one direction
-CF_PPI_network.lcc.node_type.interactions.binding.one_direction <- CF_PPI_network.lcc.node_type.interactions.binding[,c("genesymbol_source","genesymbol_target")]
-colnames(CF_PPI_network.lcc.node_type.interactions.binding.one_direction) <- c("from", "to")
+CF_PPI_network.lcc.node_type.interactions.binding.one_direction <- 
+  CF_PPI_network.lcc.node_type.interactions.binding[,c("genesymbol_source",
+                                                       "genesymbol_target")]
+colnames(CF_PPI_network.lcc.node_type.interactions.binding.one_direction) <- c("from", 
+                                                                               "to")
 ## other direction
-CF_PPI_network.lcc.node_type.interactions.binding.other_direction <- CF_PPI_network.lcc.node_type.interactions.binding[,c("genesymbol_target", "genesymbol_source")]
-colnames(CF_PPI_network.lcc.node_type.interactions.binding.other_direction) <- c("from", "to")
+CF_PPI_network.lcc.node_type.interactions.binding.other_direction <- 
+  CF_PPI_network.lcc.node_type.interactions.binding[,c("genesymbol_target", 
+                                                       "genesymbol_source")]
+colnames(CF_PPI_network.lcc.node_type.interactions.binding.other_direction) <- c("from", 
+                                                                                 "to")
 ## both directions
 CF_PPI_network.lcc.node_type.interactions.binding.both_directions <- rbind(CF_PPI_network.lcc.node_type.interactions.binding.one_direction,
                                                                            CF_PPI_network.lcc.node_type.interactions.binding.other_direction)
 CF_PPI_network.lcc.for_igraph <- rbind(CF_PPI_network.lcc.node_type.interactions.non_binding,
                                        CF_PPI_network.lcc.node_type.interactions.binding.both_directions)
 
-###############
-## ENDPOINTS ##
-###############
+########################################
+## SINK NODES AS DEFINED IN THE ARTICLE##
+########################################
 
-endpoints.final.pathways.df <- read.table(file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/final_endpoint_to_pathways_2023_04_05_corrected.txt",
+sink_nodes.final.pathways.df <- read.table(file = "sink_nodes/CFnetwork_sink_nodes_to_pathways.txt",
                                           sep = "\t",
                                           header = T,
                                           na.strings = "",
                                           check.names = FALSE)
-endpoints.final.pathways.df <- endpoints.final.pathways.df[order(endpoints.final.pathways.df$Endpoint_cat),]
-endpoints.final.pathways.df$Symbol <- as.character(endpoints.final.pathways.df$Symbol)
-endpoints <- as.character(endpoints.final.pathways.df$Symbol)
+sink_nodes.final.pathways.df <- sink_nodes.final.pathways.df[order(sink_nodes.final.pathways.df$Endpoint_cat),]
+sink_nodes.final.pathways.df$Symbol <- as.character(sink_nodes.final.pathways.df$Symbol)
+sink_nodes <- as.character(sink_nodes.final.pathways.df$Symbol)
 
 ##################
-## Source nodes ##
+## SOURCE NODES ##
 ##################
 
 source_nodes <- c("TRADD",
@@ -101,11 +114,18 @@ source_nodes <- c("TRADD",
                   "EZR")
 
 
+#################
+## 1. ANALYSIS ##
+#################
 
 # Igraph
-CF_PPI_network.lcc.igraph <- graph_from_data_frame(CF_PPI_network.lcc.for_igraph, directed=TRUE)
+CF_PPI_network.lcc.igraph <- graph_from_data_frame(CF_PPI_network.lcc.for_igraph, 
+                                                   directed=TRUE)
 
-# Degree
+#################
+## 1.1 DEGREE ###
+#################
+
 CF_PPI_network.deg.df <- data.frame(degree(CF_PPI_network.lcc.igraph, mode = "out"))
 CF_PPI_network.deg.hist <-ggplot(CF_PPI_network.deg.df, 
                                  aes(x=degree.CF_PPI_network.lcc.igraph..mode....out..)) + 
@@ -125,12 +145,20 @@ CF_PPI_network.deg.hist <-ggplot(CF_PPI_network.deg.df,
         panel.border = element_blank(),
         panel.background = element_blank())
 
-degree(CF_PPI_network.lcc.igraph, v = CFTR_interactors, mode = "out")
 
+# degree(CF_PPI_network.lcc.igraph, v = CFTR_interactors, mode = "out")
 
+#################################
+## 1.1 BETWEENNESS CENTRALITY ###
+#################################
 
-# Betweeness
 CF_PPI_network.bc.df <- data.frame(betweenness(CF_PPI_network.lcc.igraph))
+CF_PPI_network.bc.df$Symbol <- rownames(CF_PPI_network.bc.df)
+rownames(CF_PPI_network.bc.df) <- NULL
+colnames(CF_PPI_network.bc.df) <- c("BC.score", "Symbol")
+CF_PPI_network.bc.df <- CF_PPI_network.bc.df[order(CF_PPI_network.bc.df$BC.score, 
+                                                   decreasing = T),]
+
 CF_PPI_network.bc.hist <-ggplot(CF_PPI_network.bc.df, 
                                  aes(x=BC.score)) + 
   geom_histogram(fill="#8DA0CB", color="#8DA0CB", binwidth = 500)+
@@ -151,45 +179,27 @@ CF_PPI_network.bc.hist <-ggplot(CF_PPI_network.bc.df,
         panel.background = element_blank())+
   scale_x_continuous(breaks = c(0, 2000, 4000, 6000, 8000))
 
-png(filename="/Users/matthieu/ownCloud/Thèse/Systems Biology/Meta-analysis article/figures/2_4_Analysis_CF_network/betweeness/betweenness_centrality_histogram_2023_07_31.png",
-    # units = "cm",
-    width=1000,
-    height=1000,
-    res=100)
-CF_PPI_network.bc.hist
-dev.off()
+####################
+## 1.1 DISTANCES ###
+####################
 
-CF_PPI_network.bc.df$Symbol <- rownames(CF_PPI_network.bc.df)
-rownames(CF_PPI_network.bc.df) <- NULL
-colnames(CF_PPI_network.bc.df) <- c("BC.score", "Symbol")
-
-CF_PPI_network.bc.df <- CF_PPI_network.bc.df[order(CF_PPI_network.bc.df$BC.score, decreasing = T),]
-
-write.table(CF_PPI_network.bc.df,
-            file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/Meta-analysis article/betweenness_centrality_CF_network_2023_07_27.csv",
-            sep = "\t",
-            row.names = F)
-
-
-
-## Distances
 CF_PPI_network.lcc.dists <- distances(CF_PPI_network.lcc.igraph, mode = "out")
 
-### CFTR interactors to Endpoints
-CF_PPI_network.lcc.interactors_to_endpoints <- CF_PPI_network.lcc.dists[source_nodes, endpoints]
+### CFTR interactors to sink nodes
+CF_PPI_network.lcc.interactors_to_sink_nodes <- CF_PPI_network.lcc.dists[source_nodes, sink_nodes]
 
-endpoints_downstream_to_CFTR_interactors <- data.frame(apply(X = CF_PPI_network.lcc.interactors_to_endpoints,
+sink_nodes_downstream_to_CFTR_interactors <- data.frame(apply(X = CF_PPI_network.lcc.interactors_to_sink_nodes,
       MARGIN = 1,
       FUN=function(x){
         return(sum(!is.infinite(x)))
       }))
-endpoints_downstream_to_CFTR_interactors$protein <- as.character(rownames(endpoints_downstream_to_CFTR_interactors))
-colnames(endpoints_downstream_to_CFTR_interactors) <- c("nb_downstream_endpoints", "protein")
-rownames(endpoints_downstream_to_CFTR_interactors) <- NULL
-endpoints_downstream_to_CFTR_interactors <- endpoints_downstream_to_CFTR_interactors[order(endpoints_downstream_to_CFTR_interactors$nb_downstream_endpoints,
+sink_nodes_downstream_to_CFTR_interactors$protein <- as.character(rownames(sink_nodes_downstream_to_CFTR_interactors))
+colnames(sink_nodes_downstream_to_CFTR_interactors) <- c("nb_downstream_sink_nodes", "protein")
+rownames(sink_nodes_downstream_to_CFTR_interactors) <- NULL
+sink_nodes_downstream_to_CFTR_interactors <- sink_nodes_downstream_to_CFTR_interactors[order(sink_nodes_downstream_to_CFTR_interactors$nb_downstream_sink_nodes,
                                                                                            decreasing = T),]
-endpoints_downstream_to_CFTR_interactors$protein <- factor(endpoints_downstream_to_CFTR_interactors$protein,
-                         levels=unique(endpoints_downstream_to_CFTR_interactors$protein))
+sink_nodes_downstream_to_CFTR_interactors$protein <- factor(sink_nodes_downstream_to_CFTR_interactors$protein,
+                         levels=unique(sink_nodes_downstream_to_CFTR_interactors$protein))
 
 which(names(V(CF_PPI_network.lcc.igraph))=="PYCARD")
 # 322
@@ -211,7 +221,7 @@ shortest_paths_from_prot <- function(source, target) {
 
 ## Figure
 
-barplot_nb_output_nodes <- ggplot(data = endpoints_downstream_to_CFTR_interactors, aes(x = protein, y = nb_downstream_endpoints))+
+barplot_nb_output_nodes <- ggplot(data = sink_nodes_downstream_to_CFTR_interactors, aes(x = protein, y = nb_downstream_sink_nodes))+
   geom_bar(stat="identity", fill="#CCCCCC") + 
   # ggtitle("Number of downstream \n output nodes \n per protein") +
   ylab("Nb output nodes")+
@@ -227,127 +237,3 @@ barplot_nb_output_nodes <- ggplot(data = endpoints_downstream_to_CFTR_interactor
         panel.grid.minor = element_blank(),
         panel.border = element_blank(),
         panel.background = element_blank())
-
-png(filename="/Users/matthieu/ownCloud/Thèse/Systems Biology/Meta-analysis article/figures/2_4_Analysis_CF_network/CFTR_interactors_to_endpoints/nb_downstream_output_nodes_per_protein_2023_10_08.png",
-    # units = "cm",
-    width=650,
-    height=1000,
-    res=100)
-barplot_nb_output_nodes
-dev.off()
-
-## Outputs reached by PRKACA, EZR et CSNK2A1
-
-for (interactor in c("PRKACA", "EZR", "CSNK2A1")){
-  # print(interactor)
-  # print(CF_PPI_network.lcc.interactors_to_endpoints[interactor,])
-  print(colnames(CF_PPI_network.lcc.interactors_to_endpoints)[!is.infinite(CF_PPI_network.lcc.interactors_to_endpoints[interactor,])])
-}
-View(endpoints.final.pathways.df)
-
-best_candidates <- c("PRKACA", 
-                     "EZR", 
-                     "CSNK2A1",
-                     "PLCB1",
-                     "PLCB3",
-                     "SYK",
-                     "SRC",
-                     "TRADD")
-
-
-
-# from_candidates_to_selected_toutpus <- read.table("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/styles/from_4_candidates_to_selected_outputs_2023_06_12.csv",
-#                                                   sep = ",",
-#                                                   header = T)
-
-CF_network_proteins <- setdiff(CF_PPI_network.lcc.node_type@nodes$Symbol, c(CFTR_interactors, endpoints))
-
-CF_network_proteins.downstream_to_candidates <- CF_PPI_network.lcc.dists[best_candidates, CF_network_proteins]
-
-CF_network_proteins.downstream_to_any_candidate.bool <- apply(X = CF_network_proteins.downstream_to_candidates,
-                                                         MARGIN = 2,
-                                                         FUN=function(x){
-                                                           return(any(!is.infinite(x)))
-                                                         })
-
-CF_network_proteins.downstream_to_any_candidate <- colnames(CF_network_proteins.downstream_to_candidates)[CF_network_proteins.downstream_to_any_candidate.bool]
-
-
-CF_network_proteins.downstream_to_any_candidate.upstream_to_endpoints <- CF_PPI_network.lcc.dists[CF_network_proteins.downstream_to_any_candidate, endpoints]
-
-CF_network_proteins.downstream_to_any_candidate.upstream_to_all_endpoints.bool <- apply(X = CF_network_proteins.downstream_to_any_candidate.upstream_to_endpoints,
-                                                              MARGIN = 1,
-                                                              FUN=function(x){
-                                                                return(all(!is.infinite(x)))
-                                                              })
-
-CF_network_proteins.downstream_to_any_candidate.upstream_to_all_endpoints <- rownames(CF_network_proteins.downstream_to_any_candidate.upstream_to_endpoints)[CF_network_proteins.downstream_to_any_candidate.upstream_to_all_endpoints.bool]
-
-CF_PPI_subnetwork.deg.df <- CF_PPI_network.deg.df %>%
-  filter(rownames(CF_PPI_network.deg.df) %in% CF_network_proteins.downstream_to_any_candidate.upstream_to_all_endpoints)
-
-CF_PPI_subnetwork.bc.df <- CF_PPI_network.bc.df %>%
-  filter(rownames(CF_PPI_network.bc.df) %in% CF_network_proteins.downstream_to_any_candidate.upstream_to_all_endpoints)
-
-CF_PPI_network.bc.df <- data.frame(betweenness(CF_PPI_network.lcc.igraph))
-colnames(CF_PPI_network.bc.df) <- "bc.degree"
-CF_PPI_network.bc.df$Symbol <- rownames(CF_PPI_network.bc.df) 
-  
-CF_PPI_network.bc.histo <- ggplot(CF_PPI_network.bc.df, aes(x=bc.degree)) + 
-  geom_histogram(binwidth = 500)
-
-CF_PPI_network.bc.df.top <- CF_PPI_network.bc.df[which(CF_PPI_network.bc.df$bc.degree >=4000),]
-
-CF_PPI_network.bc.df.top.upstream_to_endpoints <- CF_PPI_network.lcc.dists[CF_PPI_network.bc.df.top$Symbol, endpoints]
-
-CF_PPI_network.bc.df.top.downstream_to_candidates <- CF_PPI_network.lcc.dists[best_candidates, CF_PPI_network.bc.df.top$Symbol]
-
-CF_PPI_network.bc.df.top <- merge(CF_PPI_network.bc.df.top,
-                                  )
-
-
-
-CF_subnetwork_proteins.downstream_to_candidates <- CF_PPI_network.lcc.dists[best_candidates,CF_network_proteins.downstream_to_any_candidate.upstream_to_all_endpoints]
-
-CF_PPPI_network_proteins.downstream_to_how_many_candidates <- apply(X = CF_network_proteins.downstream_to_candidates,
-                                                              MARGIN = 2,
-                                                              FUN=function(x){
-                                                                return(sum(!is.infinite(x)))
-                                                              })
-
-
-CF_PPI_network.lcc.node_type.nodes$subnetwork <- CF_PPI_network.lcc.node_type.nodes$Symbol %in% c(best_candidates,
-                                                                                                  endpoints,
-                                                                                                  CF_network_proteins.downstream_to_any_candidate.upstream_to_all_endpoints.bool)
-
-write.table(CF_PPI_network.lcc.node_type.nodes[,c("Symbol", "subnetwork")],
-            file = "/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/diff_kegg_pathway_subnetwork_nodes_2022_07_10.txt",
-            sep = "\t",
-            row.names = F,
-            quote = FALSE)
-
-endpoints_downstream_to_int_proteins <- data.frame(apply(X = CF_PPI_network.lcc.proteins_to_endpoints,
-                                                             MARGIN = 1,
-                                                             FUN=function(x){
-                                                               return(sum(!is.infinite(x)))
-                                                             }))
-colnames(endpoints_downstream_to_int_proteins) <- "distance_to_endpoints"
-
-CF_PPI_network.lcc.CFTR_interactors_to_protein <- CF_PPI_network.lcc.dists[c("TRADD", "SYK", "SRC", "PLCB1"), CF_network_proteins]
-
-CFTR_interactors_to_protein <- data.frame(apply(X = CF_PPI_network.lcc.CFTR_interactors_to_protein,
-                                                         MARGIN = 2,
-                                                         FUN=function(x){
-                                                           return(sum(!is.infinite(x)))
-                                                         }))
-endpoints_downstream_to_int_proteins$from_CFTR_interactors <- CFTR_interactors_to_protein$apply.X...CF_PPI_network.lcc.CFTR_interactors_to_protein..MARGIN...2..
-
-int_prot <- endpoints_downstream_to_int_proteins[which(endpoints_downstream_to_int_proteins$distance_to_endpoints==35 & endpoints_downstream_to_int_proteins$from_CFTR_interactors==4),]
-
-CF_PPI_network.lcc.CFTR_interactors_to_int_prot <- CF_PPI_network.lcc.dists[c("TRADD", "SYK", "SRC", "PLCB1"), rownames(int_prot)]
-CFTR_interactors_to_int_protein <- data.frame(apply(X = CF_PPI_network.lcc.CFTR_interactors_to_int_prot,
-                                                MARGIN = 2,
-                                                FUN=mean))
-
-CF_PPI_network.lcc.int_proteins_to_endpoints <- CF_PPI_network.lcc.dists[c("TRADD", "SYK", "SRC", "PLCB1"), int_proteins]
-CF_PPI_network.lcc.int_proteins_to_endpoints[,"mean"] <- sapply(CF_PPI_network.lcc.int_proteins_to_endpoints, mean)

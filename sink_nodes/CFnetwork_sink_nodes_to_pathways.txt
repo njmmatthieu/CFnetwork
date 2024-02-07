@@ -1,0 +1,36 @@
+Symbol	C-type lectin receptor signaling pathway	Cytokine-cytokine receptor interaction	Cytosolic DNA-sensing pathway	Estrogen signaling pathway	IL-17 signaling pathway	NF-kappa B signaling pathway	NOD-like receptor signaling pathway	Osteoclast differentiation	Regulation of actin cytoskeleton	RIG-I-like receptor signaling pathway	T cell receptor signaling pathway	Th17 cell differentiation	TNF signaling pathway	Toll-like receptor signaling pathway	Viral protein interaction with cytokine and cytokine receptor	Endpoint_cat
+ACTN4	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	Regulation of actin cytoskeleton
+ARPC5	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	Regulation of actin cytoskeleton
+CASP1	-1	0	1	0	0	0	1	0	0	0	0	0	0	0	0	Caspases
+CASP3	0	0	-1	0	1	0	0	0	0	0	0	0	1	0	0	Caspases
+CASP7	0	0	-1	0	0	0	0	0	0	0	0	0	1	0	0	Caspases
+CEBPB	0	0	0	0	1	0	0	0	0	0	0	0	1	0	0	TF
+CFL1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	Regulation of actin cytoskeleton
+CREB1	0	0	0	-1	0	0	0	1	0	0	0	0	-1	0	0	TF
+CREB3	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	TF
+CYBA	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	Other
+CYBB	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	Other
+DNM1L	0	0	0	0	0	0	1	0	0	0	0	0	1	0	0	Other
+ENAH	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	Regulation of actin cytoskeleton
+ESR1	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	TF
+ESR2	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	TF
+FOS	-1	0	0	1	1	0	0	1	0	0	1	1	1	1	0	TF
+GABARAP	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	Other
+GSN	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	Regulation of actin cytoskeleton
+IQGAP1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	Regulation of actin cytoskeleton
+IRF1	1	0	0	0	0	0	0	0	0	0	0	0	1	0	0	TF
+IRF3	0	0	1	0	0	0	1	0	0	1	0	0	0	1	0	TF
+IRF5	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	TF
+IRF7	0	0	1	0	0	0	-1	0	0	1	0	0	0	1	0	TF
+IRF9	1	0	0	0	0	0	1	1	0	0	0	0	0	0	0	TF
+JUN	1	0	0	0	-1	0	1	-1	0	0	-1	1	1	-1	0	TF
+MYL12B	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	Regulation of actin cytoskeleton
+NFATC1	1	0	0	0	0	0	0	1	0	0	1	1	0	0	0	TF
+NFKB1	1	0	1	0	1	1	1	1	0	1	1	-1	1	1	0	TF
+NFKB2	1	0	0	0	0	1	0	1	0	0	0	0	0	0	0	TF
+PFN	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	Regulation of actin cytoskeleton
+PXN	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	Regulation of actin cytoskeleton
+RELA	1	0	-1	0	-1	-1	-1	-1	0	-1	-1	-1	-1	-1	0	TF
+RELB	1	0	0	0	0	-1	0	-1	0	0	0	0	0	0	0	TF
+STAT1	1	0	0	0	0	0	1	1	0	0	0	1	0	1	0	TF
+VCL	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	Regulation of actin cytoskeleton
