@@ -224,9 +224,10 @@ diff_intersections_summary_long$pathway_name <- factor(diff_intersections_summar
 
 
 
-fgsea_nes_diff_pathways_heatmap <- ggplot(fgsea_es_diff_pathways_long, aes(y = pathway_name, 
-                                                                           x = study,
-                                                                           fill = NES))+
+fgsea_nes_diff_pathways_heatmap <- 
+  ggplot(fgsea_es_diff_pathways_long, aes(y = pathway_name, 
+                                          x = study,
+                                          fill = NES))+
   geom_tile(color = "white",
             lwd = 1.5,
             linetype = 1)+

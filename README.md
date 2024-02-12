@@ -80,10 +80,11 @@ Correct and merge the common dysregulated pathways into one single network. Add 
 deseq
 
 #### Script
-    - scripts/kegg_diff_pathways_network_scripts/kegg_diff_pathways.Rmd
+    - scripts/pathways_to_network/kegg_diff_pathways.Rmd
 
 #### Input 
-    - kegg_pathways/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt: list of interactions and nodes to correct in KEGG pathways
+List of interactions and nodes to correct in KEGG pathways
+    - kegg_pathways/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt
 
 #### Dependencies
 ##### Correction of KEGG pathways

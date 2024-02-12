@@ -32,24 +32,24 @@ CF_PPI_network.lcc.node_type@nodes <- CF_PPI_network.lcc.node_type@nodes[which(C
 ## PATHWAY ENRICHMENT OF THE WHOLE NETWORK ##
 #############################################
 
-# "gp__ubAP_9ngg_H0c"
-upload_GMT_file(gmtfile = "kegg_pathways/kegg_pathways_from_omnipathR.gmt")
-
-CF_PPI_network.nodes.gost.res <- gost(query = CF_PPI_network.lcc.node_type.nodes$Symbol, 
-                organism = "gp__xH8L_h95C_juo", 
-                ordered_query = FALSE,
-                multi_query = FALSE, 
-                significant = FALSE, 
-                exclude_iea = FALSE, 
-                measure_underrepresentation = FALSE, 
-                evcodes = FALSE, 
-                user_threshold = 0.05, 
-                correction_method = "fdr", # change FDR
-                # custom_bg = shared_genes_in_3_studies, 
-                # domain_scope = "custom", # change to custom to genes appearing in at least 3 studies
-                numeric_ns = "", 
-                sources = NULL, 
-                as_short_link = FALSE)
+# # "gp__ubAP_9ngg_H0c"
+# upload_GMT_file(gmtfile = "kegg_pathways/kegg_pathways_from_omnipathR.gmt")
+# 
+# CF_PPI_network.nodes.gost.res <- gost(query = CF_PPI_network.lcc.node_type.nodes$Symbol, 
+#                 organism = "gp__xH8L_h95C_juo", 
+#                 ordered_query = FALSE,
+#                 multi_query = FALSE, 
+#                 significant = FALSE, 
+#                 exclude_iea = FALSE, 
+#                 measure_underrepresentation = FALSE, 
+#                 evcodes = FALSE, 
+#                 user_threshold = 0.05, 
+#                 correction_method = "fdr", # change FDR
+#                 # custom_bg = shared_genes_in_3_studies, 
+#                 # domain_scope = "custom", # change to custom to genes appearing in at least 3 studies
+#                 numeric_ns = "", 
+#                 sources = NULL, 
+#                 as_short_link = FALSE)
 
 ############################################################################
 ## BINDING INTERACTIONS INTO TWO DIRECTED INTERACTIONS IN BOTH DIRECTIONS ##
@@ -202,11 +202,11 @@ sink_nodes_downstream_to_CFTR_interactors <- sink_nodes_downstream_to_CFTR_inter
 sink_nodes_downstream_to_CFTR_interactors$protein <- factor(sink_nodes_downstream_to_CFTR_interactors$protein,
                          levels=unique(sink_nodes_downstream_to_CFTR_interactors$protein))
 
-which(names(V(CF_PPI_network.lcc.igraph))=="PYCARD")
-# 322
-
-which(names(V(CF_PPI_network.lcc.igraph))=="NFKB1")
-# 322
+# which(names(V(CF_PPI_network.lcc.igraph))=="PYCARD")
+# # 322
+# 
+# which(names(V(CF_PPI_network.lcc.igraph))=="NFKB1")
+# # 322
 
 shortest_paths_from_prot <- function(source, target) {
   

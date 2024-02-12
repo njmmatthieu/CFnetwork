@@ -16,10 +16,6 @@ add_kegg_interaction <- function(PPI_network,
   Uniprot_target <- dplyr::filter(Symbol2UniprotID, symbol==Target)[['uniprot_ids']][[1]]
   Effect_arrow <- effect_arrow.df[which(effect_arrow.df$effect==Effect),"arrow"]
   
-  # print(Uniprot_source)
-  # print(Uniprot_target)
-  # print(Effect_arrow)
-  
   new_interaction <- c("PPrel", 
     Effect,
     Effect_arrow,
@@ -28,10 +24,6 @@ add_kegg_interaction <- function(PPI_network,
     Target,
     Uniprot_target,
     Pathway_name,
-    # paste(Uniprot_source,
-    #       Uniprot_target,
-    #       Effect,
-    #       sep = "_"),
     TRUE
   )
   
@@ -129,13 +121,6 @@ remove_node_uniprotid <- function(PPI_network,
   
 }
 
-# # Debug
-# PPI_network <- PPI_network.temp
-# Source <- source
-# Effect <- effect
-# Target <- target
-# Pathway_name <- pathway_name
-
 # Change effect of an interaction
 change_effect <- function(PPI_network,
                                     source_colname="genesymbol_source",
@@ -169,14 +154,8 @@ add_new_nodes_uniprot_ids <- function(Symbol2UniprotID,
   corrections.df.new_node <- corrections.df[which(corrections.df$action=="add_node"),]
   
   for (i_act in 1:nrow(corrections.df.new_node)){
-    # print(i_act)
-    # action <- corrections.df[i_act, "action"]
     source <- corrections.df.new_node[i_act, "Source"]
-    # print(source)
     source_UniprotID <- corrections.df.new_node[i_act, "Source_UniprotID"]
-    # effect <- corrections.df[i_act, "Effect"]
-    # target <- corrections.df[i_act, "Target"]
-    # pathway_name <- corrections.df[i_act, "pathway_name"]
 
     if (!source %in% Symbol2UniprotID$symbol){
       print(paste(source, "does not exist in KEGG signaling database.", sep = " "))
@@ -189,11 +168,6 @@ add_new_nodes_uniprot_ids <- function(Symbol2UniprotID,
   return(Symbol2UniprotID)
 }
 
-# # Debug
-# PPI_network <- diff_PPI_network
-# Symbol2UniprotID <- kegg_pathways_nodes.carac.corrected
-# corrections.df <- kegg_pathways_corrections.example
-
 # Wrapper function that comprises all the functions above.
 correct_PPI_network <- function(PPI_network,
                                 source_colname="genesymbol_source",
@@ -202,10 +176,6 @@ correct_PPI_network <- function(PPI_network,
                                 corrections.df) {
   
   PPI_network.temp <- PPI_network
-  
-  # # Debug
-  # source_colname <- "genesymbol_source"
-  # target_colname <- "genesymbol_target"
   
   for (i_act in 1:nrow(corrections.df)){
     

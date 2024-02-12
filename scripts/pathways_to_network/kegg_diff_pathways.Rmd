@@ -24,8 +24,6 @@ diff_pathways <- rownames(fgsea_es_diff_pathways)
 ```
 
 ```{r}
-# source("scripts/fgsea_comparison/fgsea_output_preprocess.R")
-
 # for class PPI_network and preprocess_PPI_network()
 source("scripts/pathways_to_network/network_utils.R")
 ```
@@ -64,14 +62,6 @@ effect_arrow.df <- effect_arrow.df %>%
   mutate(effect = if_else(effect == "compound",
                           paste(effect, arrow, sep = " - "),
                           effect))
-
-# effect_arrow.df %>%
-#   mutate(effect)
-# 
-# effect_arrow.df[which(effect_arrow.df$effect=="compound"),"effect"] <- paste(
-#   effect_arrow.df[which(effect_arrow.df$effect=="compound"),"effect"],
-#   effect_arrow.df[which(effect_arrow.df$effect=="compound"),"arrow"],
-#   sep = " - ")
 ```
 
 # Correction of KEGG diff pathways thanks to 
@@ -98,13 +88,8 @@ kegg_pathways_nodes.carac.corrected <-
 diff_pathways.PPI_network.corrected.list <- lapply(diff_pathways, 
                                                    function(diff_pathway_name){
   
-  # # to test
-  # diff_pathway_name <- diff_pathways[1]
-  
   print("##### CORRECTION #####")
   print(diff_pathway_name)
-  # print("#####")
-  # diff_pathway_df.interactions <- kegg_pathway_df.signaling.interactions.list.final[names(kegg_pathway_df.signaling.interactions.list.final)==diff_pathway_name][[1]]
   
   diff_pathway_df.interactions <- kegg_pathway_df.signaling.interactions.list.final[[diff_pathway_name]]
   
@@ -114,16 +99,8 @@ diff_pathways.PPI_network.corrected.list <- lapply(diff_pathways,
     diff_pathway_df.interactions %>%
     dplyr::select(-interactions_colnames_to_keep) %>%
     distinct()
-
-  # diff_pathway_df.interactions.unique <- unique(diff_pathway_df.interactions[,!(colnames(diff_pathway_df.interactions) %in% c("source",
-  #                                                                                                                       "target",
-  #                                                                                                                       "relation_id",
-  #                                                                                                                       "kegg_id_source",
-  #                                                                                                                       "kegg_id_target"))])
   
   diff_pathway_df.interactions.unique$manually_added <- FALSE
-  
-  # diff_pathway_df.nodes <- kegg_pathway_df.signaling.nodes.list.final[names(kegg_pathway_df.signaling.nodes.list.final)==diff_pathway_name][[1]]
 
   diff_pathway_df.nodes <- 
     kegg_pathway_df.signaling.nodes.list.final[[diff_pathway_name]]
@@ -171,9 +148,6 @@ interactions_in_diff_kegg_pathways_wide_df <- pivot_wider(interactions_in_diff_k
                                                           names_from = "pathway_name",
                                                           values_from = "value")
 
-# interactions_in_diff_kegg_pathways_wide_df <- dcast(interactions_in_diff_kegg_pathways,
-#                                       interaction_id ~ pathway_name,
-#                                       value.var = "value")
 interactions_in_diff_kegg_pathways_wide_df[is.na(interactions_in_diff_kegg_pathways_wide_df)]<- 0
 interactions_in_diff_kegg_pathways_wide_df$sum.interaction <- rowSums(interactions_in_diff_kegg_pathways_wide_df[,-1]) 
 
@@ -224,10 +198,6 @@ kegg_diff_pathways_nodes <-
               names_from = "pathway_name",
               values_from = "value")
 
-
-# kegg_diff_pathways_nodes <- dcast(kegg_diff_pathways_nodes.long,
-#                                       Symbol ~ pathway_name,
-#                                       value.var = "value")
 kegg_diff_pathways_nodes[is.na(kegg_diff_pathways_nodes)]<- 0
 kegg_diff_pathways_nodes$sum <- rowSums(kegg_diff_pathways_nodes[,-1]) 
 
@@ -268,11 +238,6 @@ CF_PPI_network <- new("PPI_network",
 CF_PPI_network.CFTR_extended <- extend_to_CFTR_interactors(CF_PPI_network)
 CF_PPI_network.CFTR_extended.nodes <- CF_PPI_network.CFTR_extended@nodes
 CF_PPI_network.CFTR_extended.interactions <- CF_PPI_network.CFTR_extended@interactions
-
-
-# # test to remove SRC and CAV1-CAV2
-# CF_PPI_network.CFTR_extended.interactions.new <- CF_PPI_network.CFTR_extended.interactions
-# CF_PPI_network.CFTR_extended.nodes.new <- CF_PPI_network.CFTR_extended.nodes
 
 # save(CF_PPI_network.CFTR_extended.nodes,
 #      file = "kegg_diff_pathways_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df.RData")
