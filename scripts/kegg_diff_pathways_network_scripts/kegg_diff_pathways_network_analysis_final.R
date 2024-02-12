@@ -82,8 +82,9 @@ CF_PPI_network.lcc.node_type.interactions.binding.other_direction <-
 colnames(CF_PPI_network.lcc.node_type.interactions.binding.other_direction) <- c("from", 
                                                                                  "to")
 ## both directions
-CF_PPI_network.lcc.node_type.interactions.binding.both_directions <- rbind(CF_PPI_network.lcc.node_type.interactions.binding.one_direction,
-                                                                           CF_PPI_network.lcc.node_type.interactions.binding.other_direction)
+CF_PPI_network.lcc.node_type.interactions.binding.both_directions <- 
+  rbind(CF_PPI_network.lcc.node_type.interactions.binding.one_direction,
+        CF_PPI_network.lcc.node_type.interactions.binding.other_direction)
 CF_PPI_network.lcc.for_igraph <- rbind(CF_PPI_network.lcc.node_type.interactions.non_binding,
                                        CF_PPI_network.lcc.node_type.interactions.binding.both_directions)
 

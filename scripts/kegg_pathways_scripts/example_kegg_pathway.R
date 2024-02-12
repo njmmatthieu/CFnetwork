@@ -1,35 +1,30 @@
 # for PPI_network class
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/network_utils.R")
+source("scripts/pathways_to_network/network_utils.R")
 
 # KEGG pathways from Omnipath
-load("/Users/matthieu/ownCloud/Thèse/Systems Biology/gmt/kegg_pathways_from_omnipath_list.RData")
-load("/Users/matthieu/ownCloud/Thèse/Systems Biology/gmt/kegg_pathways_from_omnipath_nodes_carac.RData")
+load("kegg_pathways/kegg_pathways_from_omnipath_list.RData")
+load("kegg_pathways/kegg_pathways_from_omnipath_nodes_carac.RData")
 kegg_pathway_df.signaling.interactions.df <- do.call("rbind", kegg_pathway_df.signaling.interactions.list.final)
-load("/Users/matthieu/ownCloud/Thèse/Systems Biology/gmt/symbols_from_kegg_pathways_from_omnipathR_list.RData")
+load("kegg_pathways/symbols_from_kegg_pathways_from_omnipathR_list.RData")
 kegg_pathway_df.signaling.nodes.df <- do.call("rbind", kegg_pathway_df.signaling.nodes.list.final)
 
 # for corrections 
-kegg_pathways_corrections <- read.table("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/kegg_diff_pathways_corrections_w_EZR_2023_06_07.txt",
+kegg_pathways_corrections <- read.table("kegg_diff_pathways/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt",
                                         sep = "\t",
                                         header = T)
 
 # # To add an interactions
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/kegg_pathways_manual_curation.R")
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/kegg_pathways_utils.R")
+source("scripts/kegg_pathways_scripts/kegg_pathways_manual_curation.R")
+# source("scripts/kegg_pathways_scripts/kegg_pathways_utils.R")
 
 # for remove_expression_interactions(), get_node_type()
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/simplify_network_helper.R")
+source("scripts/kegg_diff_pathways_network_scripts/simplify_network_helper.R")
 
 # for endpoint_tag(), preprocess_PPI_network(), tag_weird_endpoints() and remove_weird_endpoints()
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/network_visualization_helper.R")
+source("scripts/kegg_diff_pathways_network_scripts/network_visualisation_helper.R")
 
 # # for extend_to_CFTR_interactors
-# source("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/CFTR_interactors_helper.R")
-
-
-# KEGG pathways from Omnipath
-load("/Users/matthieu/ownCloud/Thèse/Systems Biology/gmt/kegg_pathways_from_omnipath_list.RData")
-load("/Users/matthieu/ownCloud/Thèse/Systems Biology/gmt/symbols_from_kegg_pathways_from_omnipathR_list.RData")
+# source("scripts/pathways_to_network/CFTR_interactors_helper.R")
 
 # Select pathway
 # example_pathway_name <- "NOD-like receptor signaling pathway"
@@ -78,9 +73,6 @@ example_kegg_PPI_network <- preprocess_PPI_network(example_kegg_PPI_network)
 
 
 # Corrections preprocess
-# kegg_pathways_corrections <- read.table("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/pathways_to_network_scripts/kegg_diff_pathways_corrections_w_EZR_2022_12_22.txt",
-#                                         sep = "\t",
-#                                         header = T)
 kegg_pathways_corrections.example <- kegg_pathways_corrections[which(kegg_pathways_corrections$pathway_name==example_pathway_name),]
 
 example_kegg_PPI_network.corrected <- correct_PPI_network(PPI_network = example_kegg_PPI_network,
@@ -115,37 +107,4 @@ example_kegg_PPI_network.rep_tag <- tag_prot_cat(example_kegg_PPI_network.endpoi
 example_kegg_PPI_network.node_type <- get_node_type(example_kegg_PPI_network.rep_tag,
                                               # interactors = CFTR_interactors,
                                               include_weird_endpoints = FALSE)
-
-# for diff_pathways
-load("/Users/matthieu/ownCloud/Thèse/Systems Biology/Transcriptomic studies/fgsea_comparison/fgsea_nes_diff_pathways_2022_09_15.RData")
-diff_pathways <- rownames(fgsea_es_diff_pathways)
-diff_pathways <- diff_pathways[which(diff_pathways!="AGE-RAGE signaling pathway in diabetic complications")]
-
-# Loading leading.edges columns
-load("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/kegg_diff_pathways_nodes_df_2023_04_06.RData")
-leading.edges.columns <- colnames(kegg_diff_pathways_nodes)[grepl("leadingEdge", colnames(kegg_diff_pathways_nodes))]
-leading.edges.column.pathway <- leading.edges.columns[grepl(example_pathway_name, leading.edges.columns)]
-
-example_kegg_PPI_network.node_type@nodes <- merge(example_kegg_PPI_network.node_type@nodes,
-                                        kegg_diff_pathways_nodes[,c("Symbol", leading.edges.column.pathway)],
-                                        by = "Symbol",
-                                        all.x = T)
-
-write.table(example_kegg_PPI_network.node_type@interactions,
-             file = paste("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/pathway_networks/kegg_pathways/",
-                          example_pathway_name,
-                          "_interactions_corrected_with_expression_2023_06_06.tsv",
-                          sep = ""),
-             sep = "\t",
-             row.names = F,
-             quote = FALSE)
-
-write.table(example_kegg_PPI_network.node_type@nodes,
-            file = paste("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/pathway_networks/kegg_pathways/",
-                         example_pathway_name,
-                         "_nodes_corrected_with_expression_2023_06_06.tsv",
-                         sep = ""),
-            sep = "\t",
-            row.names = F,
-            quote = FALSE)
 

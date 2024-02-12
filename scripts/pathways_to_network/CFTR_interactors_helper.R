@@ -1,28 +1,3 @@
-# load("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/CFTR_interactors_nodes_df_2023_03_30.RData")
-# load("/Users/matthieu/ownCloud/Thèse/Systems Biology/pathways_to_network/networks/diff_pathways_networks/CFTR_interactors_interactions_df_2023_03_30.RData")
-
-# library(biomaRt)
-
-# get_node_type.CFTR_interactors <- function(PPI_network,
-#                                            source_colname="genesymbol_source",
-#                                            target_colname="genesymbol_target",
-#                                            interactors){
-#   
-#   PPI_network@nodes$CFTR_interactor <- PPI_network@nodes$Symbol %in% interactors$Symbol 
-#   PPI_network@nodes <- merge(PPI_network@nodes,
-#                              interactors,
-#                              by = "Symbol",
-#                              all.x = TRUE)
-#   # 
-#   # # Node type 2
-#   # PPI_network@nodes$Node_type.2 <- PPI_network@nodes$Node_type
-#   # PPI_network@nodes[which(PPI_network@nodes$Symbol %in% interactors$Symbol),"Node_type.2"]<- 
-#   #   PPI_network@nodes[which(PPI_network@nodes$Symbol %in% interactors$Symbol),"Type"]
-#   
-#   return(PPI_network)
-#   
-# }
-
 add_node.CFTR_interactor <- function(PPI_network,
                                      source_colname="genesymbol_source",
                                      target_colname="genesymbol_target",
@@ -137,8 +112,10 @@ extend_to_CFTR_interactors <- function(PPI_network,
   # 1 - Adding interactors
   
   # interactors inside the network
-  all_CFTR_interactors <- all_CFTR_interactions.PPI.connected.nodes.df[which(all_CFTR_interactions.PPI.connected.nodes.df$CFTR_interactor),"HGNC"]
-  all_CFTR_interactors.in_network <- all_CFTR_interactors[all_CFTR_interactors %in% PPI_network.temp@nodes$Symbol]
+  all_CFTR_interactors <- 
+    all_CFTR_interactions.PPI.connected.nodes.df[which(all_CFTR_interactions.PPI.connected.nodes.df$CFTR_interactor),"HGNC"]
+  all_CFTR_interactors.in_network <- 
+    all_CFTR_interactors[all_CFTR_interactors %in% PPI_network.temp@nodes$Symbol]
   
   # interactors connetced to the
   interactors.str_connected.to_add.bool <- sapply(all_CFTR_interactors, function(symbol){
@@ -150,13 +127,15 @@ extend_to_CFTR_interactors <- function(PPI_network,
     # symbol <- "TRADD"
     # symbol <- "HSP90AA1"
     
-    interactors.interactions <- all_CFTR_interactions.PPI.connected.min[which(all_CFTR_interactions.PPI.connected.min$Source==symbol |
-                                                                                all_CFTR_interactions.PPI.connected.min$Target==symbol),]
+    interactors.interactions <- 
+      all_CFTR_interactions.PPI.connected.min[which(all_CFTR_interactions.PPI.connected.min$Source==symbol |
+                                                      all_CFTR_interactions.PPI.connected.min$Target==symbol),]
     interactors.str_connected <- setdiff(c(interactors.interactions$Source,
                                            interactors.interactions$Target),
                                          c(symbol, "CFTR"))
     
-    interactors.in_network <- interactors.str_connected[interactors.str_connected %in% setdiff(PPI_network.temp@nodes$Symbol,all_CFTR_interactors.in_network)]
+    interactors.in_network <- 
+      interactors.str_connected[interactors.str_connected %in% setdiff(PPI_network.temp@nodes$Symbol,all_CFTR_interactors.in_network)]
     # interactors.in_network <- interactors.str_connected[interactors.str_connected %in% PPI_network.temp@nodes$Symbol]
 
     
@@ -188,14 +167,16 @@ extend_to_CFTR_interactors <- function(PPI_network,
   
   # 2 - Adding interactions
   # interactions_to_add.nodes <- unique(c(all_CFTR_interactors, interactors.str_connected.to_add))
-  interactions.str_connected.to_add.list <- lapply(interactors.connected.to_add, function(symbol){
+  interactions.str_connected.to_add.list <- lapply(interactors.connected.to_add, 
+                                                   function(symbol){
     
     print(symbol)
     # # to test 
     # symbol <- "TRADD"
     
-    interactors.interactions <- all_CFTR_interactions.PPI.connected.min[which(all_CFTR_interactions.PPI.connected.min$Source==symbol |
-                                                                                all_CFTR_interactions.PPI.connected.min$Target==symbol),]
+    interactors.interactions <- 
+      all_CFTR_interactions.PPI.connected.min[which(all_CFTR_interactions.PPI.connected.min$Source==symbol |
+                                                      all_CFTR_interactions.PPI.connected.min$Target==symbol),]
     interactors.str_connected <- setdiff(c(interactors.interactions$Source,
                                            interactors.interactions$Target),
                                          # c(symbol, "CFTR"))
@@ -203,12 +184,14 @@ extend_to_CFTR_interactors <- function(PPI_network,
     
     
     # interactors.in_network <- interactors.str_connected[interactors.str_connected%in% PPI_network@nodes$Symbol]
-    interactors.in_network <- interactors.str_connected[interactors.str_connected%in%  setdiff(PPI_network.temp@nodes$Symbol,all_CFTR_interactors.in_network)]
+    interactors.in_network <- 
+      interactors.str_connected[interactors.str_connected%in%  setdiff(PPI_network.temp@nodes$Symbol,all_CFTR_interactors.in_network)]
     
     if (length(interactors.in_network)>0 | symbol %in% all_CFTR_interactors.in_network){
-      interactions.str_connected.to_add <- all_CFTR_interactions.PPI.connected.min[which(apply(X = all_CFTR_interactions.PPI.connected.min[,c("Source", "Target")],
-                                                                                               MARGIN = 1,
-                                                                                               FUN = function(x){return(all(x %in% c(interactors.in_network, symbol, "CFTR")))})),]
+      interactions.str_connected.to_add <- 
+        all_CFTR_interactions.PPI.connected.min[which(apply(X = all_CFTR_interactions.PPI.connected.min[,c("Source", "Target")],
+                                                            MARGIN = 1,
+                                                            FUN = function(x){return(all(x %in% c(interactors.in_network, symbol, "CFTR")))})),]
       
       return(interactions.str_connected.to_add)
     } else {
@@ -216,10 +199,12 @@ extend_to_CFTR_interactors <- function(PPI_network,
     }
   })
   interactions.str_connected.to_add.list <- interactions.str_connected.to_add.list[!is.na(interactions.str_connected.to_add.list)]
-  interactions.str_connected.to_add.df <- do.call(rbind, interactions.str_connected.to_add.list)
+  interactions.str_connected.to_add.df <- do.call(rbind, 
+                                                  interactions.str_connected.to_add.list)
   
   if (!include_CFTR){
-    interactions.str_connected.to_add.df <- interactions.str_connected.to_add.df[!interactions.str_connected.to_add.df$CFTR_interactions,]
+    interactions.str_connected.to_add.df <- 
+      interactions.str_connected.to_add.df[!interactions.str_connected.to_add.df$CFTR_interactions,]
   }
   print('status' %in% colnames(PPI_network.temp@nodes))
   

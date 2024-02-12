@@ -142,13 +142,13 @@ CF_PPI_network.lcc.node_type <- get_node_type(CF_PPI_network.lcc,
 
 
 # write.table(CF_PPI_network.lcc.node_type@interactions,
-#             file = "kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_lcc_tagged_interactions_df_2023_07_10.txt",
+#             file = "kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_lcc_tagged_interactions_df.txt",
 #             sep = "\t",
 #             row.names = F,
 #             quote = FALSE)
 # 
 # write.table(CF_PPI_network.lcc.node_type@nodes,
-#             file = "kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_lcc_tagged_nodes_df_2022_07_10.txt",
+#             file = "kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_lcc_tagged_nodes_df.txt",
 #             sep = "\t",
 #             row.names = F,
 #             quote = FALSE)

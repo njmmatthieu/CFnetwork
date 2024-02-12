@@ -3,6 +3,10 @@ title: "DEG_comparison"
 output: pdf_document
 ---
 
+```{r setup, include=TRUE}
+knitr::opts_knit$set(echo = TRUE, root.dir = normalizePath("../../"))
+```
+
 ```{r}
 library(cluster)
 library(dplyr)
@@ -15,7 +19,7 @@ library(reshape2)
 ```
 
 ```{r}
-source("~/ownCloud/Thèse/Systems Biology/Transcriptomic studies/deg_comparison/deg_output_preprocess.R")
+source("scripts/DEG_comparison/deg_output_preprocess.R")
 
 deg_lists <- lapply(deg_results_list, function(deg_df) {
   
@@ -93,7 +97,7 @@ colnames(logFC_combined_matrix) <- rownames(logFC_DEG_at_least_once)
 
 ```{r}
 # for deg_in_common()
-source("/Users/matthieu/ownCloud/Thèse/Systems Biology/Transcriptomic studies/deg_comparison/deg_utils.R")
+source("scripts/DEG_comparison/deg_utils.R")
 
 diff_intersections_summary <- deg_in_common(deg_list = deg_lists,
                                             nb_in_common = 3)

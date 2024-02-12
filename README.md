@@ -10,9 +10,9 @@ Explore the following sections to understand the content and purpose of each fil
 
 ## 1. Transcriptomics analyses 
 
-### 1.1 Differential Expression Analysis at the pathway Level with fGSEA
+### 1.1 Differential Expression Analysis at the pathway level with fGSEA
 
-Perform pathway-level differential expression analysis
+Perform pathway-level differential expression analysis with fgsea algorithm for each study.
 
 #### Conda environment
 fgsea
@@ -57,6 +57,8 @@ fgsea
 
 ### 1.2 Meta-analysis at the pathway level
 
+Compare the results of the pathway level analysis of all the studies to extract a list of common dysregulated pathways in CF.
+
 #### Conda environment
 deseq
 
@@ -72,10 +74,12 @@ deseq
 
 ## 2. From pathways to CF Network
 
+Correct and merge the common dysregulated pathways into one single network. Add CFTR and CFTR interactors to the network.
+
 #### Conda environment
 deseq
 
-#### Script - Correct and merge dysregulated pathways into a single network.
+#### Script
     - scripts/kegg_diff_pathways_network_scripts/kegg_diff_pathways.Rmd
 
 #### Input 
@@ -95,6 +99,8 @@ deseq
 
 ## 3. CF network pruning
 
+Network pruning and cleaning (corresponding to the part 3.6 of the Methods section). 
+
 #### Script
     - scripts/kegg_diff_pathways_network_scripts/kegg_diff_pathways_layout.R
 
@@ -111,6 +117,8 @@ deseq
     - kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df.txt : final pruned CF network nodes as txt file.
 
 ## 4. CF network analysis
+
+Network topological analysis (corresponding to the part 2.5 of the Results). 
 
 #### Script
     - scripts/kegg_diff_pathways_network_scripts/kegg_diff_pathways_network_analysis_final.R
