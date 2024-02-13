@@ -3,8 +3,7 @@ add_node.CFTR_interactor <- function(PPI_network,
                                      target_colname="genesymbol_target",
                                      Node,
                                      Node_UniprotID=NA) {
-  
-  # PPI_network@nodes$status <- NA
+
   PPI_network@interactions$reference <- 'KEGG'
   
   PPI_network@nodes[nrow(PPI_network@nodes)+1,"Symbol"] <- Node
@@ -22,45 +21,22 @@ add_kegg_interaction.CFTR_interactor <- function(PPI_network,
                                                  Effect,
                                                  Target,
                                                  Status) {
-  
-  # # to test 
-  # PPI_network <- PPI_network.temp
-  # i_row <- 1 
-  # Source <- interactions.str_connected.to_add.df[i_row, "Source"]
-  # Effect <- interactions.str_connected.to_add.df[i_row, "Effect"]
-  # Target <- interactions.str_connected.to_add.df[i_row, "Target"]
-  # Status <- interactions.str_connected.to_add.df[i_row, "status"]
-  
-  # mart <- useDataset("hsapiens_gene_ensembl", useMart("ensembl"))
-  
-  # Ajouter une colonne pour dire que ca vient de KEGG et l'autre que ca vient de la littérature
+
   if (!all(c("status", "reference") %in% colnames(PPI_network@interactions))){
     PPI_network@interactions$status <- NA
     PPI_network@interactions$reference <- 'KEGG' 
   }
   
-  print("coucou")
-  
   if (Source %in% Symbol2UniprotID[,"symbol"]){
     print(Source)
     Uniprot_source <- dplyr::filter(Symbol2UniprotID, symbol==Source)[['uniprot_ids']][[1]]
   } else {
-  #   Source.id <- getBM(filters= "hgnc_symbol", 
-  #         attributes= c("ensembl_gene_id","uniprotswissprot", "hgnc_symbol"),
-  #         values=Source,
-  #         mart= mart)
-  #   Uniprot_source <- setdiff(unique(Source.id$uniprotswissprot), "")
     Uniprot_source <- dplyr::filter(all_CFTR_interactions.PPI.connected.nodes.df, HGNC==Source)[['UniProtID']][[1]]
   }
   if (Target %in% Symbol2UniprotID[,"symbol"]){
     print(Target)
     Uniprot_target <- dplyr::filter(Symbol2UniprotID, symbol==Target)[['uniprot_ids']][[1]]
   } else {
-  #   Target.id <- getBM(filters= "hgnc_symbol", 
-  #                      attributes= c("ensembl_gene_id","uniprotswissprot", "hgnc_symbol"),
-  #                      values=Target,
-  #                      mart= mart)
-  #   Uniprot_target <- setdiff(unique(Target.id$uniprotswissprot), "")
     Uniprot_target <- dplyr::filter(all_CFTR_interactions.PPI.connected.nodes.df, HGNC==Target)[['UniProtID']][[1]]
   }
   
@@ -120,13 +96,6 @@ extend_to_CFTR_interactors <- function(PPI_network,
   # interactors connetced to the
   interactors.str_connected.to_add.bool <- sapply(all_CFTR_interactors, function(symbol){
     
-    # # to test
-    # symbol <- "PRKACA"
-    # symbol <- "CSNK2A1"
-    # symbol <- "SYK"
-    # symbol <- "TRADD"
-    # symbol <- "HSP90AA1"
-    
     interactors.interactions <- 
       all_CFTR_interactions.PPI.connected.min[which(all_CFTR_interactions.PPI.connected.min$Source==symbol |
                                                       all_CFTR_interactions.PPI.connected.min$Target==symbol),]
@@ -136,10 +105,7 @@ extend_to_CFTR_interactors <- function(PPI_network,
     
     interactors.in_network <- 
       interactors.str_connected[interactors.str_connected %in% setdiff(PPI_network.temp@nodes$Symbol,all_CFTR_interactors.in_network)]
-    # interactors.in_network <- interactors.str_connected[interactors.str_connected %in% PPI_network.temp@nodes$Symbol]
 
-    
-    
     return(length(interactors.in_network)>0)
   })
   interactors.str_connected.to_add <- names(interactors.str_connected.to_add.bool)[interactors.str_connected.to_add.bool]
@@ -166,24 +132,18 @@ extend_to_CFTR_interactors <- function(PPI_network,
   
   
   # 2 - Adding interactions
-  # interactions_to_add.nodes <- unique(c(all_CFTR_interactors, interactors.str_connected.to_add))
   interactions.str_connected.to_add.list <- lapply(interactors.connected.to_add, 
                                                    function(symbol){
     
     print(symbol)
-    # # to test 
-    # symbol <- "TRADD"
     
     interactors.interactions <- 
       all_CFTR_interactions.PPI.connected.min[which(all_CFTR_interactions.PPI.connected.min$Source==symbol |
                                                       all_CFTR_interactions.PPI.connected.min$Target==symbol),]
     interactors.str_connected <- setdiff(c(interactors.interactions$Source,
                                            interactors.interactions$Target),
-                                         # c(symbol, "CFTR"))
                                          c("CFTR"))
     
-    
-    # interactors.in_network <- interactors.str_connected[interactors.str_connected%in% PPI_network@nodes$Symbol]
     interactors.in_network <- 
       interactors.str_connected[interactors.str_connected%in%  setdiff(PPI_network.temp@nodes$Symbol,all_CFTR_interactors.in_network)]
     
@@ -235,7 +195,6 @@ extend_to_CFTR_interactors <- function(PPI_network,
   PPI_network.temp@interactions[which(is.na(PPI_network.temp@interactions$CyFi_MAP_interactions)),"CyFi_MAP_interactions"] <- TRUE
   
   # add tag CFTR interactor
-  # PPI_network.temp@nodes$CFTR_interactor <- PPI_network.temp@nodes$Symbol %in% all_CFTR_interactors
   PPI_network.temp@nodes <- merge(PPI_network.temp@nodes,
                                   all_CFTR_interactions.PPI.connected.nodes.df[,c("HGNC", 
                                                                                   "CFTR_interactor")], 

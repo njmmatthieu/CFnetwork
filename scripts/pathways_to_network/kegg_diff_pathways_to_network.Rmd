@@ -65,17 +65,17 @@ effect_arrow.df <- effect_arrow.df %>%
 
 # Correction of KEGG diff pathways thanks to 
 # manual corrections stored in the file: kegg_diff_pathways/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt
-# and functions in scripts/kegg_pathways_scripts/kegg_pathways_manual_curation.R
+# and functions in scripts/kegg_pathways/kegg_pathways_manual_curation.R
 
 ```{r}
 # Kegg pathways correction file
 kegg_pathways_corrections <-
-  read.table("kegg_diff_pathways/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt",
+  read.table("data/kegg_diff_pathways/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt",
              sep = "\t",
              header = T)
 
 # Manual curation: for add_new_nodes_uniprot_ids()
-source("scripts/kegg_pathways_scripts/kegg_pathways_manual_curation.R")
+source("scripts/kegg_pathways/kegg_pathways_manual_curation.R")
 
 
 # Kegg pathways correction for gene symbols
@@ -179,7 +179,7 @@ rm(kegg_pathways_interactions.unique,
 ```{r}
 # get the nodes
 kegg_pathways_nodes <- 
-  read.table(file = "kegg_pathways/symbols_from_kegg_pathways_from_omnipathR.txt",
+  read.table(file = "data/kegg_pathways/symbols_from_kegg_pathways_from_omnipathR.txt",
              sep = "\t")
 
 diff_pathways.nodes.corrected.list <- 
@@ -213,10 +213,10 @@ kegg_diff_pathways_nodes$pathway <- sapply(1:nrow(kegg_diff_pathways_nodes), fun
 
 ```{r}
 # save(kegg_diff_pathways_nodes,
-#      file = "kegg_diff_pathways_network/kegg_diff_pathways_nodes_df.RData")
+#      file = "data/kegg_diff_pathways_network/kegg_diff_pathways_nodes_df.RData")
 # 
 # save(kegg_diff_pathways_interactions,
-#      file = "kegg_diff_pathways_network/kegg_diff_pathways_interactions_df.RData")
+#      file = "data/kegg_diff_pathways_network/kegg_diff_pathways_interactions_df.RData")
 ```
 
 # Option - CFTR interactors
@@ -239,8 +239,8 @@ CF_PPI_network.CFTR_extended.nodes <- CF_PPI_network.CFTR_extended@nodes
 CF_PPI_network.CFTR_extended.interactions <- CF_PPI_network.CFTR_extended@interactions
 
 # save(CF_PPI_network.CFTR_extended.nodes,
-#      file = "kegg_diff_pathways_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df.RData")
+#      file = "data/kegg_diff_pathways_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df.RData")
 # 
 # save(CF_PPI_network.CFTR_extended.interactions,
-#      file = "kegg_diff_pathways_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df.RData")
+#      file = "data/kegg_diff_pathways_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df.RData")
 ```

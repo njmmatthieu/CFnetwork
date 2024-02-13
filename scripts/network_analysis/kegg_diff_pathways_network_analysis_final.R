@@ -7,13 +7,13 @@ library(gprofiler2)
 source("scripts/pathways_to_network/network_utils.R")
 
 CF_PPI_network.lcc.node_type.interactions <- 
-  read.table(file = "kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df.txt",
+  read.table(file = "data/kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df.txt",
              sep = "\t",
              header = T,
              check.names = F)
 
 CF_PPI_network.lcc.node_type.nodes <- 
-  read.table(file = "kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df.txt",
+  read.table(file = "data/kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df.txt",
              sep = "\t",
              header = T,
              check.names = F)
@@ -33,7 +33,7 @@ CF_PPI_network.lcc.node_type@nodes <- CF_PPI_network.lcc.node_type@nodes[which(C
 #############################################
 
 # # "gp__ubAP_9ngg_H0c"
-# upload_GMT_file(gmtfile = "kegg_pathways/kegg_pathways_from_omnipathR.gmt")
+# upload_GMT_file(gmtfile = "data/kegg_pathways/kegg_pathways_from_omnipathR.gmt")
 # 
 # CF_PPI_network.nodes.gost.res <- gost(query = CF_PPI_network.lcc.node_type.nodes$Symbol, 
 #                 organism = "gp__xH8L_h95C_juo", 
@@ -92,7 +92,7 @@ CF_PPI_network.lcc.for_igraph <- rbind(CF_PPI_network.lcc.node_type.interactions
 ## SINK NODES AS DEFINED IN THE ARTICLE##
 ########################################
 
-sink_nodes.final.pathways.df <- read.table(file = "sink_nodes/CFnetwork_sink_nodes_to_pathways.txt",
+sink_nodes.final.pathways.df <- read.table(file = "data/sink_nodes/CFnetwork_sink_nodes_to_pathways.txt",
                                           sep = "\t",
                                           header = T,
                                           na.strings = "",

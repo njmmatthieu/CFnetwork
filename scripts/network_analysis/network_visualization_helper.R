@@ -4,7 +4,7 @@ library(dorothea)
 source("scripts/pathways_to_network/network_utils.R")
 
 # for Endpoints phenotypes
-endpoints.pheno.df <- read.table(file = "sink_nodes/CFnetwork_sink_nodes_to_pathways.txt",
+endpoints.pheno.df <- read.table(file = "data/sink_nodes/CFnetwork_sink_nodes_to_pathways.txt",
                                  sep = "\t",
                                  header = T,
                                  na.strings = "")
