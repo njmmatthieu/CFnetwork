@@ -14,14 +14,13 @@ kegg_pathways_corrections <- read.table("data/kegg_diff_pathways/kegg_diff_pathw
                                         header = T)
 
 # # To add an interactions
-source("scripts/kegg_pathways_scripts/kegg_pathways_manual_curation.R")
-# source("scripts/kegg_pathways_scripts/kegg_pathways_utils.R")
+source("scripts/kegg_pathways/kegg_pathways_manual_curation.R")
 
 # for remove_expression_interactions(), get_node_type()
-source("scripts/kegg_diff_pathways_network_scripts/simplify_network_helper.R")
+source("scripts/network_analysis/simplify_network_helper.R")
 
 # for endpoint_tag(), preprocess_PPI_network(), tag_weird_endpoints() and remove_weird_endpoints()
-source("scripts/kegg_diff_pathways_network_scripts/network_visualisation_helper.R")
+source("scripts/network_analysis/network_visualisation_helper.R")
 
 # # for extend_to_CFTR_interactors
 # source("scripts/pathways_to_network/CFTR_interactors_helper.R")

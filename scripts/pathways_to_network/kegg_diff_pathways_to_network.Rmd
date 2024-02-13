@@ -41,7 +41,6 @@ load("data/kegg_pathways/symbols_from_kegg_pathways_from_omnipathR_list.RData")
 kegg_pathway_df.signaling.nodes.df <- 
   do.call("rbind", 
           kegg_pathway_df.signaling.nodes.list.final)
-# source("scripts/kegg_pathways_scripts/kegg_pathways_utils.R")
 
 interactions_colnames_to_keep <- c("source", 
                                    "target", 
@@ -71,7 +70,7 @@ effect_arrow.df <- effect_arrow.df %>%
 ```{r}
 # Kegg pathways correction file
 kegg_pathways_corrections <-
-  read.table("data/kegg_diff_pathways/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt",
+  read.table("kegg_diff_pathways/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt",
              sep = "\t",
              header = T)
 

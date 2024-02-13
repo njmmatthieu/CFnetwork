@@ -3,8 +3,6 @@
 # for PPI_network class
 source("scripts/pathways_to_network/network_utils.R")
 
-# for kegg_pathways_nodes.carac.corrected and effect_arrow.df
-# source("scripts/kegg_pathways_scripts/kegg_pathways_utils.R")
 
 # for endpoint_tag(), 
 # gene_symbol_sanity_check(), 
@@ -14,10 +12,10 @@ source("scripts/pathways_to_network/network_utils.R")
 # remove_indirect_interactions(), 
 # remove_same_interactions(), 
 # binding_interaction() 
-source("scripts/kegg_diff_pathways_network_scripts/simplify_network_helper.R")
+source("scripts/network_analysis/simplify_network_helper.R")
 
 # for get_node_type(),
-source("scripts/kegg_diff_pathways_network_scripts/network_visualization_helper.R")
+source("scripts/network_analysis/network_visualization_helper.R")
 
 # KEGG DIFF PATHWAYS - All proteins
 load("data/kegg_diff_pathways_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df.RData")

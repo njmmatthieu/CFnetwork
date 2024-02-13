@@ -5,7 +5,7 @@ library(tidyverse)
 # for PPI_network class, get_network_nodes()
 source("scripts/pathways_to_network/network_utils.R")
 
-source("scripts/kegg_pathways_scripts/kegg_pathways_manual_curation.R")
+source("scripts/kegg_pathways/kegg_pathways_manual_curation.R")
 
 # dorotea TF
 dorothea_regulon_human <- get(data("dorothea_hs", package = "dorothea"))

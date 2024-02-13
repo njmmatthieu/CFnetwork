@@ -30,30 +30,30 @@ fgsea
 
 #### Inputs
 ##### Gene level t-statistics:
-    - differential_expression_data/Verhaeghe_DEG_limma_unique_HGNC.txt
-    - differential_expression_data/Ogilvie_nasal_DEG_limma_unique_HGNC.csv
-    - differential_expression_data/Ogilvie_bronchial_DEG_limma_unique_HGNC.csv
-    - differential_expression_data/Voisin_DEG_limma_unique_HGNC.txt
-    - differential_expression_data/Clarke_DEG_limma_unique_HGNC.csv
-    - differential_expression_data/Balloy_without_CTRL2_DEG_limma_unique_HGNC.txt
-    - differential_expression_data/Zoso_DEG_limma_unique_HGNC.txt
-    - differential_expression_data/Saint_Criq_UNC_without_NCF_2_DEG_limma_unique_HGNC.txt
-    - differential_expression_data/Saint_Criq_SC_DEG_limma_unique_HGNC.txt
+    - data/differential_expression_data/Verhaeghe_DEG_limma_unique_HGNC.txt
+    - data/differential_expression_data/Ogilvie_nasal_DEG_limma_unique_HGNC.csv
+    - data/differential_expression_data/Ogilvie_bronchial_DEG_limma_unique_HGNC.csv
+    - data/differential_expression_data/Voisin_DEG_limma_unique_HGNC.txt
+    - data/differential_expression_data/Clarke_DEG_limma_unique_HGNC.csv
+    - data/differential_expression_data/Balloy_without_CTRL2_DEG_limma_unique_HGNC.txt
+    - data/differential_expression_data/Zoso_DEG_limma_unique_HGNC.txt
+    - data/differential_expression_data/Saint_Criq_UNC_without_NCF_2_DEG_limma_unique_HGNC.txt
+    - data/differential_expression_data/Saint_Criq_SC_DEG_limma_unique_HGNC.txt
 
 ##### GMT:
-    - kegg_pathways/kegg_pathways_from_omnipathR.gmt
+    - data/kegg_pathways/kegg_pathways_from_omnipathR.gmt
 
 #### Outputs
-    - fgsea_output/Verhaeghe_fgsea_report_kegg_pathways.RData
-    - fgsea_output/Ogilvie_nasal_fgsea_report_kegg_pathways.RData
-    - fgsea_output/Ogilvie_bronchial_fgsea_report_kegg_pathways.RData
-    - fgsea_output/Voisin_fgsea_report_kegg_pathways.RData
-    - fgsea_output/Clarke_fgsea_report_kegg_pathways.RData
-    - fgsea_output/Balloy_without_CTRL2_unfiltered_fgsea_report_kegg_pathways.RData
-    - fgsea_output/Zoso_fgsea_report_kegg_pathways.RData
-    - fgsea_output/Ling_unfiltered_fgsea_report_kegg_pathways.RData
-    - fgsea_output/Saint_Criq_UNC_without_NCF_2_fgsea_report_kegg_pathways.RData
-    - fgsea_output/Saint_Criq_SC_fgsea_report_kegg_pathways.RData
+    - data/fgsea_output/Verhaeghe_fgsea_report_kegg_pathways.RData
+    - data/fgsea_output/Ogilvie_nasal_fgsea_report_kegg_pathways.RData
+    - data/fgsea_output/Ogilvie_bronchial_fgsea_report_kegg_pathways.RData
+    - data/fgsea_output/Voisin_fgsea_report_kegg_pathways.RData
+    - data/fgsea_output/Clarke_fgsea_report_kegg_pathways.RData
+    - data/fgsea_output/Balloy_without_CTRL2_unfiltered_fgsea_report_kegg_pathways.RData
+    - data/fgsea_output/Zoso_fgsea_report_kegg_pathways.RData
+    - data/fgsea_output/Ling_unfiltered_fgsea_report_kegg_pathways.RData
+    - data/fgsea_output/Saint_Criq_UNC_without_NCF_2_fgsea_report_kegg_pathways.RData
+    - data/fgsea_output/Saint_Criq_SC_fgsea_report_kegg_pathways.RData
 
 ### 1.2 Meta-analysis at the pathway level
 
@@ -70,7 +70,7 @@ deseq
     - scripts/fgsea_comparison/Fgsea_comparison_utils.R
 
 #### Output
-    - kegg_diff_pathways/fgsea_nes_diff_pathways.RData
+    - data/kegg_diff_pathways/fgsea_nes_diff_pathways.RData
 
 ## 2. From pathways to CF Network
 
@@ -80,53 +80,53 @@ Correct and merge the common dysregulated pathways into one single network. Add 
 deseq
 
 #### Script
-    - scripts/pathways_to_network/kegg_diff_pathways.Rmd
+    - scripts/pathways_to_network/kegg_diff_pathways_to_network.Rmd
 
 #### Input 
 List of interactions and nodes to correct in KEGG pathways
-    - kegg_pathways/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt
+    - data/kegg_pathways/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt
 
 #### Dependencies
 ##### Correction of KEGG pathways
-    - scripts/kegg_pathways_scripts/kegg_pathways_manual_curation.R
+    - scripts/kegg_pathways/kegg_pathways_manual_curation.R
     - scripts/pathways_to_network/network_utils.R
 
 ##### Add CFTR interactors (Optional)
     - scripts/pathways_to_network/CFTR_interactors_helper.R
 
 ##### Outputs
-    - kegg_diff_pathways_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df.RData : CF network interactions as data.frame
-    - kegg_diff_pathways_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df.RData : CF network nodes as data.frame
+    - data/kegg_diff_pathways_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df.RData : CF network interactions as data.frame
+    - data/kegg_diff_pathways_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df.RData : CF network nodes as data.frame
 
 ## 3. CF network pruning
 
 Network pruning and cleaning (corresponding to the part 3.6 of the Methods section). 
 
 #### Script
-    - scripts/kegg_diff_pathways_network_scripts/kegg_diff_pathways_layout.R
+    - scripts/network_analysis/kegg_diff_pathways_network_layout.R
 
 #### Input
-    - kegg_diff_pathways_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df.RData : CF network interactions as data.frame
-    - kegg_diff_pathways_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df.RData : CF network nodes as data.frame
+    - data/kegg_diff_pathways_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df.RData : CF network interactions as data.frame
+    - data/kegg_diff_pathways_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df.RData : CF network nodes as data.frame
 
 #### Dependencies
-    - scripts/kegg_diff_pathways_network_scripts/simplify_network_helper.R 
-    - scripts/kegg_diff_pathways_network_scripts/network_visualisation_helper.R
+    - scripts/network_analysis/simplify_network_helper.R 
+    - scripts/network_analysis/network_visualisation_helper.R
 
 #### Outputs
-    - kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df.txt : final pruned CF network interactions as txt file.
-    - kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df.txt : final pruned CF network nodes as txt file.
+    - data/kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df.txt : final pruned CF network interactions as txt file.
+    - data/kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df.txt : final pruned CF network nodes as txt file.
 
 ## 4. CF network analysis
 
 Network topological analysis (corresponding to the part 2.5 of the Results). 
 
 #### Script
-    - scripts/kegg_diff_pathways_network_scripts/kegg_diff_pathways_network_analysis_final.R
+    - scripts/network_analysis/kegg_diff_pathways_network_analysis_final.R
 
 #### Input 
-    - kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df.txt : final pruned CF network interactions as txt file.
-    - kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df.txt : final pruned CF network nodes as txt file.
+    - data/kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df.txt : final pruned CF network interactions as txt file.
+    - data/kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df.txt : final pruned CF network nodes as txt file.
 
 \
 \
@@ -140,9 +140,7 @@ Network topological analysis (corresponding to the part 2.5 of the Results).
 doro-r4
 
 #### Script - Retrieve KEGG signaling pathways.
-    - scripts/kegg_pathways_scripts/kegg_pathways_preprocess.R
-
-    - scripts/kegg_pathways_scripts/kegg_pathways_utils.R
+    - scripts/kegg_pathways/kegg_pathways_preprocess.R
 
 #### Outputs
     - kegg_pathways/kegg_pathways_from_omnipathR.gmt
