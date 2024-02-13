@@ -19,7 +19,7 @@ library(tidyverse)
 # Loading fgsea results for each study
 
 ```{r}
-load("kegg_diff_pathways/fgsea_nes_diff_pathways.RData")
+load("data/kegg_diff_pathways/fgsea_nes_diff_pathways.RData")
 diff_pathways <- rownames(fgsea_es_diff_pathways)
 ```
 
@@ -32,12 +32,12 @@ source("scripts/pathways_to_network/network_utils.R")
 
 ```{r cars}
 # KEGG pathways from Omnipath
-load("kegg_pathways/kegg_pathways_from_omnipath_list.RData")
-load("kegg_pathways/kegg_pathways_from_omnipath_nodes_carac.RData")
+load("data/kegg_pathways/kegg_pathways_from_omnipath_list.RData")
+load("data/kegg_pathways/kegg_pathways_from_omnipath_nodes_carac.RData")
 kegg_pathway_df.signaling.interactions.df <- 
   do.call("rbind", 
           kegg_pathway_df.signaling.interactions.list.final)
-load("kegg_pathways/symbols_from_kegg_pathways_from_omnipathR_list.RData")
+load("data/kegg_pathways/symbols_from_kegg_pathways_from_omnipathR_list.RData")
 kegg_pathway_df.signaling.nodes.df <- 
   do.call("rbind", 
           kegg_pathway_df.signaling.nodes.list.final)
@@ -71,7 +71,7 @@ effect_arrow.df <- effect_arrow.df %>%
 ```{r}
 # Kegg pathways correction file
 kegg_pathways_corrections <-
-  read.table("kegg_diff_pathways/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt",
+  read.table("data/kegg_diff_pathways/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt",
              sep = "\t",
              header = T)
 
@@ -224,8 +224,8 @@ kegg_diff_pathways_nodes$pathway <- sapply(1:nrow(kegg_diff_pathways_nodes), fun
 
 ```{r}
 # for all_CFTR_interactors.PPI.min
-load("CFTR_interactors/CFTR_interactors_nodes_df.RData")
-load("CFTR_interactors/CFTR_interactors_interactions_df.RData")
+load("data/CFTR_interactors/CFTR_interactors_nodes_df.RData")
+load("data/CFTR_interactors/CFTR_interactors_interactions_df.RData")
 
 # all_CFTR_interactions.PPI.connected.min <- all_CFTR_interactions.PPI.connected.min[which(all_CFTR_interactions.PPI.connected.min$status !="unchanged"),]
 # for extend_to_CFTR_interactors

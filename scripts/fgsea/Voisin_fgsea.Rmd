@@ -15,7 +15,7 @@ library(tidyverse)
 ```
 
 ```{r}
-Voisin_DEG_HGNC <- read.table("differential_expression_data/Voisin_DEG_limma_unique_HGNC.txt",
+Voisin_DEG_HGNC <- read.table("data/differential_expression_data/Voisin_DEG_limma_unique_HGNC.txt",
                          sep = "\t",
                          header = T)
 

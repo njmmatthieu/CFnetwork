@@ -20,8 +20,8 @@ source("scripts/kegg_diff_pathways_network_scripts/simplify_network_helper.R")
 source("scripts/kegg_diff_pathways_network_scripts/network_visualization_helper.R")
 
 # KEGG DIFF PATHWAYS - All proteins
-load("kegg_diff_pathways_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df.RData")
-load("kegg_diff_pathways_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df.RData")
+load("data/kegg_diff_pathways_network/kegg_diff_pathways_interactions_with_CFTR_interactors_df.RData")
+load("data/kegg_diff_pathways_network/kegg_diff_pathways_nodes_with_CFTR_interactors_df.RData")
 
 CF_PPI_network.CFTR_extended <- new("PPI_network",
                                     interactions=CF_PPI_network.CFTR_extended.interactions,

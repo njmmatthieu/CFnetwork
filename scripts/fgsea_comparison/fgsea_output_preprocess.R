@@ -3,60 +3,60 @@
 
 ## 1 - Verhaeghe
 
-load("fgsea_output/Verhaeghe_fgsea_report_kegg_pathways.RData")
+load("data/fgsea_output/Verhaeghe_fgsea_report_kegg_pathways.RData")
 Verhaeghe_fgsea <- fgseaRes 
 
 ## 2 - Voisin
 
-load("fgsea_output/Voisin_fgsea_report_kegg_pathways.RData")
+load("data/fgsea_output/Voisin_fgsea_report_kegg_pathways.RData")
 Voisin_fgsea <- fgseaRes 
 
 # B - Micro-array nasal - Primary cultures
 
 ## 3 - Ogilvie nasal
 
-load("fgsea_output/Ogilvie_nasal_fgsea_report_kegg_pathways.RData")
+load("data/fgsea_output/Ogilvie_nasal_fgsea_report_kegg_pathways.RData")
 Ogilvie_nasal_fgsea <- fgseaRes 
 
 ## 4 - Clarke
 
-load("fgsea_output/Clarke_fgsea_report_kegg_pathways.RData")
+load("data/fgsea_output/Clarke_fgsea_report_kegg_pathways.RData")
 Clarke_fgsea <- fgseaRes 
 
 # C - Micro-array bronchial - Primary cultures
 
 ## 5 - Ogilvie bronchial
 
-load("fgsea_output/Ogilvie_bronchial_fgsea_report_kegg_pathways.RData")
+load("data/fgsea_output/Ogilvie_bronchial_fgsea_report_kegg_pathways.RData")
 Ogilvie_bronchial_fgsea <- fgseaRes 
 
 # D - RNA seq - bronchial
 
 ## 6 - Balloy
 
-load("fgsea_output/Balloy_without_CTRL2_unfiltered_fgsea_report_kegg_pathways.RData")
+load("data/fgsea_output/Balloy_without_CTRL2_unfiltered_fgsea_report_kegg_pathways.RData")
 Balloy_fgsea <- fgseaRes 
 
 ## 7 - Zoso
 
-load("fgsea_output/Zoso_fgsea_report_kegg_pathways.RData")
+load("data/fgsea_output/Zoso_fgsea_report_kegg_pathways.RData")
 Zoso_fgsea <- Zoso_limma_fgseaRes 
 
 
 ## 8 - Ling
 
-load("fgsea_output/Ling_unfiltered_fgsea_report_kegg_pathways.RData")
+load("data/fgsea_output/Ling_unfiltered_fgsea_report_kegg_pathways.RData")
 Ling_fgsea <- fgseaRes 
 
 ## 9 - Saint-Criq (SC)
 
-load("fgsea_output/Saint_Criq_SC_fgsea_report_kegg_pathways.RData")
+load("data/fgsea_output/Saint_Criq_SC_fgsea_report_kegg_pathways.RData")
 Saint_Criq_SC_fgsea <- fgseaRes 
 
 
 ## 10 - Saint-Criq (UNC)
 
-load("fgsea_output/Saint_Criq_UNC_without_NCF_2_fgsea_report_kegg_pathways.RData")
+load("data/fgsea_output/Saint_Criq_UNC_without_NCF_2_fgsea_report_kegg_pathways.RData")
 Saint_Criq_UNC_fgsea <- fgseaRes 
 
 # fgsea_results_list <- list(Verhaeghe_fgsea[,-which(colnames(Verhaeghe_fgsea) %in% c("leadingEdge"))],

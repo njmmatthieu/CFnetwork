@@ -15,7 +15,7 @@ library(tidyverse)
 ```
 
 ```{r}
-Zoso_DEG_unique_HGNC <- read.table("differential_expression_data/Zoso_DEG_limma_unique_HGNC.txt",
+Zoso_DEG_unique_HGNC <- read.table("data/differential_expression_data/Zoso_DEG_limma_unique_HGNC.txt",
                                    header = T,
                                    sep = "\t")
 

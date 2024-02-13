@@ -17,7 +17,7 @@ library(GEOquery)
 
 ```{r}
 Clarke_DEG_HGNC <- 
-  read.table("differential_expression_data/Clarke_DEG_limma_unique_HGNC.csv",
+  read.table("data/differential_expression_data/Clarke_DEG_limma_unique_HGNC.csv",
              sep = "\t",
              header = T)
 

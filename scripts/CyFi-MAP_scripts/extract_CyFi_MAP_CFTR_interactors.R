@@ -10,11 +10,11 @@ source("scripts/CyFi-MAP_scripts/CyFi_MAP_helper.R")
 #############
 
 ## Interactome
-WT_interactome <- read.delim("CyFi-MAP/CFTR_cp17-elementExport_2022_10_26_MN_2.txt",
+WT_interactome <- read.delim("data/CyFi-MAP/CFTR_cp17-elementExport_2022_10_26_MN_2.txt",
                              sep = "\t",
                              header = T)
 ## Interactions
-WT_interactions <- read.delim("CyFi-MAP/CFTR_cp17-networkExport_2022_10_26.txt",
+WT_interactions <- read.delim("data/CyFi-MAP/CFTR_cp17-networkExport_2022_10_26.txt",
                               sep = "\t",
                               header = T)
 
@@ -124,13 +124,13 @@ WT_CFTR_interactions.PPI.connected <- WT_interactions.PPI[apply(X=WT_interaction
 
 ## Interactome
 
-F508del_interactome <- read.delim("CyFi-MAP/F508del_cp21-elementExport_MN.txt",
+F508del_interactome <- read.delim("data/CyFi-MAP/F508del_cp21-elementExport_MN.txt",
                                   sep = "\t",
                                   header = T)
 
 ## Interactions
 
-F508del_interactions <- read.delim("CyFi-MAP/F508del_cp21-networkExport.txt",
+F508del_interactions <- read.delim("data/CyFi-MAP/F508del_cp21-networkExport.txt",
                                    sep = "\t",
                                    header = T)
 

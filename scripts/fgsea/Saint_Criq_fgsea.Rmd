@@ -15,7 +15,7 @@ library(tidyverse)
 ```
 
 ```{r}
-Saint_Criq_DEG <- read.table("differential_expression_data/Saint_Criq_UNC_without_NCF_2_DEG_limma_unique_HGNC.txt",
+Saint_Criq_DEG <- read.table("data/differential_expression_data/Saint_Criq_UNC_without_NCF_2_DEG_limma_unique_HGNC.txt",
                              sep = "\t",
                              header = T)
 

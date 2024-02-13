@@ -16,7 +16,7 @@ library(tidyverse)
 
 ```{r}
 Ogilvie_nasal_DEG_HGNC <- 
-  read.table("differential_expression_data/Ogilvie_nasal_DEG_limma_unique_HGNC.csv",
+  read.table("data/differential_expression_data/Ogilvie_nasal_DEG_limma_unique_HGNC.csv",
              sep = "\t",
              header = T)
 

@@ -15,7 +15,7 @@ library(tidyverse)
 ```
 
 ```{r}
-Ling_DEG <- read.table("differential_expression_data/Ling_normalised_differential_expression_analysis_filtered_limma.txt",
+Ling_DEG <- read.table("data/differential_expression_data/Ling_normalised_differential_expression_analysis_filtered_limma.txt",
                          sep = "\t",
                          header = T)
 

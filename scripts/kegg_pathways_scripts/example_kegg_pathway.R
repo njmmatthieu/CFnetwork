@@ -2,14 +2,14 @@
 source("scripts/pathways_to_network/network_utils.R")
 
 # KEGG pathways from Omnipath
-load("kegg_pathways/kegg_pathways_from_omnipath_list.RData")
-load("kegg_pathways/kegg_pathways_from_omnipath_nodes_carac.RData")
+load("data/kegg_pathways/kegg_pathways_from_omnipath_list.RData")
+load("data/kegg_pathways/kegg_pathways_from_omnipath_nodes_carac.RData")
 kegg_pathway_df.signaling.interactions.df <- do.call("rbind", kegg_pathway_df.signaling.interactions.list.final)
-load("kegg_pathways/symbols_from_kegg_pathways_from_omnipathR_list.RData")
+load("data/kegg_pathways/symbols_from_kegg_pathways_from_omnipathR_list.RData")
 kegg_pathway_df.signaling.nodes.df <- do.call("rbind", kegg_pathway_df.signaling.nodes.list.final)
 
 # for corrections 
-kegg_pathways_corrections <- read.table("kegg_diff_pathways/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt",
+kegg_pathways_corrections <- read.table("data/kegg_diff_pathways/kegg_diff_pathways_corrections_w_EZR_2023_07_07.txt",
                                         sep = "\t",
                                         header = T)
 
