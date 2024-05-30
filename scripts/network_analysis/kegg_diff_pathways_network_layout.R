@@ -12,6 +12,7 @@ source("scripts/pathways_to_network/network_utils.R")
 # remove_indirect_interactions(), 
 # remove_same_interactions(), 
 # binding_interaction() 
+# tag_prot_cat()
 source("scripts/network_analysis/simplify_network_helper.R")
 
 # for get_node_type(),
