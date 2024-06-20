@@ -6,27 +6,31 @@ library(gprofiler2)
 
 source("scripts/pathways_to_network/network_utils.R")
 
-CF_PPI_network.lcc.node_type.interactions <- 
-  read.table(file = "data/kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df.txt",
+CF_PPI_network.pruned.interactions <- 
+  read.table(file = "data/kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_pruned_interactions_df.txt",
              sep = "\t",
              header = T,
              check.names = F)
 
-CF_PPI_network.lcc.node_type.nodes <- 
-  read.table(file = "data/kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_nodes_df.txt",
+CF_PPI_network.pruned.nodes <- 
+  read.table(file = "data/kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_pruned_nodes_df.txt",
              sep = "\t",
              header = T,
              check.names = F)
 
 
-CF_PPI_network.lcc.node_type <- new("PPI_network",
-                                    interactions=CF_PPI_network.lcc.node_type.interactions,
-                                    nodes=CF_PPI_network.lcc.node_type.nodes)
+CF_PPI_network.pruned <- new("PPI_network",
+                             interactions=CF_PPI_network.pruned.interactions,
+                             nodes=CF_PPI_network.pruned.nodes)
+CF_PPI_network.pruned.with_CFTR <- CF_PPI_network.pruned
 
-# Remove CFTR from the network
-CF_PPI_network.lcc.node_type@interactions <- CF_PPI_network.lcc.node_type@interactions[which(CF_PPI_network.lcc.node_type@interactions$genesymbol_source!="CFTR" &
-                                                                                               CF_PPI_network.lcc.node_type@interactions$genesymbol_target!="CFTR"),]
-CF_PPI_network.lcc.node_type@nodes <- CF_PPI_network.lcc.node_type@nodes[which(CF_PPI_network.lcc.node_type@nodes$Symbol!="CFTR"),]
+# Remove CFTR from the network and its indirect interactors
+CFTR_indirect_interactors <- CF_PPI_network.pruned.nodes[which(is.na(CF_PPI_network.pruned.nodes$sum)),
+                                                         "Symbol"]
+
+CF_PPI_network.pruned@nodes <- CF_PPI_network.pruned@nodes[which(!CF_PPI_network.pruned@nodes$Symbol %in% c("CFTR", CFTR_indirect_interactors)),]
+CF_PPI_network.pruned@interactions <- CF_PPI_network.pruned@interactions[which(!CF_PPI_network.pruned@interactions$genesymbol_source %in% c("CFTR", CFTR_indirect_interactors) &
+                                                                                 !CF_PPI_network.pruned@interactions$genesymbol_target %in% c("CFTR", CFTR_indirect_interactors)),]
 
 #############################################
 ## PATHWAY ENRICHMENT OF THE WHOLE NETWORK ##
@@ -35,7 +39,7 @@ CF_PPI_network.lcc.node_type@nodes <- CF_PPI_network.lcc.node_type@nodes[which(C
 # # "gp__ubAP_9ngg_H0c"
 # upload_GMT_file(gmtfile = "data/kegg_pathways/kegg_pathways_from_omnipathR.gmt")
 # 
-# CF_PPI_network.nodes.gost.res <- gost(query = CF_PPI_network.lcc.node_type.nodes$Symbol, 
+# CF_PPI_network.nodes.gost.res <- gost(query = CF_PPI_network.pruned.nodes$Symbol, 
 #                 organism = "gp__xH8L_h95C_juo", 
 #                 ordered_query = FALSE,
 #                 multi_query = FALSE, 
@@ -57,36 +61,36 @@ CF_PPI_network.lcc.node_type@nodes <- CF_PPI_network.lcc.node_type@nodes[which(C
 
 # Pb of binding interactions
 ## Non binding
-CF_PPI_network.lcc.node_type.interactions.non_binding <- 
-  CF_PPI_network.lcc.node_type@interactions[which(!(CF_PPI_network.lcc.node_type@interactions$effect %in% c("binding/association"))),]
-CF_PPI_network.lcc.node_type.interactions.non_binding <- 
-  CF_PPI_network.lcc.node_type.interactions.non_binding[,c("genesymbol_source",
+CF_PPI_network.pruned.interactions.non_binding <- 
+  CF_PPI_network.pruned@interactions[which(!(CF_PPI_network.pruned@interactions$effect %in% c("binding/association"))),]
+CF_PPI_network.pruned.interactions.non_binding <- 
+  CF_PPI_network.pruned.interactions.non_binding[,c("genesymbol_source",
                                                            "genesymbol_target")]
-colnames(CF_PPI_network.lcc.node_type.interactions.non_binding) <- c("from", 
+colnames(CF_PPI_network.pruned.interactions.non_binding) <- c("from", 
                                                                      "to")
 
 # ## Dissociation
-CF_PPI_network.lcc.node_type.interactions.binding <- 
-  CF_PPI_network.lcc.node_type@interactions[which(CF_PPI_network.lcc.node_type@interactions$effect %in% c("binding/association")),]
+CF_PPI_network.pruned.interactions.binding <- 
+  CF_PPI_network.pruned@interactions[which(CF_PPI_network.pruned@interactions$effect %in% c("binding/association")),]
 # Both directions for binding interactions
 ## one direction
-CF_PPI_network.lcc.node_type.interactions.binding.one_direction <- 
-  CF_PPI_network.lcc.node_type.interactions.binding[,c("genesymbol_source",
+CF_PPI_network.pruned.interactions.binding.one_direction <- 
+  CF_PPI_network.pruned.interactions.binding[,c("genesymbol_source",
                                                        "genesymbol_target")]
-colnames(CF_PPI_network.lcc.node_type.interactions.binding.one_direction) <- c("from", 
+colnames(CF_PPI_network.pruned.interactions.binding.one_direction) <- c("from", 
                                                                                "to")
 ## other direction
-CF_PPI_network.lcc.node_type.interactions.binding.other_direction <- 
-  CF_PPI_network.lcc.node_type.interactions.binding[,c("genesymbol_target", 
+CF_PPI_network.pruned.interactions.binding.other_direction <- 
+  CF_PPI_network.pruned.interactions.binding[,c("genesymbol_target", 
                                                        "genesymbol_source")]
-colnames(CF_PPI_network.lcc.node_type.interactions.binding.other_direction) <- c("from", 
+colnames(CF_PPI_network.pruned.interactions.binding.other_direction) <- c("from", 
                                                                                  "to")
 ## both directions
-CF_PPI_network.lcc.node_type.interactions.binding.both_directions <- 
-  rbind(CF_PPI_network.lcc.node_type.interactions.binding.one_direction,
-        CF_PPI_network.lcc.node_type.interactions.binding.other_direction)
-CF_PPI_network.lcc.for_igraph <- rbind(CF_PPI_network.lcc.node_type.interactions.non_binding,
-                                       CF_PPI_network.lcc.node_type.interactions.binding.both_directions)
+CF_PPI_network.pruned.interactions.binding.both_directions <- 
+  rbind(CF_PPI_network.pruned.interactions.binding.one_direction,
+        CF_PPI_network.pruned.interactions.binding.other_direction)
+CF_PPI_network.pruned.for_igraph <- rbind(CF_PPI_network.pruned.interactions.non_binding,
+                                       CF_PPI_network.pruned.interactions.binding.both_directions)
 
 ########################################
 ## SINK NODES AS DEFINED IN THE ARTICLE##
@@ -120,16 +124,16 @@ source_nodes <- c("TRADD",
 #################
 
 # Igraph
-CF_PPI_network.lcc.igraph <- graph_from_data_frame(CF_PPI_network.lcc.for_igraph, 
+CF_PPI_network.pruned.igraph <- graph_from_data_frame(CF_PPI_network.pruned.for_igraph, 
                                                    directed=TRUE)
 
 #################
 ## 1.1 DEGREE ###
 #################
 
-CF_PPI_network.deg.df <- data.frame(degree(CF_PPI_network.lcc.igraph, mode = "out"))
+CF_PPI_network.deg.df <- data.frame(degree(CF_PPI_network.pruned.igraph, mode = "out"))
 CF_PPI_network.deg.hist <-ggplot(CF_PPI_network.deg.df, 
-                                 aes(x=degree.CF_PPI_network.lcc.igraph..mode....out..)) + 
+                                 aes(x=degree.CF_PPI_network.pruned.igraph..mode....out..)) + 
   geom_histogram(color="#EA6B66", fill="#F19C99", binwidth = 1)+
   xlab("Degree Centrality")+
   theme(axis.title.y = element_blank(),
@@ -147,13 +151,13 @@ CF_PPI_network.deg.hist <-ggplot(CF_PPI_network.deg.df,
         panel.background = element_blank())
 
 
-# degree(CF_PPI_network.lcc.igraph, v = CFTR_interactors, mode = "out")
+# degree(CF_PPI_network.pruned.igraph, v = CFTR_interactors, mode = "out")
 
 #################################
 ## 1.1 BETWEENNESS CENTRALITY ###
 #################################
 
-CF_PPI_network.bc.df <- data.frame(betweenness(CF_PPI_network.lcc.igraph))
+CF_PPI_network.bc.df <- data.frame(betweenness(CF_PPI_network.pruned.igraph))
 CF_PPI_network.bc.df$Symbol <- rownames(CF_PPI_network.bc.df)
 rownames(CF_PPI_network.bc.df) <- NULL
 colnames(CF_PPI_network.bc.df) <- c("BC.score", "Symbol")
@@ -184,7 +188,7 @@ CF_PPI_network.bc.hist <-ggplot(CF_PPI_network.bc.df,
 ## 1.1 DISTANCES ###
 ####################
 
-CF_PPI_network.lcc.dists <- distances(CF_PPI_network.lcc.igraph, mode = "out")
+CF_PPI_network.lcc.dists <- distances(CF_PPI_network.pruned.igraph, mode = "out")
 
 ### CFTR interactors to sink nodes
 CF_PPI_network.lcc.interactors_to_sink_nodes <- CF_PPI_network.lcc.dists[source_nodes, sink_nodes]
@@ -202,20 +206,20 @@ sink_nodes_downstream_to_CFTR_interactors <- sink_nodes_downstream_to_CFTR_inter
 sink_nodes_downstream_to_CFTR_interactors$protein <- factor(sink_nodes_downstream_to_CFTR_interactors$protein,
                          levels=unique(sink_nodes_downstream_to_CFTR_interactors$protein))
 
-# which(names(V(CF_PPI_network.lcc.igraph))=="PYCARD")
+# which(names(V(CF_PPI_network.pruned.igraph))=="PYCARD")
 # # 322
 # 
-# which(names(V(CF_PPI_network.lcc.igraph))=="NFKB1")
+# which(names(V(CF_PPI_network.pruned.igraph))=="NFKB1")
 # # 322
 
 shortest_paths_from_prot <- function(source, target) {
   
-  source_int <- which(names(V(CF_PPI_network.lcc.igraph))==source)
-  target_int <- which(names(V(CF_PPI_network.lcc.igraph))==target)
+  source_int <- which(names(V(CF_PPI_network.pruned.igraph))==source)
+  target_int <- which(names(V(CF_PPI_network.pruned.igraph))==target)
   
-  print(all_shortest_paths(CF_PPI_network.lcc.igraph,
-                           from=V(CF_PPI_network.lcc.igraph)[source_int],
-                           to=V(CF_PPI_network.lcc.igraph)[target_int],
+  print(all_shortest_paths(CF_PPI_network.pruned.igraph,
+                           from=V(CF_PPI_network.pruned.igraph)[source_int],
+                           to=V(CF_PPI_network.pruned.igraph)[target_int],
                            mode="out")$res)
 }
 
@@ -238,3 +242,12 @@ barplot_nb_output_nodes <- ggplot(data = sink_nodes_downstream_to_CFTR_interacto
         panel.grid.minor = element_blank(),
         panel.border = element_blank(),
         panel.background = element_blank())
+
+# Network vizualisation
+
+
+# for get_node_type(),
+source("scripts/network_analysis/network_visualization_helper.R")
+
+CF_PPI_network.pruned.with_CFTR.node_type <- get_node_type(CF_PPI_network.pruned.with_CFTR,
+                                                 include_weird_endpoints = FALSE)
