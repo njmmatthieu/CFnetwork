@@ -202,6 +202,8 @@ extract_receptors_ligands <- function(PPI_network,
 #   +   mutate(gene_group = invoke_map(tibble, gene_group)) %>% 
 #   +   unnest()
 
+# RUNX1 does not fit this category but still needs to be removed
+
 extract_receptors <- function(PPI_network,
                             source_colname="genesymbol_source",
                             target_colname="genesymbol_target",
@@ -225,6 +227,15 @@ extract_receptors <- function(PPI_network,
 
 }
 
+receptors_to_add_manually <- c("RUNX1",
+                               "MPL",
+                               "PLEKHG5",
+                               "LEPR",
+                               "GHR",
+                               "EPOR",
+                               "CSF3R",
+                               "PRLR")
+
 tag_prot_cat <- function(PPI_network,
                            source_colname="genesymbol_source",
                            target_colname="genesymbol_target"){
@@ -245,36 +256,38 @@ tag_prot_cat <- function(PPI_network,
   receptors.df <- extract_receptors(PPI_network, 
                                     genes_groups.df=hgnc_dataset)
   PPI_network@nodes$receptor <- PPI_network@nodes$Symbol %in% receptors.df$symbol
+  PPI_network@nodes[which(PPI_network@nodes$Symbol %in% receptors_to_add_manually),
+                    "receptor"] <- T
   
   return(PPI_network)
   
 }
 
-tag_non_source_receptors_interactions <- function(PPI_network,
-                                                  source_colname="genesymbol_source",
-                                                  target_colname="genesymbol_target") {
-
-  non_source_receptors <- PPI_network@nodes$Symbol[!PPI_network@nodes$Symbol %in% PPI_network@interactions$genesymbol_source & 
-                                                     PPI_network@nodes$receptor]
-  
-  interactions_to_keep <- apply(X = PPI_network@interactions[,c(source_colname,target_colname)],
-                                  MARGIN = 1,
-                                  FUN = function(x){
-                                    return(all(! x %in% non_source_receptors))
-                                  })
-  
-  PPI_network@interactions$to_remove <- TRUE
-  PPI_network@interactions[interactions_to_keep,"to_remove"] <- FALSE
-  
-  nodes_to_keep <- c(PPI_network@interactions[interactions_to_keep,"genesymbol_source"],
-                       PPI_network@interactions[interactions_to_keep,"genesymbol_target"])
-  
-  PPI_network@nodes$to_remove <- TRUE
-  PPI_network@nodes[which(PPI_network@nodes$Symbol %in% nodes_to_keep),"to_remove"] <- FALSE
-  
-  return(PPI_network)
-  
-}
+# tag_non_source_receptors_interactions <- function(PPI_network,
+#                                                   source_colname="genesymbol_source",
+#                                                   target_colname="genesymbol_target") {
+# 
+#   non_source_receptors <- PPI_network@nodes$Symbol[!PPI_network@nodes$Symbol %in% PPI_network@interactions$genesymbol_source & 
+#                                                      PPI_network@nodes$receptor]
+#   
+#   interactions_to_keep <- apply(X = PPI_network@interactions[,c(source_colname,target_colname)],
+#                                   MARGIN = 1,
+#                                   FUN = function(x){
+#                                     return(all(! x %in% non_source_receptors))
+#                                   })
+#   
+#   PPI_network@interactions$to_remove <- TRUE
+#   PPI_network@interactions[interactions_to_keep,"to_remove"] <- FALSE
+#   
+#   nodes_to_keep <- c(PPI_network@interactions[interactions_to_keep,"genesymbol_source"],
+#                        PPI_network@interactions[interactions_to_keep,"genesymbol_target"])
+#   
+#   PPI_network@nodes$to_remove <- TRUE
+#   PPI_network@nodes[which(PPI_network@nodes$Symbol %in% nodes_to_keep),"to_remove"] <- FALSE
+#   
+#   return(PPI_network)
+#   
+# }
 
 # # to test
 # source_colname="genesymbol_source"

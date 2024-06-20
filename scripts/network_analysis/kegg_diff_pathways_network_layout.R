@@ -51,11 +51,11 @@ CF_PPI_network.direct <-
   remove_indirect_interactions(CF_PPI_network.without_expression)
 
 # # Tag receptors and receptor ligands
-CF_PPI_network.direct.rep_tag <- tag_prot_cat(CF_PPI_network.direct)
+# CF_PPI_network.direct.rep_tag <- tag_prot_cat(CF_PPI_network.direct)
 
-CF_PPI_network.direct.node_type <- get_node_type(CF_PPI_network.direct.rep_tag,
-                                              # interactors = CFTR_interactors,
-                                              include_weird_endpoints = FALSE)
+# CF_PPI_network.direct.node_type <- get_node_type(CF_PPI_network.direct.rep_tag,
+#                                               # interactors = CFTR_interactors,
+#                                               include_weird_endpoints = FALSE)
 
 # ### 
 # B - NETWORK CLEANING
@@ -80,9 +80,21 @@ CF_PPI_network.curated.rep_tag <- tag_prot_cat(CF_PPI_network.curated)
 # CF_PPI_network.lcc.curated.tagged <- tag_non_source_receptors_interactions(CF_PPI_network.lcc.curated)
 CF_PPI_network.curated.2 <- remove_non_source_receptors(CF_PPI_network.curated.rep_tag)
 
-CF_PPI_network.curated.2.node_type <- get_node_type(CF_PPI_network.curated.2,
-                                                 # interactors = CFTR_interactors,
-                                                 include_weird_endpoints = FALSE)
+write.table(CF_PPI_network.curated.2@interactions,
+            file = "data/kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_pruned_interactions_df.txt",
+            sep = "\t",
+            row.names = F,
+            quote = FALSE)
+
+write.table(CF_PPI_network.curated.2@nodes,
+            file = "data/kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_pruned_nodes_df.txt",
+            sep = "\t",
+            row.names = F,
+            quote = FALSE)
+
+# CF_PPI_network.curated.2.node_type <- get_node_type(CF_PPI_network.curated.2,
+#                                                  # interactors = CFTR_interactors,
+#                                                  include_weird_endpoints = FALSE)
 
 # write.table(CF_PPI_network.curated.2.node_type@interactions,
 #             file = "data/kegg_diff_pathways_network/diff_kegg_pathways_with_CFTR_interactors_PPI_direct_tagged_interactions_df.txt",
@@ -116,7 +128,7 @@ CF_PPI_network.curated.2.node_type <- get_node_type(CF_PPI_network.curated.2,
 #   group_split() %>%
 #   print
 
-CF_PPI_network.lcc <- extract_largest_connected_component(CF_PPI_network.curated.2)
+# CF_PPI_network.lcc <- extract_largest_connected_component(CF_PPI_network.curated.2)
 # CF_PPI_network.lcc.w_interactors <- extract_largest_connected_component(CF_PPI_network.curated.2.w_interactors)
 
 # ###
@@ -133,9 +145,9 @@ CF_PPI_network.lcc <- extract_largest_connected_component(CF_PPI_network.curated
 
 # 1-  Node type
 
-CF_PPI_network.lcc.node_type <- get_node_type(CF_PPI_network.lcc,
-                                                # interactors = CFTR_interactors,
-                                                include_weird_endpoints = FALSE)
+# CF_PPI_network.lcc.node_type <- get_node_type(CF_PPI_network.lcc,
+#                                                 # interactors = CFTR_interactors,
+#                                                 include_weird_endpoints = FALSE)
 
 
 

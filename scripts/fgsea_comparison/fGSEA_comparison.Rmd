@@ -2,9 +2,12 @@
 title: "GSEA comparison"
 output: pdf_document
 ---
+```{r}
+getwd()
+```
 
-```{r setup, include=TRUE}
-knitr::opts_knit$set(echo = TRUE, root.dir = normalizePath("../../"))
+```{r setup, include=FALSE}
+knitr::opts_knit$set(echo = FALSE, root.dixr = "../../")
 ```
 
 ```{r}
@@ -145,29 +148,75 @@ diff_intersections_summary <-
 
 # mask <- sapply(diff_intersections_summary, as.logical)
 # fgsea_es_diff_pathways[!mask] <- NA
-```
-
-# Comparison of DEPs - Heatmap
-
-```{r}
-studies_order <- c("Verhaeghe",
-                   "Voisin",
-                   "Ogilvie.nasal",
-                   "Ogilvie.bronchial",
-                   "Clarke",
-                   "Balloy",
-                   "Saint.Criq.UNC",
-                   "Zoso",
-                   "Ling",
-                   "Saint.Criq.SC")
 
 # Removing pathways from the Disease subset of KEGG pathway
 
 fgsea_es_diff_pathways$pathway_name <- rownames(fgsea_es_diff_pathways)
 fgsea_es_diff_pathways <- fgsea_es_diff_pathways[rownames(fgsea_es_diff_pathways)!="AGE-RAGE signaling pathway in diabetic complications",]
-
+# 
 diff_intersections_summary$pathway_name <- rownames(diff_intersections_summary)
 diff_intersections_summary <- diff_intersections_summary[rownames(diff_intersections_summary)!="AGE-RAGE signaling pathway in diabetic complications",]
+```
+
+```{r}
+DEP_names <- rownames(fgsea_es_diff_pathways)
+fgsea_diff_pathways_nes_combined_matrix <- fgsea_nes_combined_matrix[,DEP_names]
+
+distfunc <- function(x) daisy(x, metric = "euclidean")
+
+# cluster on studies
+
+d_studies <- distfunc(fgsea_diff_pathways_nes_combined_matrix)
+hc_studies <- as.dendrogram(hclust(d_studies, method = "ward.D2"))
+
+clust <- pheatmap(as.matrix(d_studies),
+         show_rownames = T)
+
+studies_order <- rev(gsub(x = studies_names[clust$tree_col$order],
+                          pattern = "[ |-]",
+                          replacement = "."))
+
+# clust_studies_filename <- "/Users/matthieu/ownCloud/Thèse/Systems Biology/Meta-analysis article/figures/useful_figures/KEGG_DEP/KEGG_diff_pathways_clust_studies_2024_06_10.png"
+# png(clust_studies_filename, width = 2160, height =360)
+# hc_studies %>% set("branches_lwd", 8) %>% rev %>% plot(main = "Test")
+# # par(lwd=20)
+# dev.off()
+
+# cluster on pathways
+
+d_pathways <- distfunc(t(fgsea_diff_pathways_nes_combined_matrix))
+hc_pathways <- as.dendrogram(hclust(d_pathways, method = "ward.D2"))
+
+clust_pathways <- pheatmap(as.matrix(d_pathways),
+                           show_rownames = T)
+
+# clust_pathways_filename <- "/Users/matthieu/ownCloud/Thèse/Systems Biology/Meta-analysis article/figures/useful_figures/KEGG_DEP/KEGG_diff_pathways_clust_pathways_2024_06_10.png"
+# png(clust_pathways_filename, width = 2160, height =360)
+# hc_pathways %>% set("branches_lwd", 8) %>% rev %>% plot(main = "Test")
+# # par(lwd=20)
+# dev.off()
+
+
+
+
+pathways_order <- DEP_names[clust_pathways$tree_col$order]
+```
+
+# Comparison of DEPs - Heatmap
+
+```{r}
+# studies_order <- c("Verhaeghe",
+#                    "Voisin",
+#                    "Ogilvie.nasal",
+#                    "Ogilvie.bronchial",
+#                    "Clarke",
+#                    "Balloy",
+#                    "Saint.Criq.UNC",
+#                    "Zoso",
+#                    "Ling",
+#                    "Saint.Criq.SC")
+
+
 
 fgsea_es_diff_pathways_long <- pivot_longer(fgsea_es_diff_pathways,
                                             cols = studies_order,
@@ -187,34 +236,44 @@ fgsea_es_diff_pathways_long$study <- factor(fgsea_es_diff_pathways_long$study,
 diff_intersections_summary_long$study <- factor(diff_intersections_summary_long$study,
                                             levels = studies_order)
 # revalue(fgsea_es_diff_pathways_long$study , c("beta"="two", "gamma"="three"))
-good_studies_order <- c("Verhaeghe",
-                   "Voisin",
-                   "Ogilvie (nasal)",
-                   "Ogilvie (bronchial)",
-                   "Clarke",
-                   "Balloy",
-                   "Saint-Criq (UNC)",
-                   "Zoso",
-                   "Ling",
-                   "Saint-Criq (SC)")
-levels(fgsea_es_diff_pathways_long$study) <- good_studies_order
-levels(diff_intersections_summary_long$study) <- good_studies_order
+# good_names_studies_order <- c("Verhaeghe",
+#                               "Voisin",
+#                               "Ogilvie (nasal)",
+#                               "Ogilvie (bronchial)",
+#                               "Clarke",
+#                               "Balloy",
+#                               "Saint-Criq (UNC)",
+#                               "Zoso",
+#                               "Ling",
+#                               "Saint-Criq (SC)")
+good_names_studies_order <- c("Balloy",
+                              "Clarke",
+                              "Ogilvie (bronchial)",
+                              "Saint-Criq (UNC)",
+                              "Voisin",
+                              "Verhaeghe",
+                              "Ogilvie (nasal)",
+                              "Saint-Criq (SC)",
+                              "Ling",
+                              "Zoso")
+levels(fgsea_es_diff_pathways_long$study) <- good_names_studies_order
+levels(diff_intersections_summary_long$study) <- good_names_studies_order
 
-pathways_order <- c("Regulation of actin cytoskeleton",
-                    "Osteoclast differentiation",
-                    "Estrogen signaling pathway",
-                    "T cell receptor signaling pathway",
-                    "Cytokine-cytokine receptor interaction",
-                    "Th17 cell differentiation",
-                    "IL-17 signaling pathway",
-                    "NF-kappa B signaling pathway",
-                    "TNF signaling pathway",
-                    "C-type lectin receptor signaling pathway",
-                    "RIG-I-like receptor signaling pathway",
-                    "Cytosolic DNA-sensing pathway",
-                    "NOD-like receptor signaling pathway",
-                    "Toll-like receptor signaling pathway",
-                    "Viral protein interaction with cytokine and cytokine receptor")
+# pathways_order <- c("Regulation of actin cytoskeleton",
+#                     "Osteoclast differentiation",
+#                     "Estrogen signaling pathway",
+#                     "T cell receptor signaling pathway",
+#                     "Cytokine-cytokine receptor interaction",
+#                     "Th17 cell differentiation",
+#                     "IL-17 signaling pathway",
+#                     "NF-kappa B signaling pathway",
+#                     "TNF signaling pathway",
+#                     "C-type lectin receptor signaling pathway",
+#                     "RIG-I-like receptor signaling pathway",
+#                     "Cytosolic DNA-sensing pathway",
+#                     "NOD-like receptor signaling pathway",
+#                     "Toll-like receptor signaling pathway",
+#                     "Viral protein interaction with cytokine and cytokine receptor")
 
 fgsea_es_diff_pathways_long$pathway_name <- factor(fgsea_es_diff_pathways_long$pathway_name,
                                                    levels = pathways_order)
@@ -230,11 +289,13 @@ fgsea_nes_diff_pathways_heatmap <-
                                           fill = NES))+
   geom_tile(color = "white",
             lwd = 1.5,
-            linetype = 1)+
+            linetype = 1,
+            size = 2,
+            show.legend = FALSE)+
   geom_tile(data = fgsea_es_diff_pathways_long[which(diff_intersections_summary_long$significance!=0) ,],
             fill = NA, 
             colour="black",
-            size=2)+
+            size=4)+
   scale_fill_gradient2(low=brewer.pal(n = 7, name = "RdYlGn")[1],
                       mid=brewer.pal(n = 7, name = "RdYlGn")[4],
                       high=brewer.pal(n = 7, name = "RdYlGn")[7],
@@ -242,11 +303,16 @@ fgsea_nes_diff_pathways_heatmap <-
   scale_y_discrete(labels = function(x) 
     stringr::str_wrap(x, width = 40))+
   theme(panel.background = element_blank(),
-        text = element_text(size = 36),
-        axis.text.x = element_text(vjust =1, hjust = 1, angle = 45, colour = "black"),
+        text = element_text(size = 50),
+        axis.text.x = element_text(vjust =1, hjust = 1 , angle = 90, colour = "black"),
         axis.text.y = element_text(colour = "black"),
         axis.ticks = element_blank(),
         axis.title = element_blank())
+
+DEP_filename <- "/Users/matthieu/ownCloud/Thèse/Systems Biology/Meta-analysis article/figures/useful_figures/KEGG_DEP/KEGG_diff_pathways_heatmap_2024_06_20.png"
+png(DEP_filename, width = 2160, height =1440)
+plot(fgsea_nes_diff_pathways_heatmap)
+dev.off()
 ```
 
 # Pairwise comparison of DEPs - figure

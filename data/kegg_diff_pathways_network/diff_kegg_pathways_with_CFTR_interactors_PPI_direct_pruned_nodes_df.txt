@@ -1,0 +1,340 @@
+Symbol	C-type lectin receptor signaling pathway	Cytokine-cytokine receptor interaction	Cytosolic DNA-sensing pathway	Estrogen signaling pathway	IL-17 signaling pathway	NF-kappa B signaling pathway	NOD-like receptor signaling pathway	Osteoclast differentiation	Regulation of actin cytoskeleton	RIG-I-like receptor signaling pathway	T cell receptor signaling pathway	Th17 cell differentiation	TNF signaling pathway	Toll-like receptor signaling pathway	Viral protein interaction with cytokine and cytokine receptor	sum	pathway	CFTR_interactor	dorothea_tf	receptor_ligand	receptor
+ACTN4	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+ADCY1	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	1	Estrogen signaling pathway	NA	FALSE	FALSE	FALSE
+ADORA2B	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	TRUE	FALSE	FALSE	TRUE
+AIM2	0	0	1	0	0	0	1	0	0	0	0	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+AKT3	1	0	0	1	0	0	0	1	0	0	1	0	1	1	0	6	NA	NA	FALSE	FALSE	FALSE
+APC2	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+ARAF	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+ARHGAP35	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+ARHGEF12	1	0	0	0	0	0	0	0	1	0	0	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+ARHGEF6	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+ARHGEF7	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+ARPC5	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+ATG12	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+ATG16L1	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+ATG5	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+BAG4	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	1	TNF signaling pathway	NA	FALSE	FALSE	FALSE
+BAIAP2	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+BCL10	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+BCL2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+BCL2L1	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+BCL3	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	C-type lectin receptor signaling pathway	NA	FALSE	FALSE	FALSE
+BIRC2	0	0	0	0	0	1	1	0	0	0	0	0	1	0	0	3	NA	NA	FALSE	FALSE	FALSE
+BLNK	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	1	Osteoclast differentiation	NA	FALSE	FALSE	FALSE
+BRCC3	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+BTK	0	0	0	0	0	1	0	1	0	0	0	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+CALML6	1	0	0	1	0	0	0	0	0	0	0	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+CAMK4	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	1	Osteoclast differentiation	NA	FALSE	FALSE	FALSE
+CAPN1	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	TRUE	FALSE	FALSE	FALSE
+CAPNS1	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	TRUE	FALSE	FALSE	FALSE
+CARD10	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	NF-kappa B signaling pathway	NA	FALSE	FALSE	FALSE
+CARD11	0	0	0	0	0	1	0	0	0	0	1	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+CARD16	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+CARD6	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+CARD8	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+CARD9	1	0	0	0	0	0	1	0	0	0	0	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+CASP1	0	0	1	0	0	0	1	0	0	0	0	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+CASP10	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	1	TNF signaling pathway	NA	FALSE	FALSE	FALSE
+CASP12	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+CASP3	0	0	0	0	1	0	0	0	0	0	0	0	1	0	0	2	NA	NA	FALSE	FALSE	FALSE
+CASP7	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	1	TNF signaling pathway	NA	FALSE	FALSE	FALSE
+CASP8	1	0	0	0	0	0	1	0	0	0	0	0	1	1	0	4	NA	NA	FALSE	FALSE	FALSE
+CAV1	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	TRUE	FALSE	FALSE	FALSE
+CAV2	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	TRUE	FALSE	FALSE	FALSE
+CBLB	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+CD14	0	0	0	0	0	1	0	0	0	0	0	0	0	1	0	2	NA	NA	FALSE	FALSE	TRUE
+CD247	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	1	T cell receptor signaling pathway	NA	FALSE	FALSE	FALSE
+CD28	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	1	T cell receptor signaling pathway	NA	FALSE	FALSE	FALSE
+CD3E	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	1	T cell receptor signaling pathway	NA	FALSE	FALSE	FALSE
+CD4	0	1	0	0	0	0	0	0	0	0	1	1	0	0	0	3	NA	NA	FALSE	FALSE	FALSE
+CD40	0	1	0	0	0	1	0	0	0	0	0	0	0	1	0	3	NA	NA	FALSE	FALSE	TRUE
+CD40LG	0	1	0	0	0	1	0	0	0	0	1	0	0	0	0	3	NA	NA	FALSE	FALSE	FALSE
+CDC42	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+CEBPB	0	0	0	0	1	0	0	0	0	0	0	0	1	0	0	2	NA	NA	TRUE	FALSE	FALSE
+CFL1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+CFLAR	0	0	0	0	0	1	0	0	0	0	0	0	1	0	0	2	NA	NA	FALSE	FALSE	FALSE
+CFTR	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	FALSE	FALSE	FALSE	FALSE
+CHRM1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	TRUE
+CHUK	1	0	1	0	0	1	1	1	0	0	1	1	1	1	0	9	NA	NA	FALSE	FALSE	FALSE
+CLEC1B	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	C-type lectin receptor signaling pathway	NA	FALSE	FALSE	FALSE
+CLEC4D	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	C-type lectin receptor signaling pathway	NA	FALSE	FALSE	FALSE
+CLEC4E	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	C-type lectin receptor signaling pathway	NA	FALSE	FALSE	FALSE
+CLEC4M	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	C-type lectin receptor signaling pathway	NA	FALSE	FALSE	FALSE
+CLEC6A	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	C-type lectin receptor signaling pathway	NA	FALSE	FALSE	FALSE
+CLEC7A	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	C-type lectin receptor signaling pathway	NA	FALSE	FALSE	TRUE
+CREB1	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	1	Osteoclast differentiation	NA	TRUE	FALSE	FALSE
+CREB3	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	2	NA	NA	TRUE	FALSE	FALSE
+CSF1	0	1	0	0	0	0	0	1	0	0	0	0	0	0	1	3	NA	NA	FALSE	FALSE	FALSE
+CSF1R	0	1	0	0	0	0	0	1	0	0	0	0	0	0	1	3	NA	NA	FALSE	FALSE	FALSE
+CSNK2A1	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	NF-kappa B signaling pathway	TRUE	FALSE	FALSE	FALSE
+CTLA4	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	1	T cell receptor signaling pathway	NA	FALSE	FALSE	FALSE
+CTSB	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+CXCL12	0	1	0	0	0	0	0	0	1	0	0	0	0	0	1	3	NA	NA	FALSE	TRUE	FALSE
+CXCR4	0	1	0	0	0	0	0	0	1	0	0	0	0	0	0	2	NA	NA	FALSE	FALSE	TRUE
+CYBA	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+CYBB	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+CYLD	1	0	0	0	0	1	0	1	0	1	0	0	0	0	0	4	NA	NA	FALSE	FALSE	FALSE
+DAB2IP	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	1	TNF signaling pathway	NA	FALSE	FALSE	FALSE
+DDX3X	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	1	RIG-I-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+DHX33	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+DHX58	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	1	RIG-I-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+DIAPH1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+DIAPH3	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+DLG1	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	1	T cell receptor signaling pathway	NA	FALSE	FALSE	FALSE
+DNM1L	0	0	0	0	0	0	1	0	0	0	0	0	1	0	0	2	NA	NA	FALSE	FALSE	FALSE
+DOCK1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+EDA	0	1	0	0	0	1	0	0	0	0	0	0	0	0	0	2	NA	NA	FALSE	TRUE	FALSE
+EDA2R	0	1	0	0	0	1	0	0	0	0	0	0	0	0	0	2	NA	NA	FALSE	FALSE	TRUE
+EDAR	0	1	0	0	0	1	0	0	0	0	0	0	0	0	0	2	NA	NA	FALSE	FALSE	TRUE
+EDARADD	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	NF-kappa B signaling pathway	NA	FALSE	FALSE	FALSE
+EGF	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+EGFR	0	0	0	1	0	0	0	0	1	0	0	0	0	0	0	2	NA	NA	FALSE	FALSE	TRUE
+ENAH	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+ERBIN	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+ESR1	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	1	Estrogen signaling pathway	NA	TRUE	FALSE	FALSE
+ESR2	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	1	Estrogen signaling pathway	NA	TRUE	FALSE	FALSE
+EZR	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	FALSE	FALSE	FALSE	FALSE
+F2	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	TRUE	FALSE
+F2R	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	TRUE
+FADD	0	0	0	0	1	0	1	0	0	0	0	0	1	1	0	4	NA	NA	FALSE	FALSE	FALSE
+FCER1G	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	C-type lectin receptor signaling pathway	NA	FALSE	FALSE	TRUE
+FCGR1A	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	1	Osteoclast differentiation	NA	FALSE	FALSE	TRUE
+FGD1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+FHL2	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	1	Osteoclast differentiation	NA	FALSE	FALSE	FALSE
+FN1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	TRUE	FALSE
+FOS	0	0	0	1	1	0	0	1	0	0	1	1	1	1	0	7	NA	NA	TRUE	FALSE	FALSE
+FYN	0	0	0	0	0	0	0	1	0	0	1	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+GAB2	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	1	Osteoclast differentiation	NA	FALSE	FALSE	FALSE
+GABARAP	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+GABBR1	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	1	Estrogen signaling pathway	NA	FALSE	FALSE	TRUE
+GIT1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+GNA13	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+GNAI1	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	1	Estrogen signaling pathway	NA	FALSE	FALSE	FALSE
+GNAQ	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	1	Estrogen signaling pathway	NA	FALSE	FALSE	FALSE
+GNAS	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	1	Estrogen signaling pathway	NA	FALSE	FALSE	FALSE
+GNG12	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+GPER1	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	1	Estrogen signaling pathway	NA	FALSE	FALSE	TRUE
+GPR26	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	TRUE
+GPRC6A	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	TRUE
+GRAP2	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	1	T cell receptor signaling pathway	NA	FALSE	FALSE	FALSE
+GRB2	0	0	0	1	0	0	0	1	0	0	1	0	0	0	0	3	NA	NA	FALSE	FALSE	FALSE
+GRM1	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	1	Estrogen signaling pathway	NA	FALSE	FALSE	TRUE
+GSK3B	0	0	0	0	1	0	0	0	0	0	1	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+GSN	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+HBEGF	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	1	Estrogen signaling pathway	NA	FALSE	FALSE	FALSE
+HRAS	0	0	0	1	0	0	0	0	0	0	1	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+HSP90AA1	0	0	0	0	1	0	1	0	0	0	0	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+ICOS	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	1	T cell receptor signaling pathway	NA	FALSE	FALSE	FALSE
+IFI16	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+IFIH1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	1	RIG-I-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+IFNA1	0	0	1	0	0	0	1	0	0	1	0	0	0	1	0	4	NA	NA	FALSE	TRUE	FALSE
+IFNAR1	0	0	0	0	0	0	1	1	0	0	0	0	0	1	0	3	NA	NA	FALSE	FALSE	TRUE
+IFNB1	0	0	1	0	0	0	0	1	0	1	0	0	1	1	0	5	NA	NA	FALSE	TRUE	FALSE
+IFNG	0	0	0	0	1	0	0	1	0	0	1	1	0	0	0	4	NA	NA	FALSE	TRUE	FALSE
+IFNGR1	0	0	0	0	0	0	0	1	0	0	0	1	0	0	0	2	NA	NA	FALSE	FALSE	TRUE
+IKBKB	1	0	0	0	0	1	0	1	0	1	1	0	1	1	0	7	NA	NA	FALSE	FALSE	FALSE
+IKBKE	1	0	1	0	1	0	1	0	0	1	0	0	0	0	0	5	NA	NA	FALSE	FALSE	FALSE
+IKBKG	1	0	0	0	0	0	1	0	0	1	1	0	1	0	0	5	NA	NA	FALSE	FALSE	FALSE
+IL16	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0	1	Cytokine-cytokine receptor interaction	NA	FALSE	TRUE	FALSE
+IL17A	0	0	0	0	1	0	0	0	0	0	0	1	0	0	0	2	NA	NA	FALSE	TRUE	FALSE
+IL17RA	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	1	IL-17 signaling pathway	NA	FALSE	FALSE	TRUE
+IL1A	0	1	0	0	0	0	0	1	0	0	0	0	0	0	0	2	NA	NA	FALSE	TRUE	FALSE
+IL1B	0	1	0	0	1	1	0	0	0	0	0	1	0	1	0	5	NA	NA	FALSE	TRUE	FALSE
+IL1R1	0	0	0	0	0	1	0	1	0	0	0	1	0	0	0	3	NA	NA	FALSE	FALSE	TRUE
+IL2	1	0	0	0	0	0	0	0	0	0	1	1	0	0	0	3	NA	NA	FALSE	TRUE	FALSE
+IL21	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	1	Th17 cell differentiation	NA	FALSE	TRUE	FALSE
+IL27	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	1	Th17 cell differentiation	NA	FALSE	TRUE	FALSE
+IL27RA	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	1	Th17 cell differentiation	NA	FALSE	FALSE	TRUE
+IL2RA	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	1	Th17 cell differentiation	NA	FALSE	FALSE	TRUE
+IL2RG	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	1	Th17 cell differentiation	NA	FALSE	FALSE	TRUE
+IL34	0	1	0	0	0	0	0	0	0	0	0	0	0	0	1	2	NA	NA	FALSE	TRUE	FALSE
+IL4	0	1	0	0	1	0	0	0	0	0	1	1	0	0	0	4	NA	NA	FALSE	TRUE	FALSE
+IL6	0	0	1	0	1	0	1	0	0	0	0	0	0	1	1	5	NA	NA	FALSE	TRUE	FALSE
+IL6R	0	0	0	0	0	0	0	0	0	0	0	1	0	0	1	2	NA	NA	FALSE	FALSE	TRUE
+INS	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+IQGAP1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+IRAK1	0	0	0	0	0	1	0	0	0	0	0	0	0	1	0	2	NA	NA	FALSE	FALSE	FALSE
+IRAK4	0	0	0	0	0	1	1	0	0	0	0	0	0	1	0	3	NA	NA	FALSE	FALSE	FALSE
+IRF1	1	0	0	0	0	0	0	0	0	0	0	0	1	0	0	2	NA	NA	TRUE	FALSE	FALSE
+IRF3	0	0	1	0	0	0	1	0	0	1	0	0	0	1	0	4	NA	NA	TRUE	FALSE	FALSE
+IRF5	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	1	Toll-like receptor signaling pathway	NA	TRUE	FALSE	FALSE
+IRF7	0	0	1	0	0	0	0	0	0	1	0	0	0	1	0	3	NA	NA	TRUE	FALSE	FALSE
+IRF9	1	0	0	0	0	0	1	1	0	0	0	0	0	0	0	3	NA	NA	TRUE	FALSE	FALSE
+IRS1	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	1	Osteoclast differentiation	NA	FALSE	FALSE	FALSE
+ISG15	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	1	RIG-I-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+ITCH	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	1	TNF signaling pathway	NA	FALSE	FALSE	FALSE
+ITGA11	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+ITK	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	1	T cell receptor signaling pathway	NA	FALSE	FALSE	FALSE
+ITPR1	1	0	0	1	0	0	1	0	0	0	0	0	0	0	0	3	NA	NA	FALSE	FALSE	TRUE
+JAK1	0	0	0	0	0	0	1	1	0	0	0	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+JUN	1	0	0	0	0	0	1	0	0	0	0	1	1	0	0	4	NA	NA	TRUE	FALSE	FALSE
+KCNJ3	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	1	Estrogen signaling pathway	NA	FALSE	FALSE	FALSE
+KNG1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+KRAS	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	1	Estrogen signaling pathway	NA	FALSE	FALSE	FALSE
+KSR1	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	C-type lectin receptor signaling pathway	NA	FALSE	FALSE	FALSE
+LAP3	0	1	0	0	0	0	0	0	1	0	0	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+LAT	0	0	0	0	0	1	0	0	0	0	1	1	0	0	0	3	NA	NA	FALSE	FALSE	FALSE
+LCK	0	0	0	0	0	0	0	0	0	0	1	1	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+LCP2	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	1	T cell receptor signaling pathway	NA	FALSE	FALSE	FALSE
+LIMK1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+LPAR1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	TRUE
+LSP1	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	C-type lectin receptor signaling pathway	NA	FALSE	FALSE	FALSE
+LTA	0	1	0	0	0	0	0	0	0	0	0	0	1	0	1	3	NA	NA	FALSE	TRUE	FALSE
+LY96	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	1	Toll-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+MALT1	1	0	0	0	0	1	0	0	0	0	1	0	0	0	0	3	NA	NA	FALSE	FALSE	FALSE
+MAP2K1	0	0	0	1	0	0	0	1	1	0	1	0	1	1	0	6	NA	NA	FALSE	FALSE	FALSE
+MAP2K3	0	0	0	0	0	0	0	0	0	0	0	0	1	1	0	2	NA	NA	FALSE	FALSE	FALSE
+MAP2K6	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	1	Osteoclast differentiation	NA	FALSE	FALSE	FALSE
+MAP2K7	0	0	0	0	0	0	0	1	0	0	1	0	1	1	0	4	NA	NA	FALSE	FALSE	FALSE
+MAP3K14	1	0	0	0	0	1	0	1	0	0	1	0	1	0	0	5	NA	NA	FALSE	FALSE	FALSE
+MAP3K5	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	1	TNF signaling pathway	NA	FALSE	FALSE	FALSE
+MAP3K7	0	0	0	0	0	1	1	1	0	1	1	0	1	1	0	7	NA	NA	FALSE	FALSE	FALSE
+MAP3K8	0	0	0	0	0	0	0	0	0	0	1	0	1	1	0	3	NA	NA	FALSE	FALSE	FALSE
+MAPK1	1	0	0	1	1	0	1	1	1	0	1	1	1	1	0	10	NA	NA	FALSE	FALSE	FALSE
+MAPK14	1	0	0	0	1	0	1	1	0	1	1	1	1	1	0	9	NA	NA	FALSE	FALSE	FALSE
+MAPK8	1	0	0	0	0	0	1	1	0	1	1	1	1	1	0	8	NA	NA	FALSE	FALSE	FALSE
+MAPKAPK2	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	C-type lectin receptor signaling pathway	NA	FALSE	FALSE	FALSE
+MAVS	0	0	1	0	0	0	1	0	0	1	0	0	0	0	0	3	NA	NA	FALSE	FALSE	FALSE
+MDM2	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	C-type lectin receptor signaling pathway	NA	FALSE	FALSE	FALSE
+MEFV	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+MFN1	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+MLKL	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	1	TNF signaling pathway	NA	FALSE	FALSE	FALSE
+MYD88	0	0	0	0	0	0	1	0	0	0	0	0	0	1	0	2	NA	NA	FALSE	FALSE	FALSE
+MYH9	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+MYL12B	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+MYLK4	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+NAIP	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+NAMPT	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+NCK1	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	1	T cell receptor signaling pathway	NA	FALSE	FALSE	FALSE
+NEK7	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+NFATC1	1	0	0	0	0	0	0	1	0	0	1	1	0	0	0	4	NA	NA	TRUE	FALSE	FALSE
+NFKB1	1	0	1	0	1	1	1	1	0	1	1	0	1	1	0	10	NA	NA	TRUE	FALSE	FALSE
+NFKB2	1	0	0	0	0	1	0	1	0	0	0	0	0	0	0	3	NA	NA	TRUE	FALSE	FALSE
+NFKBIA	0	0	1	0	1	1	1	1	0	1	1	1	1	1	0	10	NA	NA	FALSE	FALSE	FALSE
+NLRC4	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+NLRP1	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+NLRP12	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+NLRP3	1	0	0	0	0	0	1	0	0	0	0	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+NLRP6	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+NLRP7	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+NLRX1	0	0	0	0	0	0	1	0	0	1	0	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+NOD1	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+NOD2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+NOS3	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	1	Estrogen signaling pathway	NA	FALSE	FALSE	FALSE
+OPRM1	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	1	Estrogen signaling pathway	NA	FALSE	FALSE	TRUE
+OTUD5	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	1	RIG-I-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+PAK1	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	C-type lectin receptor signaling pathway	NA	FALSE	FALSE	FALSE
+PAK3	0	0	0	0	0	0	0	0	1	0	1	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+PAN3	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+PDCD1	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	1	T cell receptor signaling pathway	NA	FALSE	FALSE	FALSE
+PDPK1	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	1	T cell receptor signaling pathway	NA	FALSE	FALSE	FALSE
+PFN	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+PGAM5	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	1	TNF signaling pathway	NA	FALSE	FALSE	FALSE
+PIK3CA	1	0	0	1	0	0	0	1	1	0	1	0	1	1	0	7	NA	NA	FALSE	FALSE	FALSE
+PIKFYVE	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+PIN1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	1	RIG-I-like receptor signaling pathway	NA	TRUE	FALSE	FALSE
+PKN1	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+PLCB1	0	0	0	1	0	0	1	0	0	0	0	0	0	0	0	2	NA	FALSE	FALSE	FALSE	FALSE
+PLCB3	0	0	0	1	0	0	1	0	0	0	0	0	0	0	0	2	NA	FALSE	FALSE	FALSE	FALSE
+PLCG1	0	0	0	0	0	1	0	0	0	0	1	1	0	0	0	3	NA	NA	FALSE	FALSE	FALSE
+PLCG2	1	0	0	0	0	0	0	1	0	0	0	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+PLK3	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	C-type lectin receptor signaling pathway	NA	FALSE	FALSE	FALSE
+POMC	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	1	Estrogen signaling pathway	NA	FALSE	FALSE	FALSE
+PPP1R12A	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+PPP3CA	1	0	0	0	0	0	0	1	0	0	1	1	0	0	0	4	NA	NA	FALSE	FALSE	FALSE
+PRKACA	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	1	Estrogen signaling pathway	TRUE	FALSE	FALSE	FALSE
+PRKCB	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	NF-kappa B signaling pathway	NA	FALSE	FALSE	FALSE
+PRKCD	1	0	0	1	0	0	1	0	0	0	0	0	0	0	0	3	NA	NA	FALSE	FALSE	FALSE
+PRKCE	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	TRUE	FALSE	FALSE	FALSE
+PRKCQ	0	0	0	0	0	1	0	0	0	0	1	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+PSTPIP1	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+PTPN6	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	1	T cell receptor signaling pathway	NA	FALSE	FALSE	TRUE
+PTPRC	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	1	T cell receptor signaling pathway	NA	FALSE	FALSE	TRUE
+PXN	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+PYCARD	1	0	1	0	0	0	1	0	0	0	0	0	0	0	0	3	NA	NA	FALSE	FALSE	FALSE
+PYDC1	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+PYDC2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+PYDC5	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+RAC1	0	0	0	0	0	0	0	1	1	0	0	0	0	1	0	3	NA	NA	FALSE	FALSE	FALSE
+RAF1	1	0	0	1	0	0	0	0	0	0	1	0	0	0	0	3	NA	NA	FALSE	FALSE	FALSE
+RASGRP1	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	1	T cell receptor signaling pathway	NA	FALSE	FALSE	FALSE
+RBCK1	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+RELA	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	C-type lectin receptor signaling pathway	NA	TRUE	FALSE	FALSE
+RELB	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	C-type lectin receptor signaling pathway	NA	TRUE	FALSE	FALSE
+RHOA	1	0	0	0	0	0	1	0	1	0	0	0	0	0	0	3	NA	NA	FALSE	FALSE	FALSE
+RIGI	0	0	1	0	0	1	0	0	0	1	0	0	0	0	0	3	NA	NA	FALSE	FALSE	FALSE
+RIPK1	0	0	1	0	0	1	0	0	0	0	0	0	1	1	0	4	NA	NA	FALSE	FALSE	FALSE
+RIPK2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+RIPK3	0	0	1	0	0	0	1	0	0	0	0	0	1	0	0	3	NA	NA	FALSE	FALSE	FALSE
+RNASEL	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+RNF125	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	1	RIG-I-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+ROCK1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+RPS6KA4	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	1	TNF signaling pathway	NA	FALSE	FALSE	FALSE
+RRAS2	1	0	0	0	0	0	0	0	1	0	0	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+SHC2	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	1	Estrogen signaling pathway	NA	FALSE	FALSE	FALSE
+SIKE1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	1	RIG-I-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+SLC9A1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+SLC9A3R1	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	TRUE	FALSE	FALSE	FALSE
+SLC9A3R2	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	NA	TRUE	FALSE	FALSE	FALSE
+SLK	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	1	Osteoclast differentiation	NA	FALSE	FALSE	FALSE
+SMAD2	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	1	Th17 cell differentiation	NA	FALSE	FALSE	FALSE
+SOCS1	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	1	Osteoclast differentiation	NA	FALSE	FALSE	FALSE
+SOS1	0	0	0	1	0	0	0	0	1	0	1	0	0	0	0	3	NA	NA	FALSE	FALSE	FALSE
+SPATA13	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+SPP1	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	1	Toll-like receptor signaling pathway	NA	FALSE	TRUE	FALSE
+SRC	1	0	0	1	0	0	0	0	1	0	0	0	0	0	0	3	NA	FALSE	FALSE	FALSE	FALSE
+SSH1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+STAT1	1	0	0	0	0	0	1	1	0	0	0	1	0	1	0	5	NA	NA	TRUE	FALSE	FALSE
+STAT3	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	1	Th17 cell differentiation	NA	TRUE	FALSE	FALSE
+STAT5A	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	1	Th17 cell differentiation	NA	TRUE	FALSE	FALSE
+STAT6	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	1	Th17 cell differentiation	NA	TRUE	FALSE	FALSE
+STING1	0	0	0	0	0	0	1	0	0	1	0	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+SUGT1	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+SYK	1	0	0	0	0	1	0	1	0	0	0	0	0	0	0	3	NA	TRUE	FALSE	FALSE	FALSE
+TAB1	0	0	0	0	0	0	1	0	0	0	0	0	0	1	0	2	NA	NA	FALSE	FALSE	FALSE
+TAB2	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	1	Toll-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+TANK	0	0	0	0	0	0	1	0	0	1	0	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+TBK1	0	0	1	0	1	0	1	0	0	1	0	0	0	0	0	4	NA	NA	FALSE	FALSE	FALSE
+TGFB1	0	0	0	0	0	0	0	1	0	0	0	1	0	0	0	2	NA	NA	FALSE	TRUE	FALSE
+TGFBR1	0	0	0	0	0	0	0	1	0	0	0	1	0	0	0	2	NA	NA	FALSE	FALSE	TRUE
+TIAM1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+TICAM1	0	0	0	0	0	0	1	0	0	0	0	0	0	1	0	2	NA	NA	FALSE	FALSE	FALSE
+TICAM2	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	1	Toll-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+TKFC	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	1	RIG-I-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+TLR1	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	1	Toll-like receptor signaling pathway	NA	FALSE	FALSE	TRUE
+TLR2	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	1	Toll-like receptor signaling pathway	NA	FALSE	FALSE	TRUE
+TLR3	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	1	Toll-like receptor signaling pathway	NA	FALSE	FALSE	TRUE
+TLR4	0	0	0	0	0	1	1	0	0	0	0	0	0	1	0	3	NA	NA	FALSE	FALSE	TRUE
+TLR5	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	1	Toll-like receptor signaling pathway	NA	FALSE	FALSE	TRUE
+TLR6	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	1	Toll-like receptor signaling pathway	NA	FALSE	FALSE	TRUE
+TLR7	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	1	Toll-like receptor signaling pathway	NA	FALSE	FALSE	TRUE
+TLR9	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	1	Toll-like receptor signaling pathway	NA	FALSE	FALSE	TRUE
+TNF	0	1	0	0	1	1	1	1	0	1	1	0	1	1	1	10	NA	NA	FALSE	TRUE	FALSE
+TNFAIP3	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+TNFRSF11A	0	1	0	0	0	1	0	1	0	0	0	0	0	0	0	3	NA	NA	FALSE	FALSE	TRUE
+TNFRSF1A	0	1	0	0	0	1	0	1	0	0	0	0	1	0	1	5	NA	NA	FALSE	FALSE	TRUE
+TNFRSF1B	0	1	0	0	0	0	0	0	0	0	0	0	1	0	1	3	NA	NA	FALSE	FALSE	TRUE
+TNFSF11	0	1	0	0	0	1	0	1	0	0	0	0	0	0	0	3	NA	NA	FALSE	TRUE	FALSE
+TP53BP1	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+TRADD	0	0	0	0	1	0	0	0	0	1	0	0	1	0	0	3	NA	TRUE	FALSE	FALSE	FALSE
+TRAF2	0	0	0	0	0	1	1	1	0	1	0	0	1	0	0	5	NA	NA	FALSE	FALSE	TRUE
+TRAF3	0	0	0	0	0	1	1	0	0	1	0	0	0	1	0	4	NA	NA	FALSE	FALSE	TRUE
+TRAF3IP2	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	1	IL-17 signaling pathway	NA	FALSE	FALSE	FALSE
+TRAF4	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	1	IL-17 signaling pathway	NA	FALSE	FALSE	TRUE
+TRAF6	0	0	0	0	1	1	1	0	0	1	0	0	0	1	0	5	NA	NA	FALSE	FALSE	TRUE
+TRIM25	0	0	0	0	0	1	0	0	0	1	0	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+TRIP6	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+TXN2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+TXNIP	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+TYK2	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+TYROBP	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	1	Osteoclast differentiation	NA	FALSE	FALSE	FALSE
+USP21	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	1	IL-17 signaling pathway	NA	FALSE	FALSE	FALSE
+USP25	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	1	IL-17 signaling pathway	NA	FALSE	FALSE	FALSE
+VAV1	0	0	0	0	0	0	0	0	1	0	1	0	0	0	0	2	NA	NA	FALSE	FALSE	FALSE
+VCL	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+WASF2	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+WASL	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	1	Regulation of actin cytoskeleton	NA	FALSE	FALSE	FALSE
+XIAP	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	1	NOD-like receptor signaling pathway	NA	FALSE	FALSE	FALSE
+ZAP70	0	0	0	0	0	1	0	0	0	0	1	1	0	0	0	3	NA	NA	FALSE	FALSE	FALSE
+ZBP1	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	1	Cytosolic DNA-sensing pathway	NA	FALSE	FALSE	FALSE
