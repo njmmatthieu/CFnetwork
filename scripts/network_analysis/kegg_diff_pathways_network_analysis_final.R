@@ -245,9 +245,103 @@ barplot_nb_output_nodes <- ggplot(data = sink_nodes_downstream_to_CFTR_interacto
 
 # Network vizualisation
 
+## Adding transcriptomics
+
+source("scripts/DEG_comparison/deg_output_preprocess.R")
+
+logFC_combined_df <- data.frame()
+for (i_study in seq_along(deg_results_list)){
+
+  deg_df <- deg_results_list[[i_study]] 
+  logFC_cols_to_combine <- deg_df[,c("Symbol","logFC")]
+  
+  colnames(logFC_cols_to_combine) <- c("Symbol",
+                                       paste(c("logFC",
+                                       studies_names[[i_study]]), 
+                                       collapse = "."))
+
+  if (i_study==1){
+    logFC_combined_df <- logFC_cols_to_combine
+  } else {
+    logFC_combined_df <- merge(logFC_combined_df,
+                               logFC_cols_to_combine,
+                               by ="Symbol",
+                               all = TRUE)
+  }
+}
+subgroup1.studies <- c("Verhaeghe",
+                       "Voisin",
+                       "Clarke",
+                       "Ogilvie nasal",
+                       "Ogilvie bronchial",
+                       "Balloy",
+                       "Saint-Criq UNC")
+
+subgroup1.colnames <- sapply(subgroup1.studies, function(study){return(paste(c("logFC",
+                                                                               study), 
+                                                                             collapse = "."))})
+logFC_combined_df$logFC.subgroup1 <- rowMeans(logFC_combined_df[,subgroup1.colnames], na.rm = T)
+
+subgroup2.studies <- c("Zoso",
+                       "Ling",
+                       "Saint-Criq SC")
+subgroup2.colnames <- sapply(subgroup2.studies, function(study){return(paste(c("logFC",
+                                                                               study), 
+                                                                             collapse = "."))})
+
+logFC_combined_df$logFC.subgroup2 <- rowMeans(logFC_combined_df[,subgroup2.colnames], na.rm = T)
+
+CF_PPI_network.pruned.with_CFTR@nodes <- merge(CF_PPI_network.pruned.with_CFTR@nodes,
+                                               logFC_combined_df[,c("Symbol", 
+                                                                    "logFC.subgroup1",
+                                                                    "logFC.subgroup2")],
+                                               by.x = "Symbol",
+                                               by.y = "Symbol",
+                                               all.x = T)
+
+## Adding logFC from protemics studies Rauniyar et al, 2014: https://doi.org/10.1021/pr500370g
+
+Rauniyar_proteomics <-   read.table(file = "data/CF_proteomics/Rauniyar_3140_common_proteins_spectrum_count.txt",
+                                    sep = "\t",
+                                    header = T,
+                                    check.names = F)
+
+CF_PPI_network.pruned.with_CFTR@nodes <- merge(CF_PPI_network.pruned.with_CFTR@nodes,
+                                               Rauniyar_proteomics[,c("Gene Symbol", 
+                                                                      "log2(CFBE_NSAF_avg/HBE_NSAF_avg)")],
+                                               by.x = "Symbol",
+                                               by.y = "Gene Symbol",
+                                               all.x = T)
+CF_PPI_network.pruned.with_CFTR@nodes <- 
+  CF_PPI_network.pruned.with_CFTR@nodes[which(!duplicated(CF_PPI_network.pruned.with_CFTR@nodes$Symbol)),]
+colnames(CF_PPI_network.pruned.with_CFTR@nodes)[23] <- "log2FC.Rauniyar"
+CF_PPI_network.pruned.with_CFTR@nodes$log2FC.Rauniyar <- as.numeric(gsub(pattern = ",",
+                                                                         replacement = ".",
+                                                                         CF_PPI_network.pruned.with_CFTR@nodes$log2FC.Rauniyar))
+
+
+## Adding Betweeness centrality score
+
+CF_PPI_network.pruned.with_CFTR@nodes <- merge(CF_PPI_network.pruned.with_CFTR@nodes,
+                                               CF_PPI_network.bc.df,
+                                               by.x = "Symbol",
+                                               by.y = "Symbol",
+                                               all.x = T)
 
 # for get_node_type(),
 source("scripts/network_analysis/network_visualization_helper.R")
 
 CF_PPI_network.pruned.with_CFTR.node_type <- get_node_type(CF_PPI_network.pruned.with_CFTR,
                                                  include_weird_endpoints = FALSE)
+
+write.table(CF_PPI_network.pruned.with_CFTR.node_type@interactions,
+            file = "data/kegg_diff_pathways_network/CF_network_kegg_diff_pathways_with_CFTR_interactors_direct_layout_interactions_df",
+            sep = "\t",
+            row.names = F,
+            quote = FALSE)
+
+write.table(CF_PPI_network.pruned.with_CFTR.node_type@nodes,
+            file = "data/kegg_diff_pathways_network/CF_network_kegg_diff_pathways_with_CFTR_interactors_direct_layout_nodes_df",
+            sep = "\t",
+            row.names = F,
+            quote = FALSE)
